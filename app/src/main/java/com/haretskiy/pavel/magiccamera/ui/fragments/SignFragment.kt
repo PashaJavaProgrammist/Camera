@@ -20,7 +20,7 @@ class SignFragment : Fragment(), View.OnClickListener {
 
     private val mAuth: FirebaseAuth by inject()
 
-    var isSignIn = false
+    private var isSignIn = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,14 +49,19 @@ class SignFragment : Fragment(), View.OnClickListener {
     private fun sign() {
         val emailStr = email.text.toString()
         val passwordStr = password.text.toString()
-        if (isSignIn) {
-            signIn(emailStr, passwordStr)
-        } else {
-            val repeatePasswordStr = repeate_password.text.toString()
-            if (passwordStr.equals(repeatePasswordStr)) {
-                signUp(emailStr, passwordStr)
-            } else {
-                Toast.makeText(context, "Passwords doesn't match", Toast.LENGTH_SHORT).show()
+        if (!emailStr.isEmpty() && !passwordStr.isEmpty()) {
+            login_progress.visibility = View.VISIBLE
+            when (isSignIn) {
+                true -> signIn(emailStr, passwordStr)
+                false -> {
+                    val repeatePasswordStr = repeate_password.text.toString()
+                    if (passwordStr == repeatePasswordStr) {
+                        signUp(emailStr, passwordStr)
+                    } else {
+                        Toast.makeText(context, "Passwords doesn't match", Toast.LENGTH_SHORT).show()
+                        login_progress.visibility = View.GONE
+                    }
+                }
             }
         }
     }
@@ -67,9 +72,11 @@ class SignFragment : Fragment(), View.OnClickListener {
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
                         val user = mAuth.currentUser
-                        Toast.makeText(context, "Success: +${user?.email}", Toast.LENGTH_SHORT).show()
+                        login_progress.visibility = View.GONE
+                        Toast.makeText(context, "Success: ${user?.email}", Toast.LENGTH_SHORT).show()
                     } else {
                         // If sign in fails, display a message to the user.
+                        login_progress.visibility = View.GONE
                         Toast.makeText(context, "Fail: ${task.exception}", Toast.LENGTH_SHORT).show()
                     }
                 }
@@ -82,11 +89,14 @@ class SignFragment : Fragment(), View.OnClickListener {
                     if (task.isSuccessful) {
                         // Sign in success, update UI with the signed-in user's information
                         val user = mAuth.currentUser
-                        Toast.makeText(context, "Success: +${user?.email}", Toast.LENGTH_SHORT).show()
+                        login_progress.visibility = View.GONE
+                        Toast.makeText(context, "Success: ${user?.email}", Toast.LENGTH_SHORT).show()
                     } else {
                         // If sign in fails, display a message to the user.
+                        login_progress.visibility = View.GONE
                         Toast.makeText(context, "Fail: ${task.exception}", Toast.LENGTH_SHORT).show()
                     }
                 }
     }
+
 }
