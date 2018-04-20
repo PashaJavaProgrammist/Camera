@@ -17,7 +17,7 @@ import kotlinx.android.synthetic.main.fragment_sign.view.*
 import org.koin.android.ext.android.inject
 
 
-class SignFragment : Fragment(), View.OnClickListener {
+class LoginFragment : Fragment(), View.OnClickListener {
 
     private val mAuth: FirebaseAuth by inject()
 
