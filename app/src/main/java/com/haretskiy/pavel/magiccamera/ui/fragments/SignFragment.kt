@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.crash.FirebaseCrash
 import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_SIGN
 import com.haretskiy.pavel.magiccamera.R
 import com.haretskiy.pavel.magiccamera.SIGN_IN_FLAG
@@ -78,6 +79,7 @@ class SignFragment : Fragment(), View.OnClickListener {
                         // If sign in fails, display a message to the user.
                         login_progress.visibility = View.GONE
                         Toast.makeText(context, "Fail: ${task.exception}", Toast.LENGTH_SHORT).show()
+                        FirebaseCrash.report(task.exception)
                     }
                 }
     }
@@ -95,6 +97,7 @@ class SignFragment : Fragment(), View.OnClickListener {
                         // If sign in fails, display a message to the user.
                         login_progress.visibility = View.GONE
                         Toast.makeText(context, "Fail: ${task.exception}", Toast.LENGTH_SHORT).show()
+                        FirebaseCrash.report(task.exception)
                     }
                 }
     }

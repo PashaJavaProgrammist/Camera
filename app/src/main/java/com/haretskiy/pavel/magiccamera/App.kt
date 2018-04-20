@@ -1,9 +1,12 @@
 package com.haretskiy.pavel.magiccamera
 
 import android.app.Application
+import com.crashlytics.android.Crashlytics
 import com.google.firebase.auth.FirebaseAuth
 import com.haretskiy.pavel.magiccamera.di.modules
+import io.fabric.sdk.android.Fabric
 import org.koin.android.ext.android.startKoin
+
 
 class App : Application() {
 
@@ -12,5 +15,6 @@ class App : Application() {
     override fun onCreate() {
         super.onCreate()
         startKoin(this, modules)
+        Fabric.with(this, Crashlytics())
     }
 }
