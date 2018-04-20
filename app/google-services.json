@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "940504838440",
+    "firebase_url": "https://magiccamera-d9665.firebaseio.com",
+    "project_id": "magiccamera-d9665",
+    "storage_bucket": "magiccamera-d9665.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:940504838440:android:6fb2e2fb81afd67e",
+        "android_client_info": {
+          "package_name": "com.haretskiy.pavel.magiccamera"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "940504838440-cvaq38370l2nllb3tc3urbqkb0e4a5fg.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.haretskiy.pavel.magiccamera",
+            "certificate_hash": "86c3f78342bd5574914ec48927dc7a8cb5dc087e"
+          }
+        },
+        {
+          "client_id": "940504838440-dkd39uefvfsba8bti54odiua7cafbjoe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC4ybRu0JmZafyx3AtVxMFpp_qWqidDVNg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "940504838440-dkd39uefvfsba8bti54odiua7cafbjoe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

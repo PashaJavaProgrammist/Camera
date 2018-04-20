@@ -8,12 +8,13 @@ import com.haretskiy.pavel.magiccamera.ui.fragments.SignFragment
 import kotlinx.android.synthetic.main.activity_login.*
 import org.koin.android.ext.android.inject
 
+
 class LoginActivity : AppCompatActivity() {
 
-    val tabViewPagerAdapter = TabViewPagerAdapter(supportFragmentManager)
+    private val tabViewPagerAdapter = TabViewPagerAdapter(supportFragmentManager)
 
-    val signInFragment: SignFragment by inject { mapOf(BUNDLE_KEY_SIGN to SIGN_IN_FLAG) }
-    val signUpFragment: SignFragment by inject { mapOf(BUNDLE_KEY_SIGN to SIGN_UP_FLAG) }
+    private val signInFragment: SignFragment by inject { mapOf(BUNDLE_KEY_SIGN to SIGN_IN_FLAG) }
+    private val signUpFragment: SignFragment by inject { mapOf(BUNDLE_KEY_SIGN to SIGN_UP_FLAG) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

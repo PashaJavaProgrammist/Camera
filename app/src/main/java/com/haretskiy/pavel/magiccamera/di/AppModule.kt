@@ -1,6 +1,7 @@
 package com.haretskiy.pavel.magiccamera.di
 
 import android.os.Bundle
+import com.google.firebase.auth.FirebaseAuth
 import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_SIGN
 import com.haretskiy.pavel.magiccamera.ui.fragments.SignFragment
 import org.koin.dsl.context.ParameterProvider
@@ -12,6 +13,7 @@ val appModule: Module = applicationContext {
     factory { params: ParameterProvider ->
         signFragment(params[BUNDLE_KEY_SIGN])
     }
+    bean { FirebaseAuth.getInstance() }
 
 }
 

@@ -12,11 +12,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#FFF"
-        android:minHeight="?attr/actionBarSize"
+        android:minHeight="50dp"
         app:tabGravity="fill"
         app:tabMode="fixed"
-        app:tabSelectedTextColor="?attr/colorPrimary"
-        app:tabTextColor="?attr/colorPrimary" />
+        app:tabSelectedTextColor="@color/colorPrimary"
+        app:tabTextColor="@color/colorPrimary" />
 
     <android.support.v4.view.ViewPager
         android:id="@+id/pager"
