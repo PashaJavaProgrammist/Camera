@@ -28,6 +28,7 @@ class LoginFragment : Fragment(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         isSignInScreen = arguments?.get(BUNDLE_KEY_SIGN)?.equals(SIGN_IN_FLAG) ?: false
+
         loginViewModel.userInfo.observe(this, Observer<FirebaseLoginResponse> {
             login_progress.visibility = View.GONE
             when (it?.user) {
@@ -73,6 +74,9 @@ class LoginFragment : Fragment(), View.OnClickListener {
                     }
                 }
             }
+        } else {
+            Toast.makeText(context, "Password and email fields mustn't be empty", Toast.LENGTH_SHORT).show()
+            login_progress.visibility = View.GONE
         }
     }
 
