@@ -4,6 +4,8 @@ import android.os.Bundle
 import com.google.firebase.auth.FirebaseAuth
 import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_SIGN
 import com.haretskiy.pavel.magiccamera.ui.fragments.LoginFragment
+import com.haretskiy.pavel.magiccamera.viewmodels.LoginViewModel
+import org.koin.android.architecture.ext.viewModel
 import org.koin.dsl.context.ParameterProvider
 import org.koin.dsl.module.Module
 import org.koin.dsl.module.applicationContext
@@ -14,7 +16,7 @@ val appModule: Module = applicationContext {
         signFragment(params[BUNDLE_KEY_SIGN])
     }
     bean { FirebaseAuth.getInstance() }
-
+    viewModel { LoginViewModel(get()) }
 }
 
 val modules = listOf(appModule)
