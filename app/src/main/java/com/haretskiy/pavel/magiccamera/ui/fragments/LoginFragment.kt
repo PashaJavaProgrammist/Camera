@@ -55,8 +55,8 @@ class LoginFragment : Fragment(), View.OnClickListener {
             when (isSignIn) {
                 true -> signIn(emailStr, passwordStr)
                 false -> {
-                    val repeatePasswordStr = repeate_password.text.toString()
-                    if (passwordStr == repeatePasswordStr) {
+                    val repeatPasswordStr = repeate_password.text.toString()
+                    if (passwordStr == repeatPasswordStr) {
                         signUp(emailStr, passwordStr)
                     } else {
                         Toast.makeText(context, "Passwords doesn't match", Toast.LENGTH_SHORT).show()
