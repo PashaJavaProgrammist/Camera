@@ -7,10 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_SIGN
-import com.haretskiy.pavel.magiccamera.R
-import com.haretskiy.pavel.magiccamera.SIGN_IN_FLAG
-import com.haretskiy.pavel.magiccamera.SIGN_UP
+import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.models.FirebaseLoginResponse
 import com.haretskiy.pavel.magiccamera.viewmodels.LoginViewModel
 import kotlinx.android.synthetic.main.fragment_sign.*
@@ -33,7 +30,7 @@ class LoginFragment : Fragment(), View.OnClickListener {
             login_progress.visibility = View.GONE
             when (it?.user) {
                 null -> Toast.makeText(context, "${it?.errorMessage}", Toast.LENGTH_SHORT).show()
-                else -> Toast.makeText(context, "Success: ${it.user?.email}", Toast.LENGTH_SHORT).show()
+                else -> Toast.makeText(context, "${it.user?.email}", Toast.LENGTH_SHORT).show()
             }
         })
     }
@@ -58,27 +55,8 @@ class LoginFragment : Fragment(), View.OnClickListener {
     }
 
     private fun sign() {
-        val emailStr = email.text.toString()
-        val passwordStr = password.text.toString()
-        if (!emailStr.isEmpty() && !passwordStr.isEmpty()) {
-            login_progress.visibility = View.VISIBLE
-            when (isSignInScreen) {
-                true -> loginViewModel.signIn(emailStr, passwordStr)
-                false -> {
-                    val repeatPasswordStr = repeate_password.text.toString()
-                    if (passwordStr == repeatPasswordStr) {
-                        loginViewModel.signUp(emailStr, passwordStr)
-                    } else {
-                        Toast.makeText(context, "Passwords doesn't match", Toast.LENGTH_SHORT).show()
-                        login_progress.visibility = View.GONE
-                    }
-                }
-            }
-        } else {
-            Toast.makeText(context, "Password and email fields mustn't be empty", Toast.LENGTH_SHORT).show()
-            login_progress.visibility = View.GONE
-        }
+        login_progress.visibility = View.VISIBLE
+        loginViewModel.sign(email.text.toString(), password.text.toString(), if (!isSignInScreen) repeate_password.text.toString() else EMPTY_STRING)
     }
-
 
 }
