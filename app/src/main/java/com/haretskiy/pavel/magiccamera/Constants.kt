@@ -11,3 +11,5 @@ const val PASSWORDS_DO_NOT_MATCH = "Passwords doesn't match"
 const val FIELDS_ARE_EMPTY = "Password and email fields mustn't be empty"
 const val EMPTY_STRING = ""
 const val KEY_BUNDLE_TOKEN = "token_user_firebase"
+
+const val BUNDLE_KEY_IS_LOG_IN = "is_user_log_in"

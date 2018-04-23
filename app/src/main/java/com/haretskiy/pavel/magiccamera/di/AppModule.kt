@@ -9,6 +9,7 @@ import com.haretskiy.pavel.magiccamera.ui.fragments.CameraFragment
 import com.haretskiy.pavel.magiccamera.ui.fragments.GalleryFragment
 import com.haretskiy.pavel.magiccamera.ui.fragments.LoginFragment
 import com.haretskiy.pavel.magiccamera.ui.fragments.QRFragment
+import com.haretskiy.pavel.magiccamera.utils.Prefs
 import com.haretskiy.pavel.magiccamera.viewmodels.LoginViewModel
 import org.koin.android.architecture.ext.viewModel
 import org.koin.android.ext.koin.androidApplication
@@ -27,6 +28,7 @@ val appModule: Module = applicationContext {
     bean { FirebaseAuth.getInstance() }
     viewModel { LoginViewModel(get()) }
     bean { RouterImpl(androidApplication()) as Router }
+    bean { Prefs(androidApplication()) }
 }
 
 val modules = listOf(appModule)

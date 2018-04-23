@@ -4,12 +4,17 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.adapters.TabViewPagerAdapter
+import com.haretskiy.pavel.magiccamera.navigation.Router
 import com.haretskiy.pavel.magiccamera.ui.fragments.LoginFragment
+import com.haretskiy.pavel.magiccamera.utils.Prefs
 import kotlinx.android.synthetic.main.activity_login.*
 import org.koin.android.ext.android.inject
 
 
 class LoginActivity : AppCompatActivity() {
+
+    private val prefs: Prefs by inject()
+    private val router: Router by inject()
 
     private val tabViewPagerAdapter = TabViewPagerAdapter(supportFragmentManager)
 
@@ -18,8 +23,12 @@ class LoginActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_login)
 
+        if (prefs.isUserLogIn()) {
+            router.goToCameraActivity(EMPTY_STRING)//TODO: Token?
+        }
+
+        setContentView(R.layout.activity_login)
         initViewPagerAdapter()
     }
 

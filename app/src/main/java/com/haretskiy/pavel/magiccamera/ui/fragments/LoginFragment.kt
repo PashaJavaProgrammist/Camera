@@ -11,6 +11,7 @@ import com.google.firebase.auth.FirebaseUser
 import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.models.FirebaseLoginResponse
 import com.haretskiy.pavel.magiccamera.navigation.Router
+import com.haretskiy.pavel.magiccamera.utils.Prefs
 import com.haretskiy.pavel.magiccamera.viewmodels.LoginViewModel
 import kotlinx.android.synthetic.main.fragment_sign.*
 import kotlinx.android.synthetic.main.fragment_sign.view.*
@@ -20,6 +21,7 @@ class LoginFragment : Fragment(), View.OnClickListener {
 
     private val loginViewModel: LoginViewModel by inject()
     private val router: Router by inject()
+    private val prefs: Prefs by inject()
 
     //this flag shows SignIn or SignUp screen
     private var isSignInScreen = false
@@ -63,6 +65,7 @@ class LoginFragment : Fragment(), View.OnClickListener {
 
     private fun onSuccessAuth(user: FirebaseUser?) {
         Toast.makeText(context, user?.email, Toast.LENGTH_SHORT).show()
+        prefs.setUserStateLogIn()
         router.goToCameraActivity(/*user?.getIdToken(true)?.result?.token ?:*/ EMPTY_STRING) //TODO: Token?
     }
 
