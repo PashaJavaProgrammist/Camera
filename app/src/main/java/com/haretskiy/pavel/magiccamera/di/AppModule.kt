@@ -1,5 +1,8 @@
 package com.haretskiy.pavel.magiccamera.di
 
+import android.content.Context
+import android.hardware.camera2.CameraManager
+import android.os.Build
 import android.os.Bundle
 import com.google.firebase.auth.FirebaseAuth
 import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_SIGN
@@ -22,13 +25,28 @@ val appModule: Module = applicationContext {
     factory { params: ParameterProvider ->
         signFragment(params[BUNDLE_KEY_SIGN])
     }
+
     factory { QRFragment() }
+
     factory { CameraFragment() }
+
     factory { GalleryFragment() }
+
     bean { FirebaseAuth.getInstance() }
+
     viewModel { LoginViewModel(get()) }
+
     bean { RouterImpl(androidApplication()) as Router }
+
     bean { Prefs(androidApplication()) }
+
+    factory {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            androidApplication().getSystemService(Context.CAMERA_SERVICE) as CameraManager
+        } else {
+            TODO("VERSION.SDK_INT < LOLLIPOP")
+        }
+    }
 }
 
 val modules = listOf(appModule)
