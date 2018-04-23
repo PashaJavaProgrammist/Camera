@@ -240,7 +240,7 @@ class Camera2Fragment : Fragment(), View.OnClickListener, ActivityCompat.OnReque
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        file = File(activity?.getExternalFilesDir(null), PIC_FILE_NAME)
+        file = File(context?.getExternalFilesDir(null), PIC_FILE_NAME)
     }
 
     override fun onResume() {
@@ -292,7 +292,7 @@ class Camera2Fragment : Fragment(), View.OnClickListener, ActivityCompat.OnReque
      * @param height The height of available size for camera preview
      */
     private fun setUpCameraOutputs(width: Int, height: Int) {
-        val manager = activity?.getSystemService(Context.CAMERA_SERVICE) as CameraManager
+        val manager = context?.getSystemService(Context.CAMERA_SERVICE) as CameraManager
         try {
             for (cameraId in manager.cameraIdList) {
                 val characteristics = manager.getCameraCharacteristics(cameraId)
@@ -408,7 +408,7 @@ class Camera2Fragment : Fragment(), View.OnClickListener, ActivityCompat.OnReque
         }
         setUpCameraOutputs(width, height)
         configureTransform(width, height)
-        val manager = activity?.getSystemService(Context.CAMERA_SERVICE) as CameraManager
+        val manager = context?.getSystemService(Context.CAMERA_SERVICE) as CameraManager
         try {
             // Wait for camera to open - 2.5 seconds is sufficient
             if (!cameraOpenCloseLock.tryAcquire(2500, TimeUnit.MILLISECONDS)) {
@@ -530,7 +530,7 @@ class Camera2Fragment : Fragment(), View.OnClickListener, ActivityCompat.OnReque
      * @param viewHeight The height of `textureView`
      */
     private fun configureTransform(viewWidth: Int, viewHeight: Int) {
-        activity ?: return
+        context ?: return
         val rotation = activity?.windowManager?.defaultDisplay?.rotation
         val matrix = Matrix()
         val viewRect = RectF(0f, 0f, viewWidth.toFloat(), viewHeight.toFloat())
@@ -597,7 +597,7 @@ class Camera2Fragment : Fragment(), View.OnClickListener, ActivityCompat.OnReque
      */
     private fun captureStillPicture() {
         try {
-            if (activity == null || cameraDevice == null) return
+            if (context == null || cameraDevice == null) return
             val rotation = activity?.windowManager?.defaultDisplay?.rotation
 
             // This is the CaptureRequest.Builder that we use to take a picture.
