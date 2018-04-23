@@ -76,7 +76,7 @@
                     android:id="@+id/repeate_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="@string/repeate_password"
+                    android:hint="@string/repeat_password"
                     android:imeActionId="6"
                     android:imeActionLabel="@string/action_sign_in_short"
                     android:imeOptions="actionUnspecified"

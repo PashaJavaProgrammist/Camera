@@ -20,14 +20,6 @@ class CameraActivity : AppCompatActivity() {
 
     private val viewPagerAdapter = TabViewPagerAdapter(supportFragmentManager)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_camera)
-
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-        initViewPagerAdapter()
-    }
-
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_gallery -> {
@@ -46,10 +38,20 @@ class CameraActivity : AppCompatActivity() {
         false
     }
 
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_camera)
+
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        initViewPagerAdapter()
+    }
+
+
     private fun initViewPagerAdapter() {
-        viewPagerAdapter.addFragment(galleryFragment, "Gallery")
-        viewPagerAdapter.addFragment(cameraFragment, "Camera")
-        viewPagerAdapter.addFragment(qrFragment, "QR")
+        viewPagerAdapter.addFragment(galleryFragment, getString(R.string.title_gallery))
+        viewPagerAdapter.addFragment(cameraFragment, getString(R.string.title_camera))
+        viewPagerAdapter.addFragment(qrFragment, getString(R.string.title_qr))
 
         pager.adapter = viewPagerAdapter
 
