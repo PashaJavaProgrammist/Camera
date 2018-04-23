@@ -8,7 +8,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.crash.FirebaseCrash
 import com.haretskiy.pavel.magiccamera.EMPTY_STRING
 import com.haretskiy.pavel.magiccamera.FIELDS_ARE_EMPTY
-import com.haretskiy.pavel.magiccamera.PASSWORDS_DOESNT_MATCH
+import com.haretskiy.pavel.magiccamera.PASSWORDS_DO_NOT_MATCH
 import com.haretskiy.pavel.magiccamera.models.FirebaseLoginResponse
 
 class LoginViewModel(private val mAuth: FirebaseAuth) : ViewModel() {
@@ -44,7 +44,7 @@ class LoginViewModel(private val mAuth: FirebaseAuth) : ViewModel() {
                     if (passwordStr == repeatPasswordStr) {
                         signUp(emailStr, passwordStr)
                     } else {
-                        userInfo.postValue(FirebaseLoginResponse(null, PASSWORDS_DOESNT_MATCH))
+                        userInfo.postValue(FirebaseLoginResponse(null, PASSWORDS_DO_NOT_MATCH))
                     }
                 }
             }
