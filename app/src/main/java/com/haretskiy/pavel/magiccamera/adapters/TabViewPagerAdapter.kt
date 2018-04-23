@@ -10,7 +10,9 @@ class TabViewPagerAdapter(manager: FragmentManager) : FragmentPagerAdapter(manag
     private val mFragmentList = ArrayList<Fragment>()
     private val mFragmentTitleList = ArrayList<String>()
 
-    override fun getItem(position: Int) = mFragmentList[position]
+    override fun getItem(position: Int): Fragment? {
+        return mFragmentList[position]
+    }
 
     override fun getCount() = mFragmentList.size
 
