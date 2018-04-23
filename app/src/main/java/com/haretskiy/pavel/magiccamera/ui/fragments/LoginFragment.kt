@@ -7,17 +7,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseUser
 import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.models.FirebaseLoginResponse
+import com.haretskiy.pavel.magiccamera.navigation.Router
 import com.haretskiy.pavel.magiccamera.viewmodels.LoginViewModel
 import kotlinx.android.synthetic.main.fragment_sign.*
 import kotlinx.android.synthetic.main.fragment_sign.view.*
 import org.koin.android.ext.android.inject
 
-
 class LoginFragment : Fragment(), View.OnClickListener {
 
     private val loginViewModel: LoginViewModel by inject()
+    private val router: Router by inject()
 
     //this flag shows SignIn or SignUp screen
     private var isSignInScreen = false
@@ -29,8 +31,8 @@ class LoginFragment : Fragment(), View.OnClickListener {
         loginViewModel.userInfo.observe(this, Observer<FirebaseLoginResponse> {
             login_progress.visibility = View.GONE
             when (it?.user) {
-                null -> Toast.makeText(context, "${it?.errorMessage}", Toast.LENGTH_SHORT).show()
-                else -> Toast.makeText(context, "${it.user?.email}", Toast.LENGTH_SHORT).show()
+                null -> Toast.makeText(context, "${it?.errorMessage}", Toast.LENGTH_LONG).show()
+                else -> onSuccessAuth(it.user)
             }
         })
     }
@@ -57,6 +59,12 @@ class LoginFragment : Fragment(), View.OnClickListener {
     private fun sign() {
         login_progress.visibility = View.VISIBLE
         loginViewModel.sign(email.text.toString(), password.text.toString(), if (!isSignInScreen) repeate_password.text.toString() else EMPTY_STRING)
+    }
+
+    private fun onSuccessAuth(user: FirebaseUser?) {
+        Toast.makeText(context, user?.email, Toast.LENGTH_SHORT).show()
+        router.goToCameraActivity(user?.getIdToken(true)?.result?.token
+                ?: EMPTY_STRING) //TODO: Token?
     }
 
 }
