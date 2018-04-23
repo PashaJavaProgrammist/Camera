@@ -28,7 +28,7 @@ import com.haretskiy.pavel.magiccamera.ui.dialogs.ErrorDialog
 import com.haretskiy.pavel.magiccamera.ui.views.AutoFitTextureView
 import com.haretskiy.pavel.magiccamera.utils.CompareSizesByArea
 import com.haretskiy.pavel.magiccamera.utils.ImageSaver
-import kotlinx.android.synthetic.main.fragment_camera.view.*
+import kotlinx.android.synthetic.main.fragment_camera2.view.*
 import java.io.File
 import java.util.Arrays
 import java.util.Collections
@@ -231,10 +231,10 @@ class Camera2Fragment : Fragment(), View.OnClickListener, ActivityCompat.OnReque
     override fun onCreateView(inflater: LayoutInflater,
                               container: ViewGroup?,
                               savedInstanceState: Bundle?
-    ): View? = inflater.inflate(R.layout.fragment_camera, container, false)
+    ): View? = inflater.inflate(R.layout.fragment_camera2, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        view.picture.setOnClickListener(this)
+        view.bt_take_picture.setOnClickListener(this)
         textureView = view.findViewById(R.id.texture)
     }
 
@@ -664,7 +664,7 @@ class Camera2Fragment : Fragment(), View.OnClickListener, ActivityCompat.OnReque
 
     override fun onClick(view: View) {
         when (view.id) {
-            R.id.picture -> lockFocus()
+            R.id.bt_take_picture -> lockFocus()
         }
     }
 
