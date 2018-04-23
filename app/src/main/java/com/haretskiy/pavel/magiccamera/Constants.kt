@@ -15,7 +15,5 @@ const val KEY_BUNDLE_TOKEN = "token_user_firebase"
 const val BUNDLE_KEY_IS_LOG_IN = "is_user_log_in"
 
 
-@JvmField
-val REQUEST_CAMERA_PERMISSION = 1
-@JvmField
-val PIC_FILE_NAME = "pic.jpg"
+const val REQUEST_CAMERA_PERMISSION = 1
+const val PIC_FILE_NAME = "pic.jpg"

@@ -51,6 +51,6 @@ class ImageSaver(
         /**
          * Tag for the [Log].
          */
-        private val TAG = "ImageSaver"
+        private const val TAG = "ImageSaver"
     }
 }
