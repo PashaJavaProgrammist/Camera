@@ -6,7 +6,7 @@ import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import com.haretskiy.pavel.magiccamera.R
 import com.haretskiy.pavel.magiccamera.adapters.TabViewPagerAdapter
-import com.haretskiy.pavel.magiccamera.ui.fragments.CameraFragment
+import com.haretskiy.pavel.magiccamera.ui.fragments.Camera2Fragment
 import com.haretskiy.pavel.magiccamera.ui.fragments.GalleryFragment
 import com.haretskiy.pavel.magiccamera.ui.fragments.QRFragment
 import kotlinx.android.synthetic.main.activity_camera.*
@@ -15,7 +15,7 @@ import org.koin.android.ext.android.inject
 class CameraActivity : AppCompatActivity() {
 
     private val qrFragment: QRFragment by inject()
-    private val cameraFragment: CameraFragment by inject()
+    private val cameraFragment: Camera2Fragment by inject()
     private val galleryFragment: GalleryFragment by inject()
 
     private val viewPagerAdapter = TabViewPagerAdapter(supportFragmentManager)

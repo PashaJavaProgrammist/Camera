@@ -8,7 +8,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_SIGN
 import com.haretskiy.pavel.magiccamera.navigation.Router
 import com.haretskiy.pavel.magiccamera.navigation.RouterImpl
-import com.haretskiy.pavel.magiccamera.ui.fragments.CameraFragment
+import com.haretskiy.pavel.magiccamera.ui.fragments.Camera2Fragment
 import com.haretskiy.pavel.magiccamera.ui.fragments.GalleryFragment
 import com.haretskiy.pavel.magiccamera.ui.fragments.LoginFragment
 import com.haretskiy.pavel.magiccamera.ui.fragments.QRFragment
@@ -28,7 +28,7 @@ val appModule: Module = applicationContext {
 
     factory { QRFragment() }
 
-    factory { CameraFragment() }
+    factory { Camera2Fragment() }
 
     factory { GalleryFragment() }
 
