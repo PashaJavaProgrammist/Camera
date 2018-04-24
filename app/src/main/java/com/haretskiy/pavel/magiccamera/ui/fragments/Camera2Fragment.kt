@@ -19,16 +19,15 @@ import android.util.Log
 import android.util.Size
 import android.util.SparseIntArray
 import android.view.*
-import com.haretskiy.pavel.magiccamera.PIC_FILE_NAME
-import com.haretskiy.pavel.magiccamera.R
-import com.haretskiy.pavel.magiccamera.REQUEST_CAMERA_PERMISSION
-import com.haretskiy.pavel.magiccamera.showToast
+import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.ui.dialogs.ConfirmationDialog
 import com.haretskiy.pavel.magiccamera.ui.dialogs.ErrorDialog
-import com.haretskiy.pavel.magiccamera.ui.views.AutoFitTextureView
 import com.haretskiy.pavel.magiccamera.utils.CompareSizesByArea
 import com.haretskiy.pavel.magiccamera.utils.ImageSaver
+import com.haretskiy.pavel.magiccamera.utils.Toaster
+import kotlinx.android.synthetic.main.fragment_camera2.*
 import kotlinx.android.synthetic.main.fragment_camera2.view.*
+import org.koin.android.ext.android.inject
 import java.io.File
 import java.util.Arrays
 import java.util.Collections
@@ -38,6 +37,9 @@ import kotlin.collections.ArrayList
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 class Camera2Fragment : Fragment(), View.OnClickListener, ActivityCompat.OnRequestPermissionsResultCallback {
+
+    private val windowManager: WindowManager by inject()
+    private val toaster: Toaster by inject()
 
     /**
      * [TextureView.SurfaceTextureListener] handles several lifecycle events on a
@@ -63,11 +65,6 @@ class Camera2Fragment : Fragment(), View.OnClickListener, ActivityCompat.OnReque
      * ID of the current [CameraDevice].
      */
     private lateinit var cameraId: String
-
-    /**
-     * An [AutoFitTextureView] for camera preview.
-     */
-    private lateinit var textureView: AutoFitTextureView
 
     /**
      * A [CameraCaptureSession] for camera preview.
@@ -103,7 +100,8 @@ class Camera2Fragment : Fragment(), View.OnClickListener, ActivityCompat.OnReque
 
         override fun onError(cameraDevice: CameraDevice, error: Int) {
             onDisconnected(cameraDevice)
-            this@Camera2Fragment.activity?.finish()
+            this@Camera2Fragment.texture.visibility = View.GONE
+            toaster.showToast("Camera Device error", false)
         }
 
     }
@@ -235,7 +233,6 @@ class Camera2Fragment : Fragment(), View.OnClickListener, ActivityCompat.OnReque
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         view.bt_take_picture.setOnClickListener(this)
-        textureView = view.findViewById(R.id.texture)
     }
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
@@ -251,10 +248,10 @@ class Camera2Fragment : Fragment(), View.OnClickListener, ActivityCompat.OnReque
         // available, and "onSurfaceTextureAvailable" will not be called. In that case, we can open
         // a camera and start preview from here (otherwise, we wait until the surface is ready in
         // the SurfaceTextureListener).
-        if (textureView.isAvailable) {
-            openCamera(textureView.width, textureView.height)
+        if (texture.isAvailable) {
+            openCamera(texture.width, texture.height)
         } else {
-            textureView.surfaceTextureListener = surfaceTextureListener
+            texture.surfaceTextureListener = surfaceTextureListener
         }
     }
 
@@ -318,14 +315,13 @@ class Camera2Fragment : Fragment(), View.OnClickListener, ActivityCompat.OnReque
 
                 // Find out if we need to swap dimension to get the preview size relative to sensor
                 // coordinate.
-                var displayRotation = activity?.windowManager?.defaultDisplay?.rotation
-
+                var displayRotation = windowManager.defaultDisplay?.rotation
                 sensorOrientation = characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION)
                 if (displayRotation == null) displayRotation = 0
                 val swappedDimensions = areDimensionsSwapped(displayRotation)
 
                 val displaySize = Point()
-                activity?.windowManager?.defaultDisplay?.getSize(displaySize)
+                windowManager.defaultDisplay?.getSize(displaySize)
                 val rotatedPreviewWidth = if (swappedDimensions) height else width
                 val rotatedPreviewHeight = if (swappedDimensions) width else height
                 var maxPreviewWidth = if (swappedDimensions) displaySize.y else displaySize.x
@@ -344,9 +340,9 @@ class Camera2Fragment : Fragment(), View.OnClickListener, ActivityCompat.OnReque
 
                 // We fit the aspect ratio of TextureView to the size of preview we picked.
                 if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    textureView.setAspectRatio(previewSize.width, previewSize.height)
+                    texture.setAspectRatio(previewSize.width, previewSize.height)
                 } else {
-                    textureView.setAspectRatio(previewSize.height, previewSize.width)
+                    texture.setAspectRatio(previewSize.height, previewSize.width)
                 }
 
                 // Check if the flash is supported.
@@ -470,7 +466,7 @@ class Camera2Fragment : Fragment(), View.OnClickListener, ActivityCompat.OnReque
      */
     private fun createCameraPreviewSession() {
         try {
-            val texture = textureView.surfaceTexture
+            val texture = texture.surfaceTexture
 
             // We configure the size of default buffer to be the size of camera preview we want.
             texture.setDefaultBufferSize(previewSize.width, previewSize.height)
@@ -512,7 +508,7 @@ class Camera2Fragment : Fragment(), View.OnClickListener, ActivityCompat.OnReque
                         }
 
                         override fun onConfigureFailed(session: CameraCaptureSession) {
-                            activity?.showToast("Failed")
+                            toaster.showToast("Failed", false)
                         }
                     }, null)
         } catch (e: CameraAccessException) {
@@ -531,7 +527,7 @@ class Camera2Fragment : Fragment(), View.OnClickListener, ActivityCompat.OnReque
      */
     private fun configureTransform(viewWidth: Int, viewHeight: Int) {
         context ?: return
-        val rotation = activity?.windowManager?.defaultDisplay?.rotation
+        val rotation = windowManager.defaultDisplay?.rotation
         val matrix = Matrix()
         val viewRect = RectF(0f, 0f, viewWidth.toFloat(), viewHeight.toFloat())
         val bufferRect = RectF(0f, 0f, previewSize.height.toFloat(), previewSize.width.toFloat())
@@ -551,7 +547,7 @@ class Camera2Fragment : Fragment(), View.OnClickListener, ActivityCompat.OnReque
         } else if (Surface.ROTATION_180 == rotation) {
             matrix.postRotate(180f, centerX, centerY)
         }
-        textureView.setTransform(matrix)
+        texture.setTransform(matrix)
     }
 
     /**
@@ -598,7 +594,7 @@ class Camera2Fragment : Fragment(), View.OnClickListener, ActivityCompat.OnReque
     private fun captureStillPicture() {
         try {
             if (context == null || cameraDevice == null) return
-            val rotation = activity?.windowManager?.defaultDisplay?.rotation
+            val rotation = windowManager.defaultDisplay?.rotation
 
             // This is the CaptureRequest.Builder that we use to take a picture.
             val captureBuilder = cameraDevice?.createCaptureRequest(
@@ -623,7 +619,7 @@ class Camera2Fragment : Fragment(), View.OnClickListener, ActivityCompat.OnReque
                 override fun onCaptureCompleted(session: CameraCaptureSession,
                                                 request: CaptureRequest,
                                                 result: TotalCaptureResult) {
-                    activity?.showToast("Saved: $file")
+                    toaster.showToast("Saved: $file", false)
                     Log.d(TAG, file.toString())
                     unlockFocus()
                 }
@@ -693,42 +689,7 @@ class Camera2Fragment : Fragment(), View.OnClickListener, ActivityCompat.OnReque
         /**
          * Tag for the [Log].
          */
-        private const val TAG = "Camera2BasicFragment"
 
-        /**
-         * Camera state: Showing camera preview.
-         */
-        private const val STATE_PREVIEW = 0
-
-        /**
-         * Camera state: Waiting for the focus to be locked.
-         */
-        private const val STATE_WAITING_LOCK = 1
-
-        /**
-         * Camera state: Waiting for the exposure to be precapture state.
-         */
-        private const val STATE_WAITING_PRECAPTURE = 2
-
-        /**
-         * Camera state: Waiting for the exposure state to be something other than precapture.
-         */
-        private const val STATE_WAITING_NON_PRECAPTURE = 3
-
-        /**
-         * Camera state: Picture was taken.
-         */
-        private const val STATE_PICTURE_TAKEN = 4
-
-        /**
-         * Max preview width that is guaranteed by Camera2 API
-         */
-        private const val MAX_PREVIEW_WIDTH = 1920
-
-        /**
-         * Max preview height that is guaranteed by Camera2 API
-         */
-        private const val MAX_PREVIEW_HEIGHT = 1080
 
         /**
          * Given `choices` of `Size`s supported by a camera, choose the smallest one that

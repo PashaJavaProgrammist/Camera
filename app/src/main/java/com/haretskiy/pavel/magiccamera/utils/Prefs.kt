@@ -6,7 +6,7 @@ import android.preference.PreferenceManager
 import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_IS_LOG_IN
 
 
-class Prefs(private val context: Context) {
+class Prefs(context: Context) {
 
     private val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
     private val editor: SharedPreferences.Editor = preferences.edit()

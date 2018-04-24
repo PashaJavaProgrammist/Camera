@@ -6,7 +6,8 @@
     <com.haretskiy.pavel.magiccamera.ui.views.AutoFitTextureView
         android:id="@+id/texture"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:layout_gravity="center_horizontal|top" />
 
     <ImageButton
         android:id="@+id/bt_take_picture"

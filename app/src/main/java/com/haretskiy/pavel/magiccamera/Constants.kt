@@ -15,5 +15,24 @@ const val KEY_BUNDLE_TOKEN = "token_user_firebase"
 const val BUNDLE_KEY_IS_LOG_IN = "is_user_log_in"
 
 
+//Camera2 constants
 const val REQUEST_CAMERA_PERMISSION = 1
 const val PIC_FILE_NAME = "pic.jpg"
+
+const val TAG = "Camera2BasicFragment"
+
+//camera state: Showing camera preview.
+const val STATE_PREVIEW = 0
+//Camera state: Waiting for the focus to be locked.
+const val STATE_WAITING_LOCK = 1
+//Camera state: Waiting for the exposure to be precapture state.
+const val STATE_WAITING_PRECAPTURE = 2
+//Camera state: Waiting for the exposure state to be something other than precapture.
+const val STATE_WAITING_NON_PRECAPTURE = 3
+//Camera state: Picture was taken.
+const val STATE_PICTURE_TAKEN = 4
+//Max preview width that is guaranteed by Camera2 API
+const val MAX_PREVIEW_WIDTH = 1920
+//Max preview height that is guaranteed by Camera2 API
+const val MAX_PREVIEW_HEIGHT = 1080
+
