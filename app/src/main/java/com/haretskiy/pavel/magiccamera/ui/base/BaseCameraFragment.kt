@@ -4,9 +4,7 @@ import android.content.pm.PackageManager
 import android.support.v4.app.ActivityCompat
 import android.support.v4.app.Fragment
 import android.view.WindowManager
-import com.haretskiy.pavel.magiccamera.CODE_REQUEST_CAMERA_PERMISSION
-import com.haretskiy.pavel.magiccamera.FRAGMENT_DIALOG
-import com.haretskiy.pavel.magiccamera.R
+import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.ui.dialogs.ConfirmationDialog
 import com.haretskiy.pavel.magiccamera.ui.dialogs.ErrorDialog
 import com.haretskiy.pavel.magiccamera.ui.dialogs.SettingsDialog
@@ -22,9 +20,9 @@ open class BaseCameraFragment : Fragment(), ActivityCompat.OnRequestPermissionsR
 
     protected fun requestCameraPermission() {
         if (activity?.let { ActivityCompat.shouldShowRequestPermissionRationale(it, android.Manifest.permission.CAMERA) } == true) {
-            ConfirmationDialog().show(childFragmentManager, FRAGMENT_DIALOG)
+            ConfirmationDialog().show(childFragmentManager, FRAGMENT_DIALOG_COMP)
         } else {
-            SettingsDialog().show(childFragmentManager, FRAGMENT_DIALOG)
+            SettingsDialog().show(childFragmentManager, FRAGMENT_DIALOG_SETTINGS)
         }
     }
 
@@ -34,7 +32,7 @@ open class BaseCameraFragment : Fragment(), ActivityCompat.OnRequestPermissionsR
         if (requestCode == CODE_REQUEST_CAMERA_PERMISSION) {
             if (grantResults.size != 1 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                 ErrorDialog.newInstance(getString(R.string.request_permission))
-                        .show(childFragmentManager, FRAGMENT_DIALOG)
+                        .show(childFragmentManager, FRAGMENT_DIALOG_ERROR)
             }
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults)

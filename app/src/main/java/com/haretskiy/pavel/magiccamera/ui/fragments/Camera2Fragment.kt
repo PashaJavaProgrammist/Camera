@@ -328,7 +328,7 @@ class Camera2Fragment : BaseCameraFragment(), View.OnClickListener {
             // Currently an NPE is thrown when the Camera2API is used but not supported on the
             // device this code runs.
             ErrorDialog.newInstance(getString(R.string.camera_error))
-                    .show(childFragmentManager, FRAGMENT_DIALOG)
+                    .show(childFragmentManager, FRAGMENT_DIALOG_COMP)
         }
 
     }
