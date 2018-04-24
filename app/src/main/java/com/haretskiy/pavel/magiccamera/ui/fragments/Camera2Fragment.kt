@@ -225,6 +225,7 @@ class Camera2Fragment : BaseCameraFragment(), View.OnClickListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         view.bt_take_picture.setOnClickListener(this)
+        bt_take_picture.visibility=View.GONE
     }
 
     override fun onResume() {
@@ -382,6 +383,7 @@ class Camera2Fragment : BaseCameraFragment(), View.OnClickListener {
             } catch (e: InterruptedException) {
                 throw RuntimeException("Interrupted while trying to lock camera opening.", e)
             }
+            bt_take_picture.visibility=View.VISIBLE
         }
     }
 
@@ -397,6 +399,7 @@ class Camera2Fragment : BaseCameraFragment(), View.OnClickListener {
             cameraDevice = null
             imageReader?.close()
             imageReader = null
+            bt_take_picture.visibility=View.GONE
         } catch (e: InterruptedException) {
             throw RuntimeException("Interrupted while trying to lock camera closing.", e)
         } finally {
