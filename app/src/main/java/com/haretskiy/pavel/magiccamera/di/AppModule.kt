@@ -50,6 +50,10 @@ val camera2Module: Module = applicationContext {
     factory { ImageSaver(androidApplication()) }
 }
 
+val cameraModule: Module = applicationContext {
+    factory { CameraFragmentImpl() }
+}
+
 val modules = listOf(appModule, camera2Module)
 
 private fun signFragment(isSignIn: String): LoginFragment {

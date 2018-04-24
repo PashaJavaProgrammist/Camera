@@ -1,22 +1,21 @@
 package com.haretskiy.pavel.magiccamera.ui.activities
 
+import android.os.Build
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import com.haretskiy.pavel.magiccamera.R
-import com.haretskiy.pavel.magiccamera.ui.fragments.Camera2FragmentImpl
-import com.haretskiy.pavel.magiccamera.ui.fragments.GalleryFragment
-import com.haretskiy.pavel.magiccamera.ui.fragments.QRFragment
-import com.haretskiy.pavel.magiccamera.ui.fragments.SettingsFragment
+import com.haretskiy.pavel.magiccamera.ui.fragments.*
 import kotlinx.android.synthetic.main.activity_camera.*
 import org.koin.android.ext.android.inject
 
 class CameraActivity : AppCompatActivity() {
 
     private val qrFragment: QRFragment by inject()
-    private val cameraFragment: Camera2FragmentImpl by inject()
+    private val camera2Fragment: Camera2FragmentImpl by inject()
+    private val cameraFragment: CameraFragmentImpl by inject()
     private val galleryFragment: GalleryFragment by inject()
     private val settingsFragment: SettingsFragment by inject()
 
@@ -27,7 +26,11 @@ class CameraActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_camera -> {
-                doTransaction(cameraFragment)
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    doTransaction(camera2Fragment)
+                } else {
+                    doTransaction(cameraFragment)
+                }
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_qr -> {
