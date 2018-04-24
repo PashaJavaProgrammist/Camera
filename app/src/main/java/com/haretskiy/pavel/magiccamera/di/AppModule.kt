@@ -9,6 +9,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_SIGN
 import com.haretskiy.pavel.magiccamera.navigation.Router
 import com.haretskiy.pavel.magiccamera.navigation.RouterImpl
+import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
 import com.haretskiy.pavel.magiccamera.ui.fragments.*
 import com.haretskiy.pavel.magiccamera.utils.ImageSaver
 import com.haretskiy.pavel.magiccamera.utils.Prefs
@@ -33,10 +34,11 @@ val appModule: Module = applicationContext {
     bean { RouterImpl(androidApplication()) as Router }
     bean { Prefs(androidApplication()) }
     factory { Toaster(androidApplication()) }
+    factory { PermissionDialog() }
 }
 
 val camera2Module: Module = applicationContext {
-    factory { Camera2Fragment() }
+    factory { Camera2FragmentImpl() }
     factory {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             androidApplication().getSystemService(Context.CAMERA_SERVICE) as CameraManager

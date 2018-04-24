@@ -34,11 +34,12 @@ import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-class Camera2Fragment : Fragment(), View.OnClickListener {
+class Camera2FragmentImpl : Fragment(), View.OnClickListener, CameraFragment {
 
     private val windowManager: WindowManager by inject()
     private val toaster: Toaster by inject()
     private val imageSaver: ImageSaver by inject()
+    private val permissionDialog: PermissionDialog by inject()
 
     /**
      * [TextureView.SurfaceTextureListener] handles several lifecycle events on a [TextureView].
@@ -86,19 +87,19 @@ class Camera2Fragment : Fragment(), View.OnClickListener {
 
         override fun onOpened(cameraDevice: CameraDevice) {
             cameraOpenCloseLock.release()
-            this@Camera2Fragment.cameraDevice = cameraDevice
+            this@Camera2FragmentImpl.cameraDevice = cameraDevice
             createCameraPreviewSession()
         }
 
         override fun onDisconnected(cameraDevice: CameraDevice) {
             cameraOpenCloseLock.release()
             cameraDevice.close()
-            this@Camera2Fragment.cameraDevice = null
+            this@Camera2FragmentImpl.cameraDevice = null
         }
 
         override fun onError(cameraDevice: CameraDevice, error: Int) {
             onDisconnected(cameraDevice)
-            this@Camera2Fragment.texture.visibility = View.GONE
+            this@Camera2FragmentImpl.texture.visibility = View.GONE
             toaster.showToast("Camera Device error", false)
         }
 
@@ -364,7 +365,7 @@ class Camera2Fragment : Fragment(), View.OnClickListener {
     }
 
     /**
-     * Opens the camera specified by [Camera2Fragment.cameraId].
+     * Opens the camera specified by [Camera2FragmentImpl.cameraId].
      */
     private fun openCamera(width: Int, height: Int) {
         val permission = context?.let { ContextCompat.checkSelfPermission(it, Manifest.permission.CAMERA) }
@@ -524,7 +525,7 @@ class Camera2Fragment : Fragment(), View.OnClickListener {
     /**
      * Lock the focus as the first step for a still image capture.
      */
-    private fun lockFocus() {
+    override fun takePicture() {
         file = imageSaver.createFile()
         try {
             // This is how to tell the camera to lock focus.
@@ -542,7 +543,7 @@ class Camera2Fragment : Fragment(), View.OnClickListener {
 
     /**
      * Run the precapture sequence for capturing a still image. This method should be called when
-     * we get a response in [.captureCallback] from [.lockFocus].
+     * we get a response in [.captureCallback] from [.takePicture].
      */
     private fun runPrecaptureSequence() {
         try {
@@ -561,7 +562,7 @@ class Camera2Fragment : Fragment(), View.OnClickListener {
 
     /**
      * Capture a still picture. This method should be called when we get a response in
-     * [.captureCallback] from both [.lockFocus].
+     * [.captureCallback] from both [.takePicture].
      */
     private fun captureStillPicture() {
         try {
@@ -632,7 +633,7 @@ class Camera2Fragment : Fragment(), View.OnClickListener {
 
     override fun onClick(view: View) {
         when (view.id) {
-            R.id.bt_take_picture -> lockFocus()
+            R.id.bt_take_picture -> takePicture()
         }
     }
 
@@ -644,7 +645,7 @@ class Camera2Fragment : Fragment(), View.OnClickListener {
     }
 
     private fun requestCameraPermission() {
-        PermissionDialog().show(childFragmentManager, FRAGMENT_DIALOG_COMP)
+        permissionDialog.show(childFragmentManager, FRAGMENT_DIALOG_COMP)
     }
 
     /**

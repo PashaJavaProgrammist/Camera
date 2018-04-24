@@ -6,8 +6,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentTransaction
 import android.support.v7.app.AppCompatActivity
 import com.haretskiy.pavel.magiccamera.R
-import com.haretskiy.pavel.magiccamera.adapters.TabViewPagerAdapter
-import com.haretskiy.pavel.magiccamera.ui.fragments.Camera2Fragment
+import com.haretskiy.pavel.magiccamera.ui.fragments.Camera2FragmentImpl
 import com.haretskiy.pavel.magiccamera.ui.fragments.GalleryFragment
 import com.haretskiy.pavel.magiccamera.ui.fragments.QRFragment
 import com.haretskiy.pavel.magiccamera.ui.fragments.SettingsFragment
@@ -17,7 +16,7 @@ import org.koin.android.ext.android.inject
 class CameraActivity : AppCompatActivity() {
 
     private val qrFragment: QRFragment by inject()
-    private val cameraFragment: Camera2Fragment by inject()
+    private val cameraFragment: Camera2FragmentImpl by inject()
     private val galleryFragment: GalleryFragment by inject()
     private val settingsFragment: SettingsFragment by inject()
 
