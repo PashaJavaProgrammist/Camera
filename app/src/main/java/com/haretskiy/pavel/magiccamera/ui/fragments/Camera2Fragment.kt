@@ -12,17 +12,20 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.HandlerThread
+import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.util.Size
 import android.util.SparseIntArray
 import android.view.*
 import com.haretskiy.pavel.magiccamera.*
-import com.haretskiy.pavel.magiccamera.ui.base.BaseCameraFragment
-import com.haretskiy.pavel.magiccamera.ui.dialogs.ErrorDialog
+import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
 import com.haretskiy.pavel.magiccamera.utils.ComparatorSizesByArea
+import com.haretskiy.pavel.magiccamera.utils.ImageSaver
+import com.haretskiy.pavel.magiccamera.utils.Toaster
 import kotlinx.android.synthetic.main.fragment_camera2.*
 import kotlinx.android.synthetic.main.fragment_camera2.view.*
+import org.koin.android.ext.android.inject
 import java.io.File
 import java.util.Arrays
 import java.util.Collections
@@ -31,11 +34,14 @@ import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-class Camera2Fragment : BaseCameraFragment(), View.OnClickListener {
+class Camera2Fragment : Fragment(), View.OnClickListener {
+
+    private val windowManager: WindowManager by inject()
+    private val toaster: Toaster by inject()
+    private val imageSaver: ImageSaver by inject()
 
     /**
-     * [TextureView.SurfaceTextureListener] handles several lifecycle events on a
-     * [TextureView].
+     * [TextureView.SurfaceTextureListener] handles several lifecycle events on a [TextureView].
      */
     private val surfaceTextureListener = object : TextureView.SurfaceTextureListener {
 
@@ -218,14 +224,12 @@ class Camera2Fragment : BaseCameraFragment(), View.OnClickListener {
 
     }
 
-    override fun onCreateView(inflater: LayoutInflater,
-                              container: ViewGroup?,
-                              savedInstanceState: Bundle?
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_camera2, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         view.bt_take_picture.setOnClickListener(this)
-        bt_take_picture.visibility=View.GONE
+        bt_take_picture.visibility = View.GONE
     }
 
     override fun onResume() {
@@ -248,7 +252,6 @@ class Camera2Fragment : BaseCameraFragment(), View.OnClickListener {
         stopBackgroundThread()
         super.onPause()
     }
-
 
     /**
      * Sets up member variables related to camera.
@@ -328,8 +331,7 @@ class Camera2Fragment : BaseCameraFragment(), View.OnClickListener {
         } catch (e: NullPointerException) {
             // Currently an NPE is thrown when the Camera2API is used but not supported on the
             // device this code runs.
-            ErrorDialog.newInstance(getString(R.string.camera_error))
-                    .show(childFragmentManager, FRAGMENT_DIALOG_ERROR)
+            Log.e(TAG, e.toString())
         }
 
     }
@@ -383,7 +385,7 @@ class Camera2Fragment : BaseCameraFragment(), View.OnClickListener {
             } catch (e: InterruptedException) {
                 throw RuntimeException("Interrupted while trying to lock camera opening.", e)
             }
-            bt_take_picture.visibility=View.VISIBLE
+            bt_take_picture.visibility = View.VISIBLE
         }
     }
 
@@ -399,7 +401,7 @@ class Camera2Fragment : BaseCameraFragment(), View.OnClickListener {
             cameraDevice = null
             imageReader?.close()
             imageReader = null
-            bt_take_picture.visibility=View.GONE
+            bt_take_picture.visibility = View.GONE
         } catch (e: InterruptedException) {
             throw RuntimeException("Interrupted while trying to lock camera closing.", e)
         } finally {
@@ -639,6 +641,10 @@ class Camera2Fragment : BaseCameraFragment(), View.OnClickListener {
             requestBuilder.set(CaptureRequest.CONTROL_AE_MODE,
                     CaptureRequest.CONTROL_AE_MODE_ON_AUTO_FLASH)
         }
+    }
+
+    private fun requestCameraPermission() {
+        PermissionDialog().show(childFragmentManager, FRAGMENT_DIALOG_COMP)
     }
 
     companion object {
