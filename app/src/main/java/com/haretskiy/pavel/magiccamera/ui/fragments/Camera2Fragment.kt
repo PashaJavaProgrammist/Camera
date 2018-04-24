@@ -22,7 +22,7 @@ import android.view.*
 import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.ui.dialogs.ConfirmationDialog
 import com.haretskiy.pavel.magiccamera.ui.dialogs.ErrorDialog
-import com.haretskiy.pavel.magiccamera.utils.CompareSizesByArea
+import com.haretskiy.pavel.magiccamera.utils.ComparatorSizesByArea
 import com.haretskiy.pavel.magiccamera.utils.ImageSaver
 import com.haretskiy.pavel.magiccamera.utils.Toaster
 import kotlinx.android.synthetic.main.fragment_camera2.*
@@ -40,6 +40,7 @@ class Camera2Fragment : Fragment(), View.OnClickListener, ActivityCompat.OnReque
 
     private val windowManager: WindowManager by inject()
     private val toaster: Toaster by inject()
+    private val imageSaver: ImageSaver by inject()
 
     /**
      * [TextureView.SurfaceTextureListener] handles several lifecycle events on a
@@ -131,7 +132,7 @@ class Camera2Fragment : Fragment(), View.OnClickListener, ActivityCompat.OnReque
      * still image is ready to be saved.
      */
     private val onImageAvailableListener = ImageReader.OnImageAvailableListener {
-        backgroundHandler?.post(ImageSaver(it.acquireNextImage(), file))
+        imageSaver.saveImage(it.acquireNextImage(), file)
     }
 
     /**
@@ -235,11 +236,6 @@ class Camera2Fragment : Fragment(), View.OnClickListener, ActivityCompat.OnReque
         view.bt_take_picture.setOnClickListener(this)
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
-        file = File(context?.getExternalFilesDir(null), PIC_FILE_NAME)
-    }
-
     override fun onResume() {
         super.onResume()
         startBackgroundThread()
@@ -307,7 +303,7 @@ class Camera2Fragment : Fragment(), View.OnClickListener, ActivityCompat.OnReque
                 // For still image captures, we use the largest available size.
                 val largest = Collections.max(
                         Arrays.asList(*map.getOutputSizes(ImageFormat.JPEG)),
-                        CompareSizesByArea())
+                        ComparatorSizesByArea())
                 imageReader = ImageReader.newInstance(largest.width, largest.height,
                         ImageFormat.JPEG, /*maxImages*/ 2).apply {
                     setOnImageAvailableListener(onImageAvailableListener, backgroundHandler)
@@ -554,6 +550,7 @@ class Camera2Fragment : Fragment(), View.OnClickListener, ActivityCompat.OnReque
      * Lock the focus as the first step for a still image capture.
      */
     private fun lockFocus() {
+        file = imageSaver.createFile()
         try {
             // This is how to tell the camera to lock focus.
             previewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,
@@ -737,8 +734,8 @@ class Camera2Fragment : Fragment(), View.OnClickListener, ActivityCompat.OnReque
             // Pick the smallest of those big enough. If there is no one big enough, pick the
             // largest of those not big enough.
             return when {
-                bigEnough.size > 0 -> Collections.min(bigEnough, CompareSizesByArea())
-                notBigEnough.size > 0 -> Collections.max(notBigEnough, CompareSizesByArea())
+                bigEnough.size > 0 -> Collections.min(bigEnough, ComparatorSizesByArea())
+                notBigEnough.size > 0 -> Collections.max(notBigEnough, ComparatorSizesByArea())
                 else -> {
                     Log.e(TAG, "Couldn't find any suitable preview size")
                     choices[0]

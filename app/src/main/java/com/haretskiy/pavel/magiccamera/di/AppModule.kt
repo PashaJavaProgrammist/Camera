@@ -13,6 +13,7 @@ import com.haretskiy.pavel.magiccamera.ui.fragments.Camera2Fragment
 import com.haretskiy.pavel.magiccamera.ui.fragments.GalleryFragment
 import com.haretskiy.pavel.magiccamera.ui.fragments.LoginFragment
 import com.haretskiy.pavel.magiccamera.ui.fragments.QRFragment
+import com.haretskiy.pavel.magiccamera.utils.ImageSaver
 import com.haretskiy.pavel.magiccamera.utils.Prefs
 import com.haretskiy.pavel.magiccamera.utils.Toaster
 import com.haretskiy.pavel.magiccamera.viewmodels.LoginViewModel
@@ -46,6 +47,7 @@ val camera2Module: Module = applicationContext {
     factory {
         androidApplication().getSystemService(Context.WINDOW_SERVICE) as WindowManager
     }
+    factory { ImageSaver(androidApplication()) }
 }
 
 val modules = listOf(appModule, camera2Module)

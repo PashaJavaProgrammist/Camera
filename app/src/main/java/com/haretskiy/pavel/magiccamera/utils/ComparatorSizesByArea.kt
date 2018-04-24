@@ -9,7 +9,7 @@ import java.util.*
 /**
  * Compares two `Size`s based on their areas.
  */
-class CompareSizesByArea : Comparator<Size> {
+class ComparatorSizesByArea : Comparator<Size> {
 
     // We cast here to ensure the multiplications won't overflow
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
