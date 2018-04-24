@@ -34,7 +34,7 @@ import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-class Camera2FragmentImpl : Fragment(), View.OnClickListener, CameraFragment {
+class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
 
     private val windowManager: WindowManager by inject()
     private val toaster: Toaster by inject()

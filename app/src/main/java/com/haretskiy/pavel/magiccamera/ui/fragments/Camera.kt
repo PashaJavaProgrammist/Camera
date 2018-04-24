@@ -1,5 +1,5 @@
 package com.haretskiy.pavel.magiccamera.ui.fragments
 
-interface CameraFragment {
+interface Camera {
     fun takePicture()
 }
