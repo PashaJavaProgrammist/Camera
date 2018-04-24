@@ -9,10 +9,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_SIGN
 import com.haretskiy.pavel.magiccamera.navigation.Router
 import com.haretskiy.pavel.magiccamera.navigation.RouterImpl
-import com.haretskiy.pavel.magiccamera.ui.fragments.Camera2Fragment
-import com.haretskiy.pavel.magiccamera.ui.fragments.GalleryFragment
-import com.haretskiy.pavel.magiccamera.ui.fragments.LoginFragment
-import com.haretskiy.pavel.magiccamera.ui.fragments.QRFragment
+import com.haretskiy.pavel.magiccamera.ui.fragments.*
 import com.haretskiy.pavel.magiccamera.utils.ImageSaver
 import com.haretskiy.pavel.magiccamera.utils.Prefs
 import com.haretskiy.pavel.magiccamera.utils.Toaster
@@ -30,6 +27,7 @@ val appModule: Module = applicationContext {
     }
     factory { QRFragment() }
     factory { GalleryFragment() }
+    factory { SettingsFragment() }
     bean { FirebaseAuth.getInstance() }
     viewModel { LoginViewModel(get()) }
     bean { RouterImpl(androidApplication()) as Router }

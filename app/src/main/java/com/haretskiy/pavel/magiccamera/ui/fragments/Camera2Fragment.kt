@@ -12,22 +12,17 @@ import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.HandlerThread
-import android.support.v4.app.ActivityCompat
-import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.util.Size
 import android.util.SparseIntArray
 import android.view.*
 import com.haretskiy.pavel.magiccamera.*
-import com.haretskiy.pavel.magiccamera.ui.dialogs.ConfirmationDialog
+import com.haretskiy.pavel.magiccamera.ui.base.BaseCameraFragment
 import com.haretskiy.pavel.magiccamera.ui.dialogs.ErrorDialog
 import com.haretskiy.pavel.magiccamera.utils.ComparatorSizesByArea
-import com.haretskiy.pavel.magiccamera.utils.ImageSaver
-import com.haretskiy.pavel.magiccamera.utils.Toaster
 import kotlinx.android.synthetic.main.fragment_camera2.*
 import kotlinx.android.synthetic.main.fragment_camera2.view.*
-import org.koin.android.ext.android.inject
 import java.io.File
 import java.util.Arrays
 import java.util.Collections
@@ -36,11 +31,7 @@ import java.util.concurrent.TimeUnit
 import kotlin.collections.ArrayList
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-class Camera2Fragment : Fragment(), View.OnClickListener, ActivityCompat.OnRequestPermissionsResultCallback {
-
-    private val windowManager: WindowManager by inject()
-    private val toaster: Toaster by inject()
-    private val imageSaver: ImageSaver by inject()
+class Camera2Fragment : BaseCameraFragment(), View.OnClickListener {
 
     /**
      * [TextureView.SurfaceTextureListener] handles several lifecycle events on a
@@ -257,26 +248,6 @@ class Camera2Fragment : Fragment(), View.OnClickListener, ActivityCompat.OnReque
         super.onPause()
     }
 
-    private fun requestCameraPermission() {
-        if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
-            ConfirmationDialog().show(childFragmentManager, FRAGMENT_DIALOG)
-        } else {
-            requestPermissions(arrayOf(Manifest.permission.CAMERA), CODE_REQUEST_CAMERA_PERMISSION)
-        }
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int,
-                                            permissions: Array<String>,
-                                            grantResults: IntArray) {
-        if (requestCode == CODE_REQUEST_CAMERA_PERMISSION) {
-            if (grantResults.size != 1 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
-                ErrorDialog.newInstance(getString(R.string.request_permission))
-                        .show(childFragmentManager, FRAGMENT_DIALOG)
-            }
-        } else {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        }
-    }
 
     /**
      * Sets up member variables related to camera.
@@ -396,23 +367,22 @@ class Camera2Fragment : Fragment(), View.OnClickListener, ActivityCompat.OnReque
         val permission = context?.let { ContextCompat.checkSelfPermission(it, Manifest.permission.CAMERA) }
         if (permission != PackageManager.PERMISSION_GRANTED) {
             requestCameraPermission()
-            return
-        }
-        setUpCameraOutputs(width, height)
-        configureTransform(width, height)
-        val manager = context?.getSystemService(Context.CAMERA_SERVICE) as CameraManager
-        try {
-            // Wait for camera to open - 2.5 seconds is sufficient
-            if (!cameraOpenCloseLock.tryAcquire(2500, TimeUnit.MILLISECONDS)) {
-                throw RuntimeException("Time out waiting to lock camera opening.")
+        } else {
+            setUpCameraOutputs(width, height)
+            configureTransform(width, height)
+            val manager = context?.getSystemService(Context.CAMERA_SERVICE) as CameraManager
+            try {
+                // Wait for camera to open - 2.5 seconds is sufficient
+                if (!cameraOpenCloseLock.tryAcquire(2500, TimeUnit.MILLISECONDS)) {
+                    throw RuntimeException("Time out waiting to lock camera opening.")
+                }
+                manager.openCamera(cameraId, stateCallback, backgroundHandler)
+            } catch (e: CameraAccessException) {
+                Log.e(TAG, e.toString())
+            } catch (e: InterruptedException) {
+                throw RuntimeException("Interrupted while trying to lock camera opening.", e)
             }
-            manager.openCamera(cameraId, stateCallback, backgroundHandler)
-        } catch (e: CameraAccessException) {
-            Log.e(TAG, e.toString())
-        } catch (e: InterruptedException) {
-            throw RuntimeException("Interrupted while trying to lock camera opening.", e)
         }
-
     }
 
     /**
@@ -674,7 +644,6 @@ class Camera2Fragment : Fragment(), View.OnClickListener, ActivityCompat.OnReque
          * Conversion from screen rotation to JPEG orientation.
          */
         private val ORIENTATIONS = SparseIntArray()
-        private const val FRAGMENT_DIALOG = "dialog"
 
         init {
             ORIENTATIONS.append(Surface.ROTATION_0, 90)

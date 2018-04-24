@@ -19,6 +19,7 @@ const val BUNDLE_KEY_IS_LOG_IN = "is_user_log_in"
 const val CODE_REQUEST_CAMERA_PERMISSION = 1
 const val PIC_FILE_NAME = "photo.jpg"
 
+const val FRAGMENT_DIALOG = "dialog"
 const val TAG = "Camera2BasicFragment"
 
 //camera state: Showing camera preview.

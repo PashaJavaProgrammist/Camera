@@ -16,5 +16,9 @@
         android:id="@+id/navigation_qr"
         android:icon="@android:drawable/ic_menu_view"
         android:title="@string/title_qr" />
+    <item
+        android:id="@+id/navigation_settings"
+        android:icon="@android:drawable/ic_menu_manage"
+        android:title="@string/settings" />
 
 </menu>
