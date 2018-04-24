@@ -261,14 +261,14 @@ class Camera2Fragment : Fragment(), View.OnClickListener, ActivityCompat.OnReque
         if (shouldShowRequestPermissionRationale(Manifest.permission.CAMERA)) {
             ConfirmationDialog().show(childFragmentManager, FRAGMENT_DIALOG)
         } else {
-            requestPermissions(arrayOf(Manifest.permission.CAMERA), REQUEST_CAMERA_PERMISSION)
+            requestPermissions(arrayOf(Manifest.permission.CAMERA), CODE_REQUEST_CAMERA_PERMISSION)
         }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int,
                                             permissions: Array<String>,
                                             grantResults: IntArray) {
-        if (requestCode == REQUEST_CAMERA_PERMISSION) {
+        if (requestCode == CODE_REQUEST_CAMERA_PERMISSION) {
             if (grantResults.size != 1 || grantResults[0] != PackageManager.PERMISSION_GRANTED) {
                 ErrorDialog.newInstance(getString(R.string.request_permission))
                         .show(childFragmentManager, FRAGMENT_DIALOG)

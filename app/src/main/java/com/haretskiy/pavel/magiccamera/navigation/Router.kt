@@ -5,4 +5,6 @@ interface Router {
     fun goToCameraActivity(idToken: String)
 
     fun goToLoginActivity()
+
+    fun startSettingsActivity()
 }

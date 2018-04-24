@@ -2,6 +2,8 @@ package com.haretskiy.pavel.magiccamera.navigation
 
 import android.content.Context
 import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
 import com.haretskiy.pavel.magiccamera.KEY_BUNDLE_TOKEN
 import com.haretskiy.pavel.magiccamera.ui.activities.CameraActivity
 import com.haretskiy.pavel.magiccamera.ui.activities.LoginActivity
@@ -19,5 +21,11 @@ class RouterImpl(private val context: Context) : Router {
         val intent = Intent(context, LoginActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         context.startActivity(intent)
+    }
+
+    override fun startSettingsActivity() {
+        val openSettingsIntent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
+                Uri.parse("package:${context.packageName}"))
+        context.startActivity(openSettingsIntent)
     }
 }
