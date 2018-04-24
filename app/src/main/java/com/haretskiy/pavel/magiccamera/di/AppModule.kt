@@ -54,7 +54,7 @@ val cameraModule: Module = applicationContext {
     factory { CameraFragmentImpl() }
 }
 
-val modules = listOf(appModule, camera2Module)
+val modules = listOf(appModule, camera2Module, cameraModule)
 
 private fun signFragment(isSignIn: String): LoginFragment {
     val args = Bundle()
