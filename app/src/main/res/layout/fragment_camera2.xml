@@ -45,7 +45,7 @@
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_margin="4dp"
-        android:spinnerMode="dialog"
+        android:spinnerMode="dropdown"
         app:layout_constraintStart_toStartOf="@+id/texture"
         app:layout_constraintTop_toTopOf="@+id/texture" />
 
