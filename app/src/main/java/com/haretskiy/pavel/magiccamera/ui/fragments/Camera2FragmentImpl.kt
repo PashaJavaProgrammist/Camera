@@ -49,7 +49,6 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
     private lateinit var currentSizeOfScreen: Size
     private var sizesOfScreen: Array<Size> = arrayOf()
     private lateinit var configurationMap: StreamConfigurationMap
-    private val spinnerSizeAdapter by lazy { ArrayAdapter(context, R.layout.item_view, sizesOfScreen) }
 
     /**
      * [TextureView.SurfaceTextureListener] handles several lifecycle events on a [TextureView].
@@ -255,7 +254,8 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
         bt_take_picture.visibility = View.GONE
         bt_change_camera.visibility = View.GONE
         spinner_sizes.visibility = View.GONE
-        initSpinner()
+        initSpinnerListener()
+        initSpinnerAdapter(sizesOfScreen)
     }
 
     /** When the screen is turned off and turned back on, the SurfaceTexture is already
@@ -271,8 +271,12 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
         openCamera()
     }
 
-    private fun initSpinner() {
-        spinner_sizes.adapter = spinnerSizeAdapter
+    private fun initSpinnerAdapter(array: Array<Size>) {
+        spinner_sizes.adapter = null
+        spinner_sizes.adapter = ArrayAdapter(context, R.layout.item_view, array)
+    }
+
+    private fun initSpinnerListener() {
 
         spinner_sizes.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
@@ -340,7 +344,7 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
             sizesOfScreen = configurationMap.getOutputSizes(ImageFormat.JPEG)
             Arrays.sort(sizesOfScreen, comparatorSizesByArea)
             currentSizeOfScreen = Collections.max(Arrays.asList(*sizesOfScreen), comparatorSizesByArea)
-            spinnerSizeAdapter.notifyDataSetChanged()
+            initSpinnerAdapter(sizesOfScreen)
             /*
             // For still image captures, we use the largest available size.
             currentSizeOfScreen = Collections.max(Arrays.asList(*sizesOfScreen), comparatorSizesByArea)
@@ -556,6 +560,8 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
                                 captureSession?.setRepeatingRequest(previewRequest,
                                         captureCallback, backgroundHandler)
                             } catch (e: CameraAccessException) {
+                                Log.e(TAG, e.toString())
+                            } catch (e: Exception) {
                                 Log.e(TAG, e.toString())
                             }
 
