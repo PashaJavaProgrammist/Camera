@@ -257,11 +257,32 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
         activity?.window?.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         startBackgroundThread()
         choseCamera()
+        getAvailableSizes(cameraID)
+
         // When the screen is turned off and turned back on, the SurfaceTexture is already
         // available, and "onSurfaceTextureAvailable" will not be called. In that case, we can openCamera
         // a camera and start preview from here (otherwise, we wait until the surface is ready in
         // the SurfaceTextureListener).
-        bt_change_camera.setOnClickListener({ choseCamera() })
+        bt_change_camera.setOnClickListener({
+            choseCamera()
+            closeCamera()
+            openCamera()
+        })
+
+        spinner_sizes.adapter = ArrayAdapter(context, R.layout.item_view, sizesOfScreen)
+        spinner_sizes.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                currentSizeOfScreen = Collections.max(Arrays.asList(*sizesOfScreen), comparatorSizesByArea)
+                closeCamera()
+                openCamera()
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                currentSizeOfScreen = sizesOfScreen[position]
+                closeCamera()
+                openCamera()
+            }
+        }
     }
 
     private fun choseCamera() {
@@ -274,21 +295,8 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
                 else -> cameraIdList[0]
             }
         }
-        getAvailableSizes(cameraID)
-        spinner_sizes.adapter = ArrayAdapter(context, R.layout.item_view, sizesOfScreen)
-        spinner_sizes.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                currentSizeOfScreen = Collections.max(Arrays.asList(*sizesOfScreen), comparatorSizesByArea)
-            }
-
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                currentSizeOfScreen = sizesOfScreen[position]
-                closeCamera()
-                openCamera()
-            }
-        }
-        openCamera()
     }
+
 
     private fun openCamera() {
         if (texture.isAvailable) {
