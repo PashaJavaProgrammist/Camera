@@ -17,8 +17,6 @@ import android.util.Log
 import android.util.Size
 import android.util.SparseIntArray
 import android.view.*
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
 import com.haretskiy.pavel.magiccamera.utils.ComparatorSizesByArea
@@ -65,7 +63,7 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
     /**
      * ID of the current [CameraDevice].
      */
-    private lateinit var cameraID: String
+    private var cameraID: String = EMPTY_STRING
 
     /**
      * ID's of all [CameraDevice].
@@ -248,24 +246,26 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
     override fun onResume() {
         super.onResume()
         startBackgroundThread()
-
+        choseCamera()
         // When the screen is turned off and turned back on, the SurfaceTexture is already
         // available, and "onSurfaceTextureAvailable" will not be called. In that case, we can openCamera
         // a camera and start preview from here (otherwise, we wait until the surface is ready in
         // the SurfaceTextureListener).
-        spinner.adapter = ArrayAdapter(context, android.R.layout.simple_list_item_1, cameraIdList)
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onNothingSelected(parent: AdapterView<*>?) {
-                cameraID = cameraIdList[0]
-                openCamera()
-            }
+        bt_change_camera.setOnClickListener({ choseCamera() })
+    }
 
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                cameraID = cameraIdList[position]
-                closeCamera()
-                openCamera()
+    private fun choseCamera() {
+        if (cameraIdList.size == 1) {
+            cameraID = cameraIdList[0]
+        } else if (cameraIdList.size == 2) {
+            cameraID = when (cameraID) {
+                EMPTY_STRING -> cameraIdList[0]
+                cameraIdList[0] -> cameraIdList[1]
+                else -> cameraIdList[0]
             }
         }
+        closeCamera()
+        openCamera()
     }
 
     private fun openCamera() {
