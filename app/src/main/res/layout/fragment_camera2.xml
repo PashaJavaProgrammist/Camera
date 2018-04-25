@@ -17,4 +17,11 @@
         android:contentDescription="@string/title_camera"
         android:src="@android:drawable/ic_menu_camera" />
 
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="100dp"
+        android:layout_marginBottom="20dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end|bottom" />
+
 </FrameLayout>

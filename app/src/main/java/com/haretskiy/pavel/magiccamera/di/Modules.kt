@@ -4,6 +4,7 @@ import android.content.Context
 import android.hardware.camera2.CameraManager
 import android.os.Build
 import android.os.Bundle
+import android.support.annotation.RequiresApi
 import android.view.WindowManager
 import com.google.firebase.auth.FirebaseAuth
 import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_SIGN
@@ -37,12 +38,11 @@ val appModule: Module = applicationContext {
     factory { PermissionDialog() }
 }
 
+@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 val camera2Module: Module = applicationContext {
     factory { Camera2FragmentImpl() }
     factory {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             androidApplication().getSystemService(Context.CAMERA_SERVICE) as CameraManager
-        }
     }
     factory {
         androidApplication().getSystemService(Context.WINDOW_SERVICE) as WindowManager

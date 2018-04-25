@@ -2,7 +2,6 @@ package com.haretskiy.pavel.magiccamera.ui.fragments
 
 import android.Manifest
 import android.annotation.TargetApi
-import android.content.Context
 import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.*
@@ -18,6 +17,8 @@ import android.util.Log
 import android.util.Size
 import android.util.SparseIntArray
 import android.view.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
 import com.haretskiy.pavel.magiccamera.utils.ComparatorSizesByArea
@@ -37,6 +38,7 @@ import kotlin.collections.ArrayList
 class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
 
     private val windowManager: WindowManager by inject()
+    private val cameraManager: CameraManager by inject()
     private val toaster: Toaster by inject()
     private val imageSaver: ImageSaver by inject()
     private val permissionDialog: PermissionDialog by inject()
@@ -47,7 +49,7 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
     private val surfaceTextureListener = object : TextureView.SurfaceTextureListener {
 
         override fun onSurfaceTextureAvailable(texture: SurfaceTexture, width: Int, height: Int) {
-            openCamera(width, height)
+            openCamera(cameraID, width, height)
         }
 
         override fun onSurfaceTextureSizeChanged(texture: SurfaceTexture, width: Int, height: Int) {
@@ -63,7 +65,12 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
     /**
      * ID of the current [CameraDevice].
      */
-    private lateinit var cameraId: String
+    private lateinit var cameraID: String
+
+    /**
+     * ID's of all [CameraDevice].
+     */
+    private lateinit var cameraIdList: Array<String>
 
     /**
      * A [CameraCaptureSession] for camera preview.
@@ -99,7 +106,7 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
 
         override fun onError(cameraDevice: CameraDevice, error: Int) {
             onDisconnected(cameraDevice)
-            this@Camera2FragmentImpl.texture.visibility = View.GONE
+//            this@Camera2FragmentImpl.texture.visibility = View.GONE
             toaster.showToast("Camera Device error", false)
         }
 
@@ -225,6 +232,11 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
 
     }
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        getAvailableCameras()
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View? = inflater.inflate(R.layout.fragment_camera2, container, false)
 
@@ -238,11 +250,27 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
         startBackgroundThread()
 
         // When the screen is turned off and turned back on, the SurfaceTexture is already
-        // available, and "onSurfaceTextureAvailable" will not be called. In that case, we can open
+        // available, and "onSurfaceTextureAvailable" will not be called. In that case, we can openCamera
         // a camera and start preview from here (otherwise, we wait until the surface is ready in
         // the SurfaceTextureListener).
+        spinner.adapter = ArrayAdapter(context, android.R.layout.simple_list_item_1, cameraIdList)
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                cameraID = cameraIdList[0]
+                openCamera()
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                cameraID = cameraIdList[position]
+                closeCamera()
+                openCamera()
+            }
+        }
+    }
+
+    private fun openCamera() {
         if (texture.isAvailable) {
-            openCamera(texture.width, texture.height)
+            openCamera(cameraID, texture.width, texture.height)
         } else {
             texture.surfaceTextureListener = surfaceTextureListener
         }
@@ -254,79 +282,77 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
         super.onPause()
     }
 
+    private fun getAvailableCameras() {
+        this.cameraIdList = cameraManager.cameraIdList
+    }
+
     /**
      * Sets up member variables related to camera.
      *
      * @param width  The width of available size for camera preview
      * @param height The height of available size for camera preview
      */
-    private fun setUpCameraOutputs(width: Int, height: Int) {
-        val manager = context?.getSystemService(Context.CAMERA_SERVICE) as CameraManager
+    private fun setUpCameraOutputs(cameraId: String, width: Int, height: Int) {
         try {
-            for (cameraId in manager.cameraIdList) {
-                val characteristics = manager.getCameraCharacteristics(cameraId)
+            val characteristics = cameraManager.getCameraCharacteristics(cameraId)
 
-                // We don't use a front facing camera in this sample.
-                val cameraDirection = characteristics.get(CameraCharacteristics.LENS_FACING)
-                if (cameraDirection != null &&
-                        cameraDirection == CameraCharacteristics.LENS_FACING_FRONT) {
-                    continue
-                }
+//            // if you don't want use a front facing camera in this sample.
+//            val cameraDirection = characteristics.get(CameraCharacteristics.LENS_FACING)
+//            if (cameraDirection != null && cameraDirection == CameraCharacteristics.LENS_FACING_FRONT) {
+//                return
+//            }
 
-                val map = characteristics.get(
-                        CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP) ?: continue
+            val map = characteristics.get(
+                    CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP) ?: return
 
-                // For still image captures, we use the largest available size.
-                val largest = Collections.max(
-                        Arrays.asList(*map.getOutputSizes(ImageFormat.JPEG)),
-                        ComparatorSizesByArea())
-                imageReader = ImageReader.newInstance(largest.width, largest.height,
-                        ImageFormat.JPEG, /*maxImages*/ 2).apply {
-                    setOnImageAvailableListener(onImageAvailableListener, backgroundHandler)
-                }
-
-                // Find out if we need to swap dimension to get the preview size relative to sensor
-                // coordinate.
-                var displayRotation = windowManager.defaultDisplay?.rotation
-                sensorOrientation = characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION)
-                if (displayRotation == null) displayRotation = 0
-                val swappedDimensions = areDimensionsSwapped(displayRotation)
-
-                val displaySize = Point()
-                windowManager.defaultDisplay?.getSize(displaySize)
-                val rotatedPreviewWidth = if (swappedDimensions) height else width
-                val rotatedPreviewHeight = if (swappedDimensions) width else height
-                var maxPreviewWidth = if (swappedDimensions) displaySize.y else displaySize.x
-                var maxPreviewHeight = if (swappedDimensions) displaySize.x else displaySize.y
-
-                if (maxPreviewWidth > MAX_PREVIEW_WIDTH) maxPreviewWidth = MAX_PREVIEW_WIDTH
-                if (maxPreviewHeight > MAX_PREVIEW_HEIGHT) maxPreviewHeight = MAX_PREVIEW_HEIGHT
-
-                // Danger, W.R.! Attempting to use too large a preview size could  exceed the camera
-                // bus' bandwidth limitation, resulting in gorgeous previews but the storage of
-                // garbage capture data.
-                previewSize = chooseOptimalSize(map.getOutputSizes(SurfaceTexture::class.java),
-                        rotatedPreviewWidth, rotatedPreviewHeight,
-                        maxPreviewWidth, maxPreviewHeight,
-                        largest)
-
-                // We fit the aspect ratio of TextureView to the size of preview we picked.
-                if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                    texture.setAspectRatio(previewSize.width, previewSize.height)
-                } else {
-                    texture.setAspectRatio(previewSize.height, previewSize.width)
-                }
-
-                // Check if the flash is supported.
-                flashSupported =
-                        characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE) == true
-
-                this.cameraId = cameraId
-
-                // We've found a viable camera and finished setting up member variables,
-                // so we don't need to iterate through other available cameras.
-                return
+            // For still image captures, we use the largest available size.
+            val largest = Collections.max(
+                    Arrays.asList(*map.getOutputSizes(ImageFormat.JPEG)),
+                    ComparatorSizesByArea())
+            imageReader = ImageReader.newInstance(largest.width, largest.height,
+                    ImageFormat.JPEG, /*maxImages*/ 2).apply {
+                setOnImageAvailableListener(onImageAvailableListener, backgroundHandler)
             }
+
+            // Find out if we need to swap dimension to get the preview size relative to sensor
+            // coordinate.
+            var displayRotation = windowManager.defaultDisplay?.rotation
+            sensorOrientation = characteristics.get(CameraCharacteristics.SENSOR_ORIENTATION)
+            if (displayRotation == null) displayRotation = 0
+            val swappedDimensions = areDimensionsSwapped(displayRotation)
+
+            val displaySize = Point()
+            windowManager.defaultDisplay?.getSize(displaySize)
+            val rotatedPreviewWidth = if (swappedDimensions) height else width
+            val rotatedPreviewHeight = if (swappedDimensions) width else height
+            var maxPreviewWidth = if (swappedDimensions) displaySize.y else displaySize.x
+            var maxPreviewHeight = if (swappedDimensions) displaySize.x else displaySize.y
+
+            if (maxPreviewWidth > MAX_PREVIEW_WIDTH) maxPreviewWidth = MAX_PREVIEW_WIDTH
+            if (maxPreviewHeight > MAX_PREVIEW_HEIGHT) maxPreviewHeight = MAX_PREVIEW_HEIGHT
+
+            // Danger, W.R.! Attempting to use too large a preview size could  exceed the camera
+            // bus' bandwidth limitation, resulting in gorgeous previews but the storage of
+            // garbage capture data.
+            previewSize = chooseOptimalSize(map.getOutputSizes(SurfaceTexture::class.java),
+                    rotatedPreviewWidth, rotatedPreviewHeight,
+                    maxPreviewWidth, maxPreviewHeight,
+                    largest)
+
+            // We fit the aspect ratio of TextureView to the size of preview we picked.
+            if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                texture.setAspectRatio(previewSize.width, previewSize.height)
+            } else {
+                texture.setAspectRatio(previewSize.height, previewSize.width)
+            }
+
+            // Check if the flash is supported.
+            flashSupported =
+                    characteristics.get(CameraCharacteristics.FLASH_INFO_AVAILABLE) == true
+
+            // We've found a viable camera and finished setting up member variables,
+            // so we don't need to iterate through other available cameras.
+
         } catch (e: CameraAccessException) {
             Log.e(TAG, e.toString())
         } catch (e: NullPointerException) {
@@ -365,22 +391,21 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
     }
 
     /**
-     * Opens the camera specified by [Camera2FragmentImpl.cameraId].
+     * Opens the camera specified by [Camera2FragmentImpl.cameraID].
      */
-    private fun openCamera(width: Int, height: Int) {
+    private fun openCamera(cameraId: String, width: Int, height: Int) {
         val permission = context?.let { ContextCompat.checkSelfPermission(it, Manifest.permission.CAMERA) }
         if (permission != PackageManager.PERMISSION_GRANTED) {
             requestCameraPermission()
         } else {
-            setUpCameraOutputs(width, height)
+            setUpCameraOutputs(cameraId, width, height)
             configureTransform(width, height)
-            val manager = context?.getSystemService(Context.CAMERA_SERVICE) as CameraManager
             try {
-                // Wait for camera to open - 2.5 seconds is sufficient
+                // Wait for camera to openCamera - 2.5 seconds is sufficient
                 if (!cameraOpenCloseLock.tryAcquire(2500, TimeUnit.MILLISECONDS)) {
                     throw RuntimeException("Time out waiting to lock camera opening.")
                 }
-                manager.openCamera(cameraId, stateCallback, backgroundHandler)
+                cameraManager.openCamera(cameraId, stateCallback, backgroundHandler)
             } catch (e: CameraAccessException) {
                 Log.e(TAG, e.toString())
             } catch (e: InterruptedException) {
