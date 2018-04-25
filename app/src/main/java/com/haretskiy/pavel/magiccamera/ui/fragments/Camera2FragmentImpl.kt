@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.content.res.Configuration
 import android.graphics.*
 import android.hardware.camera2.*
+import android.hardware.camera2.params.StreamConfigurationMap
 import android.media.ImageReader
 import android.os.Build
 import android.os.Bundle
@@ -17,6 +18,8 @@ import android.util.Log
 import android.util.Size
 import android.util.SparseIntArray
 import android.view.*
+import android.widget.AdapterView
+import android.widget.ArrayAdapter
 import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
 import com.haretskiy.pavel.magiccamera.utils.ComparatorSizesByArea
@@ -39,7 +42,13 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
     private val cameraManager: CameraManager by inject()
     private val toaster: Toaster by inject()
     private val imageSaver: ImageSaver by inject()
+    private val comparatorSizesByArea: ComparatorSizesByArea by inject()
     private val permissionDialog: PermissionDialog by inject()
+
+    private lateinit var currentSizeOfScreen: Size
+    private lateinit var sizesOfScreen: Array<Size>
+    private lateinit var configurationMap: StreamConfigurationMap
+
 
     /**
      * [TextureView.SurfaceTextureListener] handles several lifecycle events on a [TextureView].
@@ -265,6 +274,19 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
             }
         }
         closeCamera()
+        getAvailableSizes(cameraID)
+        spinner_sizes.adapter = ArrayAdapter(context, R.layout.item_view, sizesOfScreen)
+        spinner_sizes.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                currentSizeOfScreen = Collections.max(Arrays.asList(*sizesOfScreen), comparatorSizesByArea)
+            }
+
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                currentSizeOfScreen = sizesOfScreen[position]
+                closeCamera()
+                openCamera()
+            }
+        }
         openCamera()
     }
 
@@ -286,6 +308,26 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
         this.cameraIdList = cameraManager.cameraIdList
     }
 
+    private fun getAvailableSizes(id: String) {
+        try {
+            val characteristics = cameraManager.getCameraCharacteristics(id)
+            configurationMap = characteristics.get(
+                    CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP) ?: return
+            sizesOfScreen = configurationMap.getOutputSizes(ImageFormat.JPEG)
+            currentSizeOfScreen = Collections.max(Arrays.asList(*sizesOfScreen), comparatorSizesByArea)
+            /*
+            // For still image captures, we use the largest available size.
+            currentSizeOfScreen = Collections.max(Arrays.asList(*sizesOfScreen), comparatorSizesByArea)
+            */
+        } catch (e: CameraAccessException) {
+            Log.e(TAG, e.toString())
+        } catch (e: NullPointerException) {
+            // Currently an NPE is thrown when the Camera2API is used but not supported on the
+            // device this code runs.
+            Log.e(TAG, e.toString())
+        }
+    }
+
     /**
      * Sets up member variables related to camera.
      *
@@ -296,20 +338,7 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
         try {
             val characteristics = cameraManager.getCameraCharacteristics(cameraId)
 
-//            // if you don't want use a front facing camera in this sample.
-//            val cameraDirection = characteristics.get(CameraCharacteristics.LENS_FACING)
-//            if (cameraDirection != null && cameraDirection == CameraCharacteristics.LENS_FACING_FRONT) {
-//                return
-//            }
-
-            val map = characteristics.get(
-                    CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP) ?: return
-
-            // For still image captures, we use the largest available size.
-            val largest = Collections.max(
-                    Arrays.asList(*map.getOutputSizes(ImageFormat.JPEG)),
-                    ComparatorSizesByArea())
-            imageReader = ImageReader.newInstance(largest.width, largest.height,
+            imageReader = ImageReader.newInstance(currentSizeOfScreen.width, currentSizeOfScreen.height,
                     ImageFormat.JPEG, /*maxImages*/ 2).apply {
                 setOnImageAvailableListener(onImageAvailableListener, backgroundHandler)
             }
@@ -334,10 +363,9 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
             // Danger, W.R.! Attempting to use too large a preview size could  exceed the camera
             // bus' bandwidth limitation, resulting in gorgeous previews but the storage of
             // garbage capture data.
-            previewSize = chooseOptimalSize(map.getOutputSizes(SurfaceTexture::class.java),
+            previewSize = chooseOptimalSize(configurationMap.getOutputSizes(SurfaceTexture::class.java),
                     rotatedPreviewWidth, rotatedPreviewHeight,
-                    maxPreviewWidth, maxPreviewHeight,
-                    largest)
+                    maxPreviewWidth, maxPreviewHeight, currentSizeOfScreen)
 
             // We fit the aspect ratio of TextureView to the size of preview we picked.
             if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -717,8 +745,8 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
         // Pick the smallest of those big enough. If there is no one big enough, pick the
         // largest of those not big enough.
         return when {
-            bigEnough.size > 0 -> Collections.min(bigEnough, ComparatorSizesByArea())
-            notBigEnough.size > 0 -> Collections.max(notBigEnough, ComparatorSizesByArea())
+            bigEnough.size > 0 -> Collections.min(bigEnough, comparatorSizesByArea)
+            notBigEnough.size > 0 -> Collections.max(notBigEnough, comparatorSizesByArea)
             else -> {
                 Log.e(TAG, "Couldn't find any suitable preview size")
                 choices[0]

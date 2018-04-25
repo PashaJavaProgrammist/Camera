@@ -12,6 +12,7 @@ import com.haretskiy.pavel.magiccamera.navigation.Router
 import com.haretskiy.pavel.magiccamera.navigation.RouterImpl
 import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
 import com.haretskiy.pavel.magiccamera.ui.fragments.*
+import com.haretskiy.pavel.magiccamera.utils.ComparatorSizesByArea
 import com.haretskiy.pavel.magiccamera.utils.ImageSaver
 import com.haretskiy.pavel.magiccamera.utils.Prefs
 import com.haretskiy.pavel.magiccamera.utils.Toaster
@@ -48,6 +49,7 @@ val camera2Module: Module = applicationContext {
         androidApplication().getSystemService(Context.WINDOW_SERVICE) as WindowManager
     }
     factory { ImageSaver(androidApplication()) }
+    factory { ComparatorSizesByArea() }
 }
 
 val cameraModule: Module = applicationContext {
