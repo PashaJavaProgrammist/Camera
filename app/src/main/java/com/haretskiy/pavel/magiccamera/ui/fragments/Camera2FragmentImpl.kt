@@ -55,7 +55,7 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
     private val surfaceTextureListener = object : TextureView.SurfaceTextureListener {
 
         override fun onSurfaceTextureAvailable(texture: SurfaceTexture, width: Int, height: Int) {
-            openCamera(cameraID, width, height)
+            openCamera(currentCameraID, width, height)
         }
 
         override fun onSurfaceTextureSizeChanged(texture: SurfaceTexture, width: Int, height: Int) {
@@ -71,7 +71,7 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
     /**
      * ID of the current [CameraDevice].
      */
-    private var cameraID: String = EMPTY_STRING
+    private var currentCameraID: String = EMPTY_STRING
 
     /**
      * ID's of all [CameraDevice].
@@ -241,6 +241,7 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         getAvailableCameras()
+        currentCameraID = savedInstanceState?.getString(KEY_BUNDLE_CURRENT_CAMERA_ID, EMPTY_STRING) ?: EMPTY_STRING
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -257,8 +258,8 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
         super.onResume()
         activity?.window?.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         startBackgroundThread()
-        choseCamera()
-        getAvailableSizes(cameraID)
+        choseCamera(false)
+        getAvailableSizes(currentCameraID)
         openCamera()
 
         // When the screen is turned off and turned back on, the SurfaceTexture is already
@@ -284,21 +285,35 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
         }
     }
 
-    private fun choseCamera() {
-        if (cameraIdList.size == 1) {
-            cameraID = cameraIdList[0]
-        } else if (cameraIdList.size == 2) {
-            cameraID = when (cameraID) {
-                EMPTY_STRING -> cameraIdList[0]
-                cameraIdList[0] -> cameraIdList[1]
-                else -> cameraIdList[0]
+    private fun choseCamera(byButton: Boolean) {
+        if (byButton) {
+            if (cameraIdList.size == 1) {
+                currentCameraID = cameraIdList[0]
+            } else if (cameraIdList.size == 2) {
+                currentCameraID = when (currentCameraID) {
+                    EMPTY_STRING -> cameraIdList[0]
+                    cameraIdList[0] -> cameraIdList[1]
+                    else -> cameraIdList[0]
+                }
+            }
+        } else {
+            if (currentCameraID == EMPTY_STRING) {
+                if (cameraIdList.size == 1) {
+                    currentCameraID = cameraIdList[0]
+                } else if (cameraIdList.size == 2) {
+                    currentCameraID = when (currentCameraID) {
+                        EMPTY_STRING -> cameraIdList[0]
+                        cameraIdList[0] -> cameraIdList[1]
+                        else -> cameraIdList[0]
+                    }
+                }
             }
         }
     }
 
     private fun openCamera() {
         if (texture.isAvailable) {
-            openCamera(cameraID, texture.width, texture.height)
+            openCamera(currentCameraID, texture.width, texture.height)
         } else {
             texture.surfaceTextureListener = surfaceTextureListener
         }
@@ -309,6 +324,11 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
         stopBackgroundThread()
         super.onPause()
         activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putString(KEY_BUNDLE_CURRENT_CAMERA_ID, currentCameraID)
     }
 
     private fun getAvailableCameras() {
@@ -428,7 +448,7 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
     }
 
     /**
-     * Opens the camera specified by [Camera2FragmentImpl.cameraID].
+     * Opens the camera specified by [Camera2FragmentImpl.currentCameraID].
      */
     private fun openCamera(cameraId: String, width: Int, height: Int) {
         val permission = context?.let { ContextCompat.checkSelfPermission(it, Manifest.permission.CAMERA) }
@@ -705,8 +725,8 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
 
     private fun changeCamera() {
         closeCamera()
-        choseCamera()
-        getAvailableSizes(cameraID)
+        choseCamera(true)
+        getAvailableSizes(currentCameraID)
         openCamera()
     }
 
