@@ -26,7 +26,6 @@ import com.haretskiy.pavel.magiccamera.utils.ComparatorSizesByArea
 import com.haretskiy.pavel.magiccamera.utils.ImageSaver
 import com.haretskiy.pavel.magiccamera.utils.Toaster
 import kotlinx.android.synthetic.main.fragment_camera2.*
-import kotlinx.android.synthetic.main.fragment_camera2.view.*
 import org.koin.android.ext.android.inject
 import java.io.File
 import java.util.Arrays
@@ -46,9 +45,9 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
     private val permissionDialog: PermissionDialog by inject()
 
     private lateinit var currentSizeOfScreen: Size
-    private lateinit var sizesOfScreen: Array<Size>
+    private var sizesOfScreen: Array<Size> = arrayOf()
     private lateinit var configurationMap: StreamConfigurationMap
-
+    private val spinnerSizeAdapter by lazy { ArrayAdapter(context, R.layout.item_view, sizesOfScreen) }
 
     /**
      * [TextureView.SurfaceTextureListener] handles several lifecycle events on a [TextureView].
@@ -248,7 +247,7 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
     ): View? = inflater.inflate(R.layout.fragment_camera2, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        view.bt_take_picture.setOnClickListener(this)
+        bt_take_picture.setOnClickListener(this)
         bt_take_picture.visibility = View.GONE
     }
 
@@ -258,28 +257,30 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
         startBackgroundThread()
         choseCamera()
         getAvailableSizes(cameraID)
+        openCamera()
 
         // When the screen is turned off and turned back on, the SurfaceTexture is already
         // available, and "onSurfaceTextureAvailable" will not be called. In that case, we can openCamera
         // a camera and start preview from here (otherwise, we wait until the surface is ready in
         // the SurfaceTextureListener).
         bt_change_camera.setOnClickListener({
-            choseCamera()
             closeCamera()
+            choseCamera()
+            getAvailableSizes(cameraID)
             openCamera()
         })
 
-        spinner_sizes.adapter = ArrayAdapter(context, R.layout.item_view, sizesOfScreen)
+        spinner_sizes.adapter = spinnerSizeAdapter
         spinner_sizes.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
-                currentSizeOfScreen = Collections.max(Arrays.asList(*sizesOfScreen), comparatorSizesByArea)
-                closeCamera()
-                openCamera()
+//                closeCamera()
+//                currentSizeOfScreen = Collections.max(Arrays.asList(*sizesOfScreen), comparatorSizesByArea)
+//                openCamera()
             }
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                currentSizeOfScreen = sizesOfScreen[position]
                 closeCamera()
+                currentSizeOfScreen = sizesOfScreen[position]
                 openCamera()
             }
         }
@@ -296,7 +297,6 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
             }
         }
     }
-
 
     private fun openCamera() {
         if (texture.isAvailable) {
@@ -323,7 +323,9 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
             configurationMap = characteristics.get(
                     CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP) ?: return
             sizesOfScreen = configurationMap.getOutputSizes(ImageFormat.JPEG)
+            Arrays.sort(sizesOfScreen, comparatorSizesByArea)
             currentSizeOfScreen = Collections.max(Arrays.asList(*sizesOfScreen), comparatorSizesByArea)
+            spinnerSizeAdapter.notifyDataSetChanged()
             /*
             // For still image captures, we use the largest available size.
             currentSizeOfScreen = Collections.max(Arrays.asList(*sizesOfScreen), comparatorSizesByArea)
@@ -449,6 +451,8 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
                 throw RuntimeException("Interrupted while trying to lock camera opening.", e)
             }
             bt_take_picture.visibility = View.VISIBLE
+            bt_change_camera.visibility = View.VISIBLE
+            spinner_sizes.visibility = View.VISIBLE
         }
     }
 
@@ -465,6 +469,8 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
             imageReader?.close()
             imageReader = null
             bt_take_picture.visibility = View.GONE
+            bt_change_camera.visibility = View.GONE
+            spinner_sizes.visibility = View.GONE
         } catch (e: InterruptedException) {
             throw RuntimeException("Interrupted while trying to lock camera closing.", e)
         } finally {
