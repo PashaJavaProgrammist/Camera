@@ -263,14 +263,10 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
         // available, and "onSurfaceTextureAvailable" will not be called. In that case, we can openCamera
         // a camera and start preview from here (otherwise, we wait until the surface is ready in
         // the SurfaceTextureListener).
-        bt_change_camera.setOnClickListener({
-            closeCamera()
-            choseCamera()
-            getAvailableSizes(cameraID)
-            openCamera()
-        })
+        bt_change_camera.setOnClickListener(this)
 
         spinner_sizes.adapter = spinnerSizeAdapter
+
         spinner_sizes.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
 //                closeCamera()
@@ -701,7 +697,15 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
     override fun onClick(view: View) {
         when (view.id) {
             R.id.bt_take_picture -> takePicture()
+            R.id.bt_change_camera -> changeCamera()
         }
+    }
+
+    private fun changeCamera() {
+        closeCamera()
+        choseCamera()
+        getAvailableSizes(cameraID)
+        openCamera()
     }
 
     private fun setAutoFlash(requestBuilder: CaptureRequest.Builder) {
