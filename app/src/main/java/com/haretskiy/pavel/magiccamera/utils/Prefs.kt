@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
 import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_IS_LOG_IN
+import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_PREFS_CAMERA_SIZE
 
 
 class Prefs(context: Context) {
@@ -23,6 +24,13 @@ class Prefs(context: Context) {
     }
 
     fun isUserLogIn() = getBoolean(BUNDLE_KEY_IS_LOG_IN, false)
+
+    fun saveCameraScreenSize(cameraID: String, sizePosition: Int) {
+        save("${BUNDLE_KEY_PREFS_CAMERA_SIZE}_$cameraID", sizePosition)
+    }
+
+    fun getCameraScreenSizePosition(cameraID: String) = getInt("${BUNDLE_KEY_PREFS_CAMERA_SIZE}_$cameraID", -1)
+
 
     //Prefs methods
     private fun save(key: String, value: Boolean) {
