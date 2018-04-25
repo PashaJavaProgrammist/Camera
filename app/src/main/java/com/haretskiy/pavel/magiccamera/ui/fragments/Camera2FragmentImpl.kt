@@ -251,11 +251,17 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         bt_take_picture.setOnClickListener(this)
+        bt_change_camera.setOnClickListener(this)
         bt_take_picture.visibility = View.GONE
         bt_change_camera.visibility = View.GONE
         spinner_sizes.visibility = View.GONE
+        initSpinner()
     }
 
+    /** When the screen is turned off and turned back on, the SurfaceTexture is already
+    available, and "onSurfaceTextureAvailable" will not be called. In that case, we can openCamera
+    a camera and start preview from here (otherwise, we wait until the surface is ready in
+    the SurfaceTextureListener).*/
     override fun onResume() {
         super.onResume()
         activity?.window?.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
@@ -263,13 +269,9 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
         choseCamera(false)
         getAvailableSizes(currentCameraID)
         openCamera()
+    }
 
-        // When the screen is turned off and turned back on, the SurfaceTexture is already
-        // available, and "onSurfaceTextureAvailable" will not be called. In that case, we can openCamera
-        // a camera and start preview from here (otherwise, we wait until the surface is ready in
-        // the SurfaceTextureListener).
-        bt_change_camera.setOnClickListener(this)
-
+    private fun initSpinner() {
         spinner_sizes.adapter = spinnerSizeAdapter
 
         spinner_sizes.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -564,6 +566,8 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
                         }
                     }, null)
         } catch (e: CameraAccessException) {
+            Log.e(TAG, e.toString())
+        } catch (e: Exception) {
             Log.e(TAG, e.toString())
         }
 
