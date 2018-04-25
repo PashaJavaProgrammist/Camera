@@ -287,7 +287,10 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 closeCamera()
-                currentSizeOfScreen = sizesOfScreen[position]
+                if (position != 0) {
+                    currentSizeOfScreen = sizesOfScreen[position]
+                    prefs.saveCameraScreenSize(currentCameraID, position)
+                }
                 openCamera()
             }
         }
@@ -343,7 +346,13 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
                     CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP) ?: return
             sizesOfScreen = configurationMap.getOutputSizes(ImageFormat.JPEG)
             Arrays.sort(sizesOfScreen, comparatorSizesByArea)
-            currentSizeOfScreen = Collections.max(Arrays.asList(*sizesOfScreen), comparatorSizesByArea)
+            val pos = prefs.getCameraScreenSizePosition(currentCameraID)
+            if (pos != -1) {
+                currentSizeOfScreen = sizesOfScreen[pos]
+                Handler().post({ spinner_sizes.setSelection(pos) })
+            } else {
+                currentSizeOfScreen = Collections.max(Arrays.asList(*sizesOfScreen), comparatorSizesByArea)
+            }
             initSpinnerAdapter(sizesOfScreen)
             /*
             // For still image captures, we use the largest available size.
