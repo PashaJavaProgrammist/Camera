@@ -38,7 +38,7 @@ class BorderTextView @JvmOverloads constructor(context: Context, attrs: Attribut
         }
     }
 
-    fun setStroke(width: Float, color: Int, join: Paint.Join?, miter: Float) {
+    private fun setStroke(width: Float, color: Int, join: Paint.Join?, miter: Float) {
         strokeWidth = width
         strokeColor = color
         strokeJoin = join
