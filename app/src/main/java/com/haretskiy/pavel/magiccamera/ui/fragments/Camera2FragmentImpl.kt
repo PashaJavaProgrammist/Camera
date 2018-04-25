@@ -24,6 +24,7 @@ import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
 import com.haretskiy.pavel.magiccamera.utils.ComparatorSizesByArea
 import com.haretskiy.pavel.magiccamera.utils.ImageSaver
+import com.haretskiy.pavel.magiccamera.utils.Prefs
 import com.haretskiy.pavel.magiccamera.utils.Toaster
 import kotlinx.android.synthetic.main.fragment_camera2.*
 import org.koin.android.ext.android.inject
@@ -43,6 +44,7 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
     private val imageSaver: ImageSaver by inject()
     private val comparatorSizesByArea: ComparatorSizesByArea by inject()
     private val permissionDialog: PermissionDialog by inject()
+    private val prefs: Prefs by inject()
 
     private lateinit var currentSizeOfScreen: Size
     private var sizesOfScreen: Array<Size> = arrayOf()
