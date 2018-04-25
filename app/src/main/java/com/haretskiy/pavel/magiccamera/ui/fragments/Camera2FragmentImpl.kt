@@ -249,6 +249,8 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         bt_take_picture.setOnClickListener(this)
         bt_take_picture.visibility = View.GONE
+        bt_change_camera.visibility = View.GONE
+        spinner_sizes.visibility = View.GONE
     }
 
     override fun onResume() {
