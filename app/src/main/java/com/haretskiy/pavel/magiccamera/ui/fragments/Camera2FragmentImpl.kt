@@ -254,6 +254,7 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
 
     override fun onResume() {
         super.onResume()
+        activity?.window?.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         startBackgroundThread()
         choseCamera()
         // When the screen is turned off and turned back on, the SurfaceTexture is already
@@ -273,7 +274,6 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
                 else -> cameraIdList[0]
             }
         }
-        closeCamera()
         getAvailableSizes(cameraID)
         spinner_sizes.adapter = ArrayAdapter(context, R.layout.item_view, sizesOfScreen)
         spinner_sizes.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
@@ -302,6 +302,7 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
         closeCamera()
         stopBackgroundThread()
         super.onPause()
+        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
     }
 
     private fun getAvailableCameras() {
