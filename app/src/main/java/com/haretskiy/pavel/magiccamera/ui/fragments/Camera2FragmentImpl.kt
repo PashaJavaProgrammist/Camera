@@ -472,9 +472,8 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
             val surface = Surface(texture)
 
             // We set up a CaptureRequest.Builder with the output Surface.
-            previewRequestBuilder = cameraDevice!!.createCaptureRequest(
-                    CameraDevice.TEMPLATE_PREVIEW
-            )
+            val previewRequestB = cameraDevice?.createCaptureRequest(CameraDevice.TEMPLATE_PREVIEW)
+            if (previewRequestB != null) previewRequestBuilder = previewRequestB
             previewRequestBuilder.addTarget(surface)
 
             // Here, we create a CameraCaptureSession for camera preview.

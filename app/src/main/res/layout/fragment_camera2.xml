@@ -40,6 +40,7 @@
         android:layout_marginTop="8dp"
         android:src="@android:drawable/stat_notify_sync_noanim"
         app:layout_constraintEnd_toEndOf="@+id/texture"
-        app:layout_constraintTop_toTopOf="@+id/texture" />
+        app:layout_constraintTop_toTopOf="@+id/texture"
+        android:contentDescription="@string/app_name" />
 
 </android.support.constraint.ConstraintLayout>
