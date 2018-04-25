@@ -286,27 +286,20 @@ class Camera2FragmentImpl : Fragment(), View.OnClickListener, Camera {
     }
 
     private fun choseCamera(byButton: Boolean) {
-        if (byButton) {
-            if (cameraIdList.size == 1) {
-                currentCameraID = cameraIdList[0]
-            } else if (cameraIdList.size == 2) {
-                currentCameraID = when (currentCameraID) {
-                    EMPTY_STRING -> cameraIdList[0]
-                    cameraIdList[0] -> cameraIdList[1]
-                    else -> cameraIdList[0]
-                }
-            }
-        } else {
-            if (currentCameraID == EMPTY_STRING) {
-                if (cameraIdList.size == 1) {
-                    currentCameraID = cameraIdList[0]
-                } else if (cameraIdList.size == 2) {
-                    currentCameraID = when (currentCameraID) {
-                        EMPTY_STRING -> cameraIdList[0]
-                        cameraIdList[0] -> cameraIdList[1]
-                        else -> cameraIdList[0]
-                    }
-                }
+        when (byButton) {
+            true -> choseCamera()
+            false -> if (currentCameraID == EMPTY_STRING) choseCamera()
+        }
+    }
+
+    private fun choseCamera() {
+        if (cameraIdList.size == 1) {
+            currentCameraID = cameraIdList[0]
+        } else if (cameraIdList.size == 2) {
+            currentCameraID = when (currentCameraID) {
+                EMPTY_STRING -> cameraIdList[0]
+                cameraIdList[0] -> cameraIdList[1]
+                else -> cameraIdList[0]
             }
         }
     }
