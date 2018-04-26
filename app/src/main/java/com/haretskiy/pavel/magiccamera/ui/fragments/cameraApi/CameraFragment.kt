@@ -11,12 +11,14 @@ import android.view.*
 import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_CAMERA1_ID
 import com.haretskiy.pavel.magiccamera.FULL_SCREEN
 import com.haretskiy.pavel.magiccamera.R
+import com.haretskiy.pavel.magiccamera.utils.ImageSaver
 import kotlinx.android.synthetic.main.fragment_camera.*
 import org.koin.android.ext.android.inject
 
 class CameraFragment : Fragment() {
 
     private val holderCallback: HolderCallback by inject()
+    private val imageSaver: ImageSaver by inject()
     private var cameras = 0
 
     private var holder: SurfaceHolder? = null
@@ -157,7 +159,11 @@ class CameraFragment : Fragment() {
     }
 
     private fun takePicture() {
-
+        camera?.takePicture(null, null, Camera.PictureCallback { data, _ ->
+            imageSaver.saveImageApi1(data)
+            surfaceView.visibility = View.GONE
+            surfaceView.visibility = View.VISIBLE
+        })
     }
 
 }

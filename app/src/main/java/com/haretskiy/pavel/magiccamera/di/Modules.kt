@@ -55,7 +55,7 @@ val camera2Module: Module = applicationContext {
     factory {
         androidApplication().getSystemService(Context.WINDOW_SERVICE) as WindowManager
     }
-    factory { ImageSaver(androidApplication()) }
+    factory { ImageSaver(androidApplication(), get()) }
     factory { ComparatorSizesByArea() }
     factory { Camera2Helper(androidApplication(), get(), get(), get(), get(), get()) }
 }

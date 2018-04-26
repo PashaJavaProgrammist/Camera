@@ -83,7 +83,7 @@ class Camera2Helper(
      * still image is ready to be saved.
      */
     private val onImageAvailableListener = ImageReader.OnImageAvailableListener {
-        imageSaver.saveImage(it.acquireNextImage(), file)
+        imageSaver.saveImageApi2(it.acquireNextImage(), file)
     }
 
     /**
@@ -489,8 +489,7 @@ class Camera2Helper(
                     CameraMetadata.CONTROL_AF_TRIGGER_START)
             // Tell #captureCallback to wait for the lock.
             state = STATE_WAITING_LOCK
-            captureSession?.capture(previewRequestBuilder.build(), captureCallback,
-                    backgroundHandler)
+            captureSession?.capture(previewRequestBuilder.build(), captureCallback, backgroundHandler)
         } catch (e: CameraAccessException) {
             Log.e(TAG, e.toString())
         }
