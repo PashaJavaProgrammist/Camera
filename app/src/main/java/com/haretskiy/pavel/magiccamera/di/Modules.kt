@@ -18,7 +18,7 @@ import com.haretskiy.pavel.magiccamera.ui.fragments.SettingsFragment
 import com.haretskiy.pavel.magiccamera.ui.fragments.camera2Api.Camera2Fragment
 import com.haretskiy.pavel.magiccamera.ui.fragments.camera2Api.Camera2Helper
 import com.haretskiy.pavel.magiccamera.ui.fragments.cameraApi.CameraFragment
-import com.haretskiy.pavel.magiccamera.ui.fragments.cameraApi.HolderCallback
+import com.haretskiy.pavel.magiccamera.ui.fragments.cameraApi.CameraHolderCallback
 import com.haretskiy.pavel.magiccamera.utils.ComparatorSizesByArea
 import com.haretskiy.pavel.magiccamera.utils.ImageSaver
 import com.haretskiy.pavel.magiccamera.utils.Prefs
@@ -62,7 +62,7 @@ val camera2Module: Module = applicationContext {
 
 val cameraModule: Module = applicationContext {
     factory { CameraFragment() }
-    factory { HolderCallback(get()) }
+    factory { CameraHolderCallback(get()) }
 }
 
 val modules = listOf(appModule, camera2Module, cameraModule)

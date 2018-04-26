@@ -21,7 +21,7 @@ import org.koin.android.ext.android.inject
 
 class CameraFragment : Fragment() {
 
-    private val holderCallback: HolderCallback by inject()
+    private val holderCallback: CameraHolderCallback by inject()
     private val imageSaver: ImageSaver by inject()
     private val permissionDialog: PermissionDialog by inject()
 
