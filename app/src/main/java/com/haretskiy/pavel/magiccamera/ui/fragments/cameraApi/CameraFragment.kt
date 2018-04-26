@@ -1,5 +1,6 @@
 package com.haretskiy.pavel.magiccamera.ui.fragments.cameraApi
 
+import android.Manifest
 import android.content.pm.PackageManager
 import android.graphics.Matrix
 import android.graphics.RectF
@@ -7,10 +8,13 @@ import android.hardware.Camera
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat
 import android.view.*
 import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_CAMERA1_ID
+import com.haretskiy.pavel.magiccamera.FRAGMENT_DIALOG_COMP
 import com.haretskiy.pavel.magiccamera.FULL_SCREEN
 import com.haretskiy.pavel.magiccamera.R
+import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
 import com.haretskiy.pavel.magiccamera.utils.ImageSaver
 import kotlinx.android.synthetic.main.fragment_camera.*
 import org.koin.android.ext.android.inject
@@ -19,6 +23,8 @@ class CameraFragment : Fragment() {
 
     private val holderCallback: HolderCallback by inject()
     private val imageSaver: ImageSaver by inject()
+    private val permissionDialog: PermissionDialog by inject()
+
     private var cameras = 0
 
     private var holder: SurfaceHolder? = null
@@ -74,12 +80,17 @@ class CameraFragment : Fragment() {
     }
 
     private fun openCamera() {
-        if (currentCameraID == -1) {
-            setCameraId(0)
+        val permission = context?.let { ContextCompat.checkSelfPermission(it, Manifest.permission.CAMERA) }
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            requestCameraPermission()
+        } else {
+            if (currentCameraID == -1) {
+                setCameraId(0)
+            }
+            camera = Camera.open(currentCameraID)
+            holderCallback.camera = camera
+            setPreviewSize(FULL_SCREEN)
         }
-        camera = Camera.open(currentCameraID)
-        holderCallback.camera = camera
-        setPreviewSize(FULL_SCREEN)
     }
 
     private fun initHolder() {
@@ -88,6 +99,7 @@ class CameraFragment : Fragment() {
             addCallback(holderCallback)
         }
     }
+
 
     private fun setPreviewSize(fullScreen: Boolean) {
 
@@ -165,5 +177,10 @@ class CameraFragment : Fragment() {
             surfaceView.visibility = View.VISIBLE
         })
     }
+
+    private fun requestCameraPermission() {
+        permissionDialog.show(childFragmentManager, FRAGMENT_DIALOG_COMP)
+    }
+
 
 }
