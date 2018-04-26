@@ -44,4 +44,4 @@ const val MAX_PREVIEW_HEIGHT = 1080
 
 //Camera constants
 const val FULL_SCREEN = true
-
+const val BUNDLE_KEY_CAMERA1_ID = "BUNDLE_KEY_CAMERA1_ID"

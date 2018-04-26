@@ -5,8 +5,10 @@ import android.graphics.Matrix
 import android.graphics.RectF
 import android.hardware.Camera
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.Fragment
 import android.view.*
+import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_CAMERA1_ID
 import com.haretskiy.pavel.magiccamera.FULL_SCREEN
 import com.haretskiy.pavel.magiccamera.R
 import kotlinx.android.synthetic.main.fragment_camera.*
@@ -19,12 +21,14 @@ class CameraFragment : Fragment() {
 
     private var holder: SurfaceHolder? = null
     private var camera: Camera? = null
-    var currentCameraID = -1
+    private var currentCameraID = -1
+    private val backgroundHndler = Handler()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         context?.packageManager?.hasSystemFeature(PackageManager.FEATURE_CAMERA)
         cameras = Camera.getNumberOfCameras()
+        setCameraId(savedInstanceState?.getInt(BUNDLE_KEY_CAMERA1_ID, 0) ?: 0)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -37,14 +41,7 @@ class CameraFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         initHolder()
 
-        change_cameras.setOnClickListener({
-            surfaceView.visibility = View.GONE
-            closeCamera()
-            choseCamera()
-            openCamera()
-            surfaceView.visibility = View.VISIBLE
-
-        })
+        change_cameras.setOnClickListener({ changeCamera() })
     }
 
     override fun onResume() {
@@ -58,6 +55,11 @@ class CameraFragment : Fragment() {
         activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
 
         closeCamera()
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(BUNDLE_KEY_CAMERA1_ID, currentCameraID)
     }
 
     private fun closeCamera() {
@@ -137,6 +139,16 @@ class CameraFragment : Fragment() {
                 else -> setCameraId(0)
             }
         }
+    }
+
+    private fun changeCamera() {
+        backgroundHndler.post({
+            surfaceView.visibility = View.GONE
+            closeCamera()
+            choseCamera()
+            openCamera()
+            surfaceView.visibility = View.VISIBLE
+        })
     }
 
     private fun setCameraId(id: Int) {

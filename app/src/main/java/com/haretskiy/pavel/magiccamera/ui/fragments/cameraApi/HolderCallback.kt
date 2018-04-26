@@ -7,9 +7,9 @@ import android.view.SurfaceHolder
 import android.view.WindowManager
 import java.io.IOException
 
-class HolderCallback( val windowManager: WindowManager) : SurfaceHolder.Callback {
+class HolderCallback(val windowManager: WindowManager) : SurfaceHolder.Callback {
 
-    var camera: Camera?=null
+    var camera: Camera? = null
     var cameraId = -1
 
     override fun surfaceCreated(holder: SurfaceHolder) {
