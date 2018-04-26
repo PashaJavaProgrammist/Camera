@@ -1,56 +1,86 @@
 package com.haretskiy.pavel.magiccamera.ui.fragments.cameraApi
 
+import android.content.pm.PackageManager
 import android.graphics.Matrix
 import android.graphics.RectF
 import android.hardware.Camera
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.*
+import com.haretskiy.pavel.magiccamera.FULL_SCREEN
 import com.haretskiy.pavel.magiccamera.R
 import kotlinx.android.synthetic.main.fragment_camera.*
 import org.koin.android.ext.android.inject
 
-
 class CameraFragment : Fragment() {
 
     private val holderCallback: HolderCallback by inject()
+    private var cameras = 0
 
-    var holder: SurfaceHolder? = null
-    var camera: Camera? = null
+    private var holder: SurfaceHolder? = null
+    private var camera: Camera? = null
+    var currentCameraID = -1
 
-    val CAMERA_ID = 0
-    val FULL_SCREEN = true
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        holder = surfaceView.holder
-        holder?.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS)
-
-        holder?.addCallback(holderCallback)
-    }
-
-    override fun onResume() {
-        super.onResume()
-        activity?.window?.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
-        camera = Camera.open(CAMERA_ID)
-        holderCallback.camera = camera
-        setPreviewSize(FULL_SCREEN)
-    }
-
-    override fun onPause() {
-        super.onPause()
-        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-
-        if (camera != null)
-            camera?.release()
-        camera = null
-        holderCallback.camera = null
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        context?.packageManager?.hasSystemFeature(PackageManager.FEATURE_CAMERA)
+        cameras = Camera.getNumberOfCameras()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_camera, container, false)
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        initHolder()
+
+        change_cameras.setOnClickListener({
+            surfaceView.visibility = View.GONE
+            closeCamera()
+            choseCamera()
+            openCamera()
+            surfaceView.visibility = View.VISIBLE
+
+        })
+    }
+
+    override fun onResume() {
+        super.onResume()
+        activity?.window?.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        openCamera()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+
+        closeCamera()
+    }
+
+    private fun closeCamera() {
+        if (camera != null)
+            camera?.release()
+        camera = null
+        holderCallback.camera = null
+    }
+
+    private fun openCamera() {
+        if (currentCameraID == -1) {
+            setCameraId(0)
+        }
+        camera = Camera.open(currentCameraID)
+        holderCallback.camera = camera
+        setPreviewSize(FULL_SCREEN)
+    }
+
+    private fun initHolder() {
+        holder = surfaceView.holder
+        holder?.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS)
+
+        holder?.addCallback(holderCallback)
     }
 
     private fun setPreviewSize(fullScreen: Boolean) {
@@ -95,6 +125,23 @@ class CameraFragment : Fragment() {
         // установка размеров surface из получившегося преобразования
         surfaceView.layoutParams.height = rectPreview.bottom.toInt()
         surfaceView.layoutParams.width = rectPreview.right.toInt()
+    }
+
+    private fun choseCamera() {
+        if (cameras == 1) {
+            setCameraId(0)
+        } else if (cameras == 2) {
+            when (currentCameraID) {
+                -1 -> setCameraId(0)
+                0 -> setCameraId(1)
+                else -> setCameraId(0)
+            }
+        }
+    }
+
+    private fun setCameraId(id: Int) {
+        currentCameraID = id
+        holderCallback.cameraId = id
     }
 
 }

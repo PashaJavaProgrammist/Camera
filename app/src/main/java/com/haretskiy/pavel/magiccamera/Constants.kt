@@ -15,6 +15,7 @@ const val KEY_BUNDLE_CURRENT_CAMERA_ID = "current_camera_id"
 
 const val BUNDLE_KEY_IS_LOG_IN = "is_user_log_in"
 const val BUNDLE_KEY_PREFS_CAMERA_SIZE = "camera_size_prefs"
+
 //Camera2 constants
 const val CODE_REQUEST_CAMERA_PERMISSION = 1
 const val PIC_FILE_NAME = "photo.jpg"
@@ -39,4 +40,8 @@ const val STATE_PICTURE_TAKEN = 4
 const val MAX_PREVIEW_WIDTH = 1920
 //Max preview height that is guaranteed by Camera2 API
 const val MAX_PREVIEW_HEIGHT = 1080
+
+
+//Camera constants
+const val FULL_SCREEN = true
 

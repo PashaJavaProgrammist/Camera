@@ -7,11 +7,10 @@ import android.view.SurfaceHolder
 import android.view.WindowManager
 import java.io.IOException
 
-
 class HolderCallback( val windowManager: WindowManager) : SurfaceHolder.Callback {
 
-    private var CAMERA_ID = 0
     var camera: Camera?=null
+    var cameraId = -1
 
     override fun surfaceCreated(holder: SurfaceHolder) {
         try {
@@ -20,24 +19,21 @@ class HolderCallback( val windowManager: WindowManager) : SurfaceHolder.Callback
         } catch (e: IOException) {
             e.printStackTrace()
         }
-
     }
 
     override fun surfaceChanged(holder: SurfaceHolder, format: Int, width: Int,
                                 height: Int) {
         camera?.stopPreview()
-        setCameraDisplayOrientation(CAMERA_ID)
+        setCameraDisplayOrientation(cameraId)
         try {
             camera?.setPreviewDisplay(holder)
             camera?.startPreview()
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
     }
 
     override fun surfaceDestroyed(holder: SurfaceHolder) {
-
     }
 
     private fun setCameraDisplayOrientation(cameraId: Int) {
