@@ -11,7 +11,13 @@ import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_SIGN
 import com.haretskiy.pavel.magiccamera.navigation.Router
 import com.haretskiy.pavel.magiccamera.navigation.RouterImpl
 import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
-import com.haretskiy.pavel.magiccamera.ui.fragments.*
+import com.haretskiy.pavel.magiccamera.ui.fragments.GalleryFragment
+import com.haretskiy.pavel.magiccamera.ui.fragments.LoginFragment
+import com.haretskiy.pavel.magiccamera.ui.fragments.QRFragment
+import com.haretskiy.pavel.magiccamera.ui.fragments.SettingsFragment
+import com.haretskiy.pavel.magiccamera.ui.fragments.camera2Api.Camera2Fragment
+import com.haretskiy.pavel.magiccamera.ui.fragments.camera2Api.Camera2Helper
+import com.haretskiy.pavel.magiccamera.ui.fragments.cameraApi.CameraFragment
 import com.haretskiy.pavel.magiccamera.utils.ComparatorSizesByArea
 import com.haretskiy.pavel.magiccamera.utils.ImageSaver
 import com.haretskiy.pavel.magiccamera.utils.Prefs
@@ -41,7 +47,7 @@ val appModule: Module = applicationContext {
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
 val camera2Module: Module = applicationContext {
-    factory { Camera2FragmentImpl() }
+    factory { Camera2Fragment() }
     factory {
             androidApplication().getSystemService(Context.CAMERA_SERVICE) as CameraManager
     }
@@ -50,10 +56,11 @@ val camera2Module: Module = applicationContext {
     }
     factory { ImageSaver(androidApplication()) }
     factory { ComparatorSizesByArea() }
+    factory { Camera2Helper(androidApplication(), get(), get(), get(), get(), get()) }
 }
 
 val cameraModule: Module = applicationContext {
-    factory { CameraFragmentImpl() }
+    factory { CameraFragment() }
 }
 
 val modules = listOf(appModule, camera2Module, cameraModule)

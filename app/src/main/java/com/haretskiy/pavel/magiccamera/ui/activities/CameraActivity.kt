@@ -6,15 +6,19 @@ import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
 import com.haretskiy.pavel.magiccamera.R
 import com.haretskiy.pavel.magiccamera.navigation.Router
-import com.haretskiy.pavel.magiccamera.ui.fragments.*
+import com.haretskiy.pavel.magiccamera.ui.fragments.GalleryFragment
+import com.haretskiy.pavel.magiccamera.ui.fragments.QRFragment
+import com.haretskiy.pavel.magiccamera.ui.fragments.SettingsFragment
+import com.haretskiy.pavel.magiccamera.ui.fragments.camera2Api.Camera2Fragment
+import com.haretskiy.pavel.magiccamera.ui.fragments.cameraApi.CameraFragment
 import kotlinx.android.synthetic.main.activity_camera.*
 import org.koin.android.ext.android.inject
 
 class CameraActivity : AppCompatActivity() {
 
     private val qrFragment: QRFragment by inject()
-    private val camera2Fragment: Camera2FragmentImpl by inject()
-    private val cameraFragment: CameraFragmentImpl by inject()
+    private val camera2Fragment: Camera2Fragment by inject()
+    private val cameraFragment: CameraFragment by inject()
     private val galleryFragment: GalleryFragment by inject()
     private val settingsFragment: SettingsFragment by inject()
     private val router: Router by inject()
