@@ -35,6 +35,8 @@ class Camera2Fragment : Fragment(), View.OnClickListener {
     private val prefs: Prefs by inject()
     private val camera2Helper: Camera2Helper by inject()
 
+    private var isAfterResumeFlag = false
+
     /**
      * [TextureView.SurfaceTextureListener] handles several lifecycle events on a [TextureView].
      */
@@ -78,6 +80,7 @@ class Camera2Fragment : Fragment(), View.OnClickListener {
     the SurfaceTextureListener).*/
     override fun onResume() {
         super.onResume()
+        isAfterResumeFlag = true
         camera2Helper.texture = texture
         activity?.window?.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         camera2Helper.startBackgroundThread()
@@ -121,10 +124,11 @@ class Camera2Fragment : Fragment(), View.OnClickListener {
 
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 closeCamera()
-                if (position != 0) {
+                if (!isAfterResumeFlag) {
                     camera2Helper.currentSizeOfScreen = camera2Helper.sizesOfScreen[position]
                     prefs.saveCameraScreenSize(camera2Helper.currentCameraID, position)
                 }
+                isAfterResumeFlag = false
                 openCamera()
             }
         }
