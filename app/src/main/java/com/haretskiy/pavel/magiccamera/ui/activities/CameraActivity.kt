@@ -30,11 +30,11 @@ class CameraActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_camera -> {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    router.doFragmentTransaction(camera2Fragment, supportFragmentManager, R.id.frame_for_fragments)
-                } else {
+//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//                    router.doFragmentTransaction(camera2Fragment, supportFragmentManager, R.id.frame_for_fragments)
+//                } else {
                     router.doFragmentTransaction(cameraFragment, supportFragmentManager, R.id.frame_for_fragments)
-                }
+//                }
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_qr -> {

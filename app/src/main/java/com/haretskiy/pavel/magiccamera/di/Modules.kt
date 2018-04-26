@@ -18,6 +18,7 @@ import com.haretskiy.pavel.magiccamera.ui.fragments.SettingsFragment
 import com.haretskiy.pavel.magiccamera.ui.fragments.camera2Api.Camera2Fragment
 import com.haretskiy.pavel.magiccamera.ui.fragments.camera2Api.Camera2Helper
 import com.haretskiy.pavel.magiccamera.ui.fragments.cameraApi.CameraFragment
+import com.haretskiy.pavel.magiccamera.ui.fragments.cameraApi.HolderCallback
 import com.haretskiy.pavel.magiccamera.utils.ComparatorSizesByArea
 import com.haretskiy.pavel.magiccamera.utils.ImageSaver
 import com.haretskiy.pavel.magiccamera.utils.Prefs
@@ -49,7 +50,7 @@ val appModule: Module = applicationContext {
 val camera2Module: Module = applicationContext {
     factory { Camera2Fragment() }
     factory {
-            androidApplication().getSystemService(Context.CAMERA_SERVICE) as CameraManager
+        androidApplication().getSystemService(Context.CAMERA_SERVICE) as CameraManager
     }
     factory {
         androidApplication().getSystemService(Context.WINDOW_SERVICE) as WindowManager
@@ -61,6 +62,7 @@ val camera2Module: Module = applicationContext {
 
 val cameraModule: Module = applicationContext {
     factory { CameraFragment() }
+    factory { HolderCallback(get()) }
 }
 
 val modules = listOf(appModule, camera2Module, cameraModule)

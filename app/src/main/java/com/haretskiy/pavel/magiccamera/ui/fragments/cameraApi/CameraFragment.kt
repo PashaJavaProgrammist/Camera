@@ -1,19 +1,100 @@
 package com.haretskiy.pavel.magiccamera.ui.fragments.cameraApi
 
+import android.graphics.Matrix
+import android.graphics.RectF
+import android.hardware.Camera
 import android.os.Bundle
 import android.support.v4.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
-
+import android.view.*
 import com.haretskiy.pavel.magiccamera.R
+import kotlinx.android.synthetic.main.fragment_camera.*
+import org.koin.android.ext.android.inject
+
 
 class CameraFragment : Fragment() {
+
+    private val holderCallback: HolderCallback by inject()
+
+    var holder: SurfaceHolder? = null
+    var camera: Camera? = null
+
+    val CAMERA_ID = 0
+    val FULL_SCREEN = true
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        holder = surfaceView.holder
+        holder?.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS)
+
+        holder?.addCallback(holderCallback)
+    }
+
+    override fun onResume() {
+        super.onResume()
+        activity?.window?.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        camera = Camera.open(CAMERA_ID)
+        holderCallback.camera = camera
+        setPreviewSize(FULL_SCREEN)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+
+        if (camera != null)
+            camera?.release()
+        camera = null
+        holderCallback.camera = null
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_camera, container, false)
+    }
+
+    private fun setPreviewSize(fullScreen: Boolean) {
+
+        // получаем размеры экрана
+        val display = holderCallback.windowManager.defaultDisplay
+        val widthIsMax = display.width > display.height
+
+        // определяем размеры превью камеры
+        val size = camera?.parameters?.previewSize
+
+        val rectDisplay = RectF()
+        val rectPreview = RectF()
+
+        // RectF экрана, соотвествует размерам экрана
+        rectDisplay.set(0f, 0f, display.width.toFloat(), display.height.toFloat())
+        if (size != null) {
+            // RectF первью
+            if (widthIsMax) {
+                // превью в горизонтальной ориентации
+                rectPreview.set(0f, 0f, size.width.toFloat(), size.height.toFloat())
+            } else {
+                // превью в вертикальной ориентации
+                rectPreview.set(0f, 0f, size.height.toFloat(), size.width.toFloat())
+            }
+        }
+        val matrix = Matrix()
+        // подготовка матрицы преобразования
+        if (!fullScreen) {
+            // если превью будет "втиснут" в экран (второй вариант из урока)
+            matrix.setRectToRect(rectPreview, rectDisplay,
+                    Matrix.ScaleToFit.START)
+        } else {
+            // если экран будет "втиснут" в превью (третий вариант из урока)
+            matrix.setRectToRect(rectDisplay, rectPreview,
+                    Matrix.ScaleToFit.START)
+            matrix.invert(matrix)
+        }
+        // преобразование
+        matrix.mapRect(rectPreview)
+
+        // установка размеров surface из получившегося преобразования
+        surfaceView.layoutParams.height = rectPreview.bottom.toInt()
+        surfaceView.layoutParams.width = rectPreview.right.toInt()
     }
 
 }

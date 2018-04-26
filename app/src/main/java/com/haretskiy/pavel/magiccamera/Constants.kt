@@ -15,7 +15,6 @@ const val KEY_BUNDLE_CURRENT_CAMERA_ID = "current_camera_id"
 
 const val BUNDLE_KEY_IS_LOG_IN = "is_user_log_in"
 const val BUNDLE_KEY_PREFS_CAMERA_SIZE = "camera_size_prefs"
-
 //Camera2 constants
 const val CODE_REQUEST_CAMERA_PERMISSION = 1
 const val PIC_FILE_NAME = "photo.jpg"
