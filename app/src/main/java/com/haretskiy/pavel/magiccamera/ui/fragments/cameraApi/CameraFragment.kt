@@ -7,12 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.haretskiy.pavel.magiccamera.R
-import com.haretskiy.pavel.magiccamera.ui.fragments.Camera
 
-class CameraFragment : Fragment(), Camera {
-
-    override fun takePicture() {
-    }
+class CameraFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
