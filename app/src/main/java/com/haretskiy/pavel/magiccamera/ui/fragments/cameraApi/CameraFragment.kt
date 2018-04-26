@@ -42,6 +42,7 @@ class CameraFragment : Fragment() {
         initHolder()
 
         change_cameras.setOnClickListener({ changeCamera() })
+        make_picture.setOnClickListener({ takePicture() })
     }
 
     override fun onResume() {
@@ -63,10 +64,11 @@ class CameraFragment : Fragment() {
     }
 
     private fun closeCamera() {
-        if (camera != null)
+        if (camera != null) {
             camera?.release()
-        camera = null
-        holderCallback.camera = null
+            camera = null
+            holderCallback.camera = null
+        }
     }
 
     private fun openCamera() {
@@ -79,10 +81,10 @@ class CameraFragment : Fragment() {
     }
 
     private fun initHolder() {
-        holder = surfaceView.holder
-        holder?.setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS)
-
-        holder?.addCallback(holderCallback)
+        holder = surfaceView.holder.apply {
+            setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS)
+            addCallback(holderCallback)
+        }
     }
 
     private fun setPreviewSize(fullScreen: Boolean) {
@@ -109,21 +111,19 @@ class CameraFragment : Fragment() {
                 rectPreview.set(0f, 0f, size.height.toFloat(), size.width.toFloat())
             }
         }
-        val matrix = Matrix()
-        // подготовка матрицы преобразования
-        if (!fullScreen) {
-            // если превью будет "втиснут" в экран (второй вариант из урока)
-            matrix.setRectToRect(rectPreview, rectDisplay,
-                    Matrix.ScaleToFit.START)
-        } else {
-            // если экран будет "втиснут" в превью (третий вариант из урока)
-            matrix.setRectToRect(rectDisplay, rectPreview,
-                    Matrix.ScaleToFit.START)
-            matrix.invert(matrix)
+        Matrix().apply {
+            // подготовка матрицы преобразования
+            if (!fullScreen) {
+                // если превью будет "втиснут" в экран (второй вариант из урока)
+                setRectToRect(rectPreview, rectDisplay, Matrix.ScaleToFit.START)
+            } else {
+                // если экран будет "втиснут" в превью (третий вариант из урока)
+                setRectToRect(rectDisplay, rectPreview, Matrix.ScaleToFit.START)
+                invert(this)
+            }
+            // преобразование
+            mapRect(rectPreview)
         }
-        // преобразование
-        matrix.mapRect(rectPreview)
-
         // установка размеров surface из получившегося преобразования
         surfaceView.layoutParams.height = rectPreview.bottom.toInt()
         surfaceView.layoutParams.width = rectPreview.right.toInt()
@@ -154,6 +154,10 @@ class CameraFragment : Fragment() {
     private fun setCameraId(id: Int) {
         currentCameraID = id
         holderCallback.cameraId = id
+    }
+
+    private fun takePicture() {
+
     }
 
 }
