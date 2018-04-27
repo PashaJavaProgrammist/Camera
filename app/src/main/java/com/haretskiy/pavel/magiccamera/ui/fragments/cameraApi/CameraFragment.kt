@@ -16,7 +16,6 @@ import com.haretskiy.pavel.magiccamera.FULL_SCREEN
 import com.haretskiy.pavel.magiccamera.R
 import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
 import com.haretskiy.pavel.magiccamera.utils.ImageSaver
-import com.haretskiy.pavel.magiccamera.utils.Toaster
 import kotlinx.android.synthetic.main.fragment_camera.*
 import kotlinx.android.synthetic.main.fragment_camera.view.*
 import org.koin.android.ext.android.inject
@@ -26,7 +25,7 @@ class CameraFragment : Fragment() {
     private val holderCallback: CameraHolderCallback by inject()
     private val imageSaver: ImageSaver by inject()
     private val permissionDialog: PermissionDialog by inject()
-    private val toaster: Toaster by inject()
+    private val windowManager: WindowManager by inject()
     private val paint = Paint()
 
     private var cameras = 0
@@ -124,7 +123,16 @@ class CameraFragment : Fragment() {
 
     private fun drawRect(paint: Paint, canvas: Canvas?, rectF: Rect) {
         canvas?.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
-        canvas?.drawRect(rectF, paint)
+
+        val left = rectF.left
+        val right = rectF.right
+        val bottom = rectF.bottom
+        val top = rectF.top
+
+        val rect = RectF(right.toFloat(), bottom.toFloat(), (right + left* -1).toFloat(), (bottom-top).toFloat()) //0 grad
+        //todo: need to fix
+
+        canvas?.drawRect(rect, paint)
     }
 
     private fun setPaintParams() {
