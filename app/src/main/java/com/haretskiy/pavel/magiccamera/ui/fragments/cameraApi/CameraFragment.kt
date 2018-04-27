@@ -2,13 +2,13 @@ package com.haretskiy.pavel.magiccamera.ui.fragments.cameraApi
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.graphics.Matrix
-import android.graphics.RectF
+import android.graphics.*
 import android.hardware.Camera
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
+import android.support.v4.content.ContextCompat.getColor
 import android.view.*
 import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_CAMERA1_ID
 import com.haretskiy.pavel.magiccamera.FRAGMENT_DIALOG_COMP
@@ -16,7 +16,9 @@ import com.haretskiy.pavel.magiccamera.FULL_SCREEN
 import com.haretskiy.pavel.magiccamera.R
 import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
 import com.haretskiy.pavel.magiccamera.utils.ImageSaver
+import com.haretskiy.pavel.magiccamera.utils.Toaster
 import kotlinx.android.synthetic.main.fragment_camera.*
+import kotlinx.android.synthetic.main.fragment_camera.view.*
 import org.koin.android.ext.android.inject
 
 class CameraFragment : Fragment() {
@@ -24,10 +26,13 @@ class CameraFragment : Fragment() {
     private val holderCallback: CameraHolderCallback by inject()
     private val imageSaver: ImageSaver by inject()
     private val permissionDialog: PermissionDialog by inject()
+    private val toaster: Toaster by inject()
+    private val paint = Paint()
 
     private var cameras = 0
 
     private var holder: SurfaceHolder? = null
+    private var drawHolder: SurfaceHolder? = null
     private var camera: Camera? = null
     private var currentCameraID = -1
     private val backgroundHndler = Handler()
@@ -41,8 +46,11 @@ class CameraFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
+        val view = inflater.inflate(R.layout.fragment_camera, container, false)
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_camera, container, false)
+        view.drawSurface.setZOrderOnTop(true)
+//        drawSurface.setZOrderMediaOverlay(true)
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -90,6 +98,42 @@ class CameraFragment : Fragment() {
             camera = Camera.open(currentCameraID)
             holderCallback.camera = camera
             setPreviewSize(FULL_SCREEN)
+            setPaintParams()
+            val surf = drawHolder?.surface
+            var canvas: Canvas? = null
+            camera?.setFaceDetectionListener { faces, _ ->
+                Handler().post({
+                    try {
+                        if (surf != null && surf.isValid) {
+                            canvas = surf.lockCanvas(null)
+                            if (faces.isNotEmpty()) {
+                                for (face in faces) {
+                                    if (face.score > 50) {
+                                        drawRect(paint, canvas, face.rect)
+                                    }
+                                }
+                            }
+                        }
+                    } finally {
+                        if (surf != null && surf.isValid) surf.unlockCanvasAndPost(canvas)
+                    }
+                })
+            }
+        }
+    }
+
+    private fun drawRect(paint: Paint, canvas: Canvas?, rectF: Rect) {
+        canvas?.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
+        canvas?.drawRect(rectF, paint)
+    }
+
+    private fun setPaintParams() {
+        paint.apply {
+            color = context?.let { getColor(it, R.color.colorAccent) } ?: 0
+            strokeWidth = 5f
+            style = Paint.Style.STROKE
+            isAntiAlias = true
+            isSubpixelText = true
         }
     }
 
@@ -97,6 +141,11 @@ class CameraFragment : Fragment() {
         holder = surfaceView.holder.apply {
             setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS)
             addCallback(holderCallback)
+        }
+
+        drawHolder = drawSurface.holder.apply {
+            setType(SurfaceHolder.SURFACE_TYPE_PUSH_BUFFERS)
+            setFormat(PixelFormat.RGBA_8888)
         }
     }
 

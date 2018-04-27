@@ -16,6 +16,7 @@ class CameraHolderCallback(val windowManager: WindowManager) : SurfaceHolder.Cal
         try {
             camera?.setPreviewDisplay(holder)
             camera?.startPreview()
+            startFaceDetection()
         } catch (e: IOException) {
             e.printStackTrace()
         }
@@ -28,12 +29,14 @@ class CameraHolderCallback(val windowManager: WindowManager) : SurfaceHolder.Cal
         try {
             camera?.setPreviewDisplay(holder)
             camera?.startPreview()
+            startFaceDetection()
         } catch (e: Exception) {
             e.printStackTrace()
         }
     }
 
     override fun surfaceDestroyed(holder: SurfaceHolder) {
+        camera?.stopFaceDetection()
     }
 
     private fun setCameraDisplayOrientation(cameraId: Int) {
@@ -65,5 +68,18 @@ class CameraHolderCallback(val windowManager: WindowManager) : SurfaceHolder.Cal
         result %= 360
         camera?.setDisplayOrientation(result)
     }
+
+    fun startFaceDetection() {
+        // Try starting Face Detection
+        val params = camera?.parameters
+        if (params != null) {
+            // start face detection only *after* preview has started
+            if (params.maxNumDetectedFaces > 0) {
+                // camera supports face detection, so can start it:
+                camera?.startFaceDetection()
+            }
+        }
+    }
+
 
 }
