@@ -66,7 +66,7 @@ class LoginFragment : Fragment(), View.OnClickListener {
     private fun onSuccessAuth(user: FirebaseUser?) {
         Toast.makeText(context, user?.email, Toast.LENGTH_SHORT).show()
         prefs.setUserStateLogIn()
-        router.goToCameraActivity(/*user?.getIdToken(true)?.result?.token ?:*/ EMPTY_STRING) //TODO: Token?
+        router.goToCameraActivity()
     }
 
 }

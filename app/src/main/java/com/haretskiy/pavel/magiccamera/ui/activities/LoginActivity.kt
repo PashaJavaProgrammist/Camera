@@ -25,7 +25,7 @@ class LoginActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
 
         if (prefs.isUserLogIn()) {
-            router.goToCameraActivity(EMPTY_STRING)//TODO: Token?
+            router.goToCameraActivity()
         }
 
         setContentView(R.layout.activity_login)

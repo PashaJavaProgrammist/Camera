@@ -19,6 +19,11 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0" />
 
+    <SurfaceView
+        android:id="@+id/drawSurface"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
     <ImageView
         android:id="@+id/make_picture"
         android:layout_width="wrap_content"

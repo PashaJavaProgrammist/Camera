@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager
 
 interface Router {
 
-    fun goToCameraActivity(idToken: String)
+    fun goToCameraActivity()
 
     fun goToLoginActivity()
 
