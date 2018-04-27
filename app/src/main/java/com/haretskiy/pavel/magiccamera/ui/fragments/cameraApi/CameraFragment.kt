@@ -130,11 +130,12 @@ class CameraFragment : Fragment() {
         val right = rectF.right
         val bottom = rectF.bottom
         val top = rectF.top
-
-        val rect = RectF(right.toFloat(), bottom.toFloat(), (right + left* -1).toFloat(), (bottom-top).toFloat()) //0 grad
+        val rect =
+                if (currentCameraID == 1) RectF(right.toFloat(), bottom.toFloat(), (right + left * -1).toFloat(), (bottom - top).toFloat()) //0 grad
+                else RectF(left.toFloat(), top.toFloat(), right.toFloat(), bottom.toFloat())
         //todo: need to fix
 
-        canvas?.drawRect(rect, paint)
+        canvas?.drawRoundRect(rect, 2f, 2f, paint)
     }
 
     private fun setPaintParams() {
