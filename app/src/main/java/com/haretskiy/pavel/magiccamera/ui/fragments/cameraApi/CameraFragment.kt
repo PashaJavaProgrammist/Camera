@@ -111,6 +111,8 @@ class CameraFragment : Fragment() {
                                         drawRect(paint, canvas, face.rect)
                                     }
                                 }
+                            } else {
+                                canvas?.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
                             }
                         }
                     } finally {
