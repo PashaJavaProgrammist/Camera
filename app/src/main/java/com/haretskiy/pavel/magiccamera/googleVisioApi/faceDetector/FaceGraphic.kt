@@ -1,11 +1,11 @@
-package com.haretskiy.pavel.magiccamera.ui.fragments.googleVisioApi.faceDetector
+package com.haretskiy.pavel.magiccamera.googleVisioApi.faceDetector
 
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import com.google.android.gms.vision.face.Face
-import com.haretskiy.pavel.magiccamera.ui.fragments.googleVisioApi.graphic.TrackedGraphic
-import com.haretskiy.pavel.magiccamera.ui.fragments.googleVisioApi.ui.GraphicOverlay
+import com.haretskiy.pavel.magiccamera.googleVisioApi.graphic.TrackedGraphic
+import com.haretskiy.pavel.magiccamera.googleVisioApi.ui.GraphicOverlay
 
 class FaceGraphic(overlay: GraphicOverlay) : TrackedGraphic<Face>(overlay) {
 

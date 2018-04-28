@@ -7,9 +7,9 @@ import com.haretskiy.pavel.magiccamera.R
 import com.haretskiy.pavel.magiccamera.navigation.Router
 import com.haretskiy.pavel.magiccamera.ui.fragments.GalleryFragment
 import com.haretskiy.pavel.magiccamera.ui.fragments.SettingsFragment
-import com.haretskiy.pavel.magiccamera.ui.fragments.camera2Api.Camera2Fragment
-import com.haretskiy.pavel.magiccamera.ui.fragments.cameraApi.CameraFragment
-import com.haretskiy.pavel.magiccamera.ui.fragments.googleVisioApi.QRFragment
+import com.haretskiy.pavel.magiccamera.ui.fragments.Camera2Fragment
+import com.haretskiy.pavel.magiccamera.ui.fragments.CameraFragment
+import com.haretskiy.pavel.magiccamera.ui.fragments.QRFragment
 import kotlinx.android.synthetic.main.activity_camera.*
 import org.koin.android.ext.android.inject
 

@@ -1,6 +1,6 @@
-package com.haretskiy.pavel.magiccamera.ui.fragments.googleVisioApi.graphic
+package com.haretskiy.pavel.magiccamera.googleVisioApi.graphic
 
-import com.haretskiy.pavel.magiccamera.ui.fragments.googleVisioApi.ui.GraphicOverlay
+import com.haretskiy.pavel.magiccamera.googleVisioApi.ui.GraphicOverlay
 
 /**
  * Common base class for defining graphics for a particular item type.  This along with

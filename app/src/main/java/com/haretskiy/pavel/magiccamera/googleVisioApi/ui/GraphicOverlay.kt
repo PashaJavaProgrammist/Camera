@@ -1,11 +1,11 @@
-package com.haretskiy.pavel.magiccamera.ui.fragments.googleVisioApi.ui
+package com.haretskiy.pavel.magiccamera.googleVisioApi.ui
 
 import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.View
 import com.google.android.gms.vision.CameraSource
-import com.haretskiy.pavel.magiccamera.ui.fragments.googleVisioApi.graphic.Graphic
+import com.haretskiy.pavel.magiccamera.googleVisioApi.graphic.Graphic
 import java.util.HashSet
 
 /**

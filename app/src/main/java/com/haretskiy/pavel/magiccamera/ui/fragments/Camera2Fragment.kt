@@ -1,4 +1,4 @@
-package com.haretskiy.pavel.magiccamera.ui.fragments.camera2Api
+package com.haretskiy.pavel.magiccamera.ui.fragments
 
 import android.Manifest
 import android.annotation.TargetApi
@@ -21,6 +21,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
+import com.haretskiy.pavel.magiccamera.camera2Api.Camera2Helper
 import com.haretskiy.pavel.magiccamera.utils.Prefs
 import kotlinx.android.synthetic.main.fragment_camera2.*
 import org.koin.android.ext.android.inject

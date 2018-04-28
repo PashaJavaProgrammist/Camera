@@ -14,11 +14,11 @@ import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
 import com.haretskiy.pavel.magiccamera.ui.fragments.GalleryFragment
 import com.haretskiy.pavel.magiccamera.ui.fragments.LoginFragment
 import com.haretskiy.pavel.magiccamera.ui.fragments.SettingsFragment
-import com.haretskiy.pavel.magiccamera.ui.fragments.camera2Api.Camera2Fragment
-import com.haretskiy.pavel.magiccamera.ui.fragments.camera2Api.Camera2Helper
-import com.haretskiy.pavel.magiccamera.ui.fragments.cameraApi.CameraFragment
-import com.haretskiy.pavel.magiccamera.ui.fragments.cameraApi.CameraHolderCallback
-import com.haretskiy.pavel.magiccamera.ui.fragments.googleVisioApi.QRFragment
+import com.haretskiy.pavel.magiccamera.ui.fragments.Camera2Fragment
+import com.haretskiy.pavel.magiccamera.camera2Api.Camera2Helper
+import com.haretskiy.pavel.magiccamera.ui.fragments.CameraFragment
+import com.haretskiy.pavel.magiccamera.cameraApi.CameraHolderCallback
+import com.haretskiy.pavel.magiccamera.ui.fragments.QRFragment
 import com.haretskiy.pavel.magiccamera.utils.ComparatorSizesByArea
 import com.haretskiy.pavel.magiccamera.utils.ImageSaver
 import com.haretskiy.pavel.magiccamera.utils.Prefs
@@ -65,7 +65,11 @@ val cameraModule: Module = applicationContext {
     factory { CameraHolderCallback(get()) }
 }
 
-val modules = listOf(appModule, camera2Module, cameraModule)
+val googleVisioModule: Module = applicationContext {
+
+}
+
+val modules = listOf(appModule, camera2Module, cameraModule, googleVisioModule)
 
 private fun signFragment(isSignIn: String): LoginFragment {
     val args = Bundle()

@@ -1,4 +1,4 @@
-package com.haretskiy.pavel.magiccamera.ui.fragments.camera2Api
+package com.haretskiy.pavel.magiccamera.camera2Api
 
 import android.annotation.TargetApi
 import android.content.Context

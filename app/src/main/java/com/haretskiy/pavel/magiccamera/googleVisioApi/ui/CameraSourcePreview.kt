@@ -1,4 +1,4 @@
-package com.haretskiy.pavel.magiccamera.ui.fragments.googleVisioApi.ui
+package com.haretskiy.pavel.magiccamera.googleVisioApi.ui
 
 import android.content.Context
 import android.content.res.Configuration

@@ -1,4 +1,4 @@
-package com.haretskiy.pavel.magiccamera.ui.fragments.cameraApi
+package com.haretskiy.pavel.magiccamera.cameraApi
 
 import android.hardware.Camera
 import android.hardware.Camera.CameraInfo

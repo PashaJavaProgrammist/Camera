@@ -1,4 +1,4 @@
-package com.haretskiy.pavel.magiccamera.ui.fragments.cameraApi
+package com.haretskiy.pavel.magiccamera.ui.fragments
 
 import android.Manifest
 import android.content.pm.PackageManager
@@ -15,6 +15,7 @@ import com.haretskiy.pavel.magiccamera.FRAGMENT_DIALOG_COMP
 import com.haretskiy.pavel.magiccamera.FULL_SCREEN
 import com.haretskiy.pavel.magiccamera.R
 import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
+import com.haretskiy.pavel.magiccamera.cameraApi.CameraHolderCallback
 import com.haretskiy.pavel.magiccamera.utils.ImageSaver
 import kotlinx.android.synthetic.main.fragment_camera.*
 import kotlinx.android.synthetic.main.fragment_camera.view.*

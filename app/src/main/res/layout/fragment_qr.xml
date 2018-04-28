@@ -6,15 +6,15 @@
     android:keepScreenOn="true"
     android:orientation="horizontal">
 
-    <com.haretskiy.pavel.magiccamera.ui.fragments.googleVisioApi.ui.CameraSourcePreview
+    <com.haretskiy.pavel.magiccamera.googleVisioApi.ui.CameraSourcePreview
         android:id="@+id/preview"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.haretskiy.pavel.magiccamera.ui.fragments.googleVisioApi.ui.GraphicOverlay
+        <com.haretskiy.pavel.magiccamera.googleVisioApi.ui.GraphicOverlay
             android:id="@+id/faceOverlay"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-    </com.haretskiy.pavel.magiccamera.ui.fragments.googleVisioApi.ui.CameraSourcePreview>
+    </com.haretskiy.pavel.magiccamera.googleVisioApi.ui.CameraSourcePreview>
 </LinearLayout>

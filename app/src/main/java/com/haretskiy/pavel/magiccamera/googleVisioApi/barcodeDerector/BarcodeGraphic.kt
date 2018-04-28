@@ -1,12 +1,12 @@
-package com.haretskiy.pavel.magiccamera.ui.fragments.googleVisioApi.barcode
+package com.haretskiy.pavel.magiccamera.googleVisioApi.barcodeDerector
 
 import android.graphics.Canvas
 import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
 import com.google.android.gms.vision.barcode.Barcode
-import com.haretskiy.pavel.magiccamera.ui.fragments.googleVisioApi.graphic.TrackedGraphic
-import com.haretskiy.pavel.magiccamera.ui.fragments.googleVisioApi.ui.GraphicOverlay
+import com.haretskiy.pavel.magiccamera.googleVisioApi.graphic.TrackedGraphic
+import com.haretskiy.pavel.magiccamera.googleVisioApi.ui.GraphicOverlay
 
 /**
  * Graphic instance for rendering barcode position, size, and ID within an associated graphic
