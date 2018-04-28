@@ -1,12 +1,12 @@
-package com.haretskiy.pavel.magiccamera.googleVisioApi.ui
+package com.haretskiy.pavel.magiccamera.googleVisionApi.ui
 
 import android.content.Context
 import android.graphics.Canvas
 import android.util.AttributeSet
 import android.view.View
 import com.google.android.gms.vision.CameraSource
-import com.haretskiy.pavel.magiccamera.googleVisioApi.graphic.Graphic
-import java.util.HashSet
+import com.haretskiy.pavel.magiccamera.googleVisionApi.graphic.Graphic
+import java.util.*
 
 /**
  * A view which renders a series of custom graphics to be overlayed on top of an associated preview
@@ -31,14 +31,13 @@ import java.util.HashSet
  *
  */
 class GraphicOverlay(context: Context, attrs: AttributeSet) : View(context, attrs) {
-//    private val mLock = Any()
+    //    private val mLock = Any()
     private var mPreviewWidth: Int = 0
     var mWidthScaleFactor = 1.0f
     private var mPreviewHeight: Int = 0
     var mHeightScaleFactor = 1.0f
     var mFacing = CameraSource.CAMERA_FACING_BACK
     private val mGraphics = HashSet<Graphic>()
-
 
 
     /**

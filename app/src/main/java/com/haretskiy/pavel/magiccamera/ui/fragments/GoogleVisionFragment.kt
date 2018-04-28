@@ -21,8 +21,8 @@ import com.google.android.gms.vision.barcode.BarcodeDetector
 import com.google.android.gms.vision.face.Face
 import com.google.android.gms.vision.face.FaceDetector
 import com.haretskiy.pavel.magiccamera.*
-import com.haretskiy.pavel.magiccamera.googleVisioApi.barcodeDerector.BarcodeTrackerFactory
-import com.haretskiy.pavel.magiccamera.googleVisioApi.faceDetector.FaceTrackerFactory
+import com.haretskiy.pavel.magiccamera.googleVisionApi.barcodeDerector.BarcodeTrackerFactory
+import com.haretskiy.pavel.magiccamera.googleVisionApi.faceDetector.FaceTrackerFactory
 import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
 import com.haretskiy.pavel.magiccamera.utils.ImageSaver
 import com.haretskiy.pavel.magiccamera.utils.Toaster

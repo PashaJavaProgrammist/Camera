@@ -1,9 +1,9 @@
-package com.haretskiy.pavel.magiccamera.googleVisioApi.faceDetector
+package com.haretskiy.pavel.magiccamera.googleVisionApi.faceDetector
 
 import com.google.android.gms.vision.MultiProcessor
 import com.google.android.gms.vision.face.Face
-import com.haretskiy.pavel.magiccamera.googleVisioApi.graphic.GraphicTracker
-import com.haretskiy.pavel.magiccamera.googleVisioApi.ui.GraphicOverlay
+import com.haretskiy.pavel.magiccamera.googleVisionApi.graphic.GraphicTracker
+import com.haretskiy.pavel.magiccamera.googleVisionApi.ui.GraphicOverlay
 
 /**
  * Factory for creating a tracker and associated graphic to be associated with a new face.  The

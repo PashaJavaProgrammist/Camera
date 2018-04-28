@@ -1,4 +1,4 @@
-package com.haretskiy.pavel.magiccamera.googleVisioApi.faceDetector
+package com.haretskiy.pavel.magiccamera.googleVisionApi.faceDetector
 
 import android.graphics.Canvas
 import android.graphics.Color
@@ -9,8 +9,8 @@ import com.haretskiy.pavel.magiccamera.BOX_STROKE_WIDTH
 import com.haretskiy.pavel.magiccamera.ID_TEXT_SIZE
 import com.haretskiy.pavel.magiccamera.ID_X_OFFSET
 import com.haretskiy.pavel.magiccamera.ID_Y_OFFSET
-import com.haretskiy.pavel.magiccamera.googleVisioApi.graphic.TrackedGraphic
-import com.haretskiy.pavel.magiccamera.googleVisioApi.ui.GraphicOverlay
+import com.haretskiy.pavel.magiccamera.googleVisionApi.graphic.TrackedGraphic
+import com.haretskiy.pavel.magiccamera.googleVisionApi.ui.GraphicOverlay
 
 class FaceGraphic(overlay: GraphicOverlay) : TrackedGraphic<Face>(overlay) {
 

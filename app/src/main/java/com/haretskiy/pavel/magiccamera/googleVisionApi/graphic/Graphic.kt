@@ -1,8 +1,8 @@
-package com.haretskiy.pavel.magiccamera.googleVisioApi.graphic
+package com.haretskiy.pavel.magiccamera.googleVisionApi.graphic
 
 import android.graphics.Canvas
 import com.google.android.gms.vision.CameraSource
-import com.haretskiy.pavel.magiccamera.googleVisioApi.ui.GraphicOverlay
+import com.haretskiy.pavel.magiccamera.googleVisionApi.ui.GraphicOverlay
 
 
 /**

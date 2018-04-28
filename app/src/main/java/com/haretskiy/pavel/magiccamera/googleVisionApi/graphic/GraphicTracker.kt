@@ -1,8 +1,8 @@
-package com.haretskiy.pavel.magiccamera.googleVisioApi.graphic
+package com.haretskiy.pavel.magiccamera.googleVisionApi.graphic
 
 import com.google.android.gms.vision.Detector
 import com.google.android.gms.vision.Tracker
-import com.haretskiy.pavel.magiccamera.googleVisioApi.ui.GraphicOverlay
+import com.haretskiy.pavel.magiccamera.googleVisionApi.ui.GraphicOverlay
 
 
 /**
