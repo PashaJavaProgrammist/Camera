@@ -15,7 +15,7 @@ import org.koin.android.ext.android.inject
  */
 class PermissionDialog : DialogFragment() {
 
-    val router: Router by inject()
+    private val router: Router by inject()
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
             AlertDialog.Builder(activity)
