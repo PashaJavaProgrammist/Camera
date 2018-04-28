@@ -15,7 +15,8 @@ class GlideImageLoaderImpl(private val context: Context) : ImageLoader {
                 .load(uri)
                 .apply(RequestOptions
                         .circleCropTransform()
-                        .diskCacheStrategy(DiskCacheStrategy.AUTOMATIC)
+                        .override(300, 300)
+                        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
                         .placeholder(R.mipmap.ic_launcher_round)
                         .error(R.mipmap.ic_launcher_round))
                 .into(imageView)
