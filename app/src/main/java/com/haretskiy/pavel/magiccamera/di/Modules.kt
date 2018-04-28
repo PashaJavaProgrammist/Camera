@@ -6,19 +6,19 @@ import android.os.Build
 import android.os.Bundle
 import android.support.annotation.RequiresApi
 import android.view.WindowManager
+import com.google.android.gms.common.GoogleApiAvailability
+import com.google.android.gms.vision.barcode.BarcodeDetector
+import com.google.android.gms.vision.face.FaceDetector
 import com.google.firebase.auth.FirebaseAuth
 import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_SIGN
+import com.haretskiy.pavel.magiccamera.camera2Api.Camera2Helper
+import com.haretskiy.pavel.magiccamera.cameraApi.CameraHolderCallback
+import com.haretskiy.pavel.magiccamera.googleVisioApi.barcodeDerector.BarcodeTrackerFactory
+import com.haretskiy.pavel.magiccamera.googleVisioApi.faceDetector.FaceTrackerFactory
 import com.haretskiy.pavel.magiccamera.navigation.Router
 import com.haretskiy.pavel.magiccamera.navigation.RouterImpl
 import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
-import com.haretskiy.pavel.magiccamera.ui.fragments.GalleryFragment
-import com.haretskiy.pavel.magiccamera.ui.fragments.LoginFragment
-import com.haretskiy.pavel.magiccamera.ui.fragments.SettingsFragment
-import com.haretskiy.pavel.magiccamera.ui.fragments.Camera2Fragment
-import com.haretskiy.pavel.magiccamera.camera2Api.Camera2Helper
-import com.haretskiy.pavel.magiccamera.ui.fragments.CameraFragment
-import com.haretskiy.pavel.magiccamera.cameraApi.CameraHolderCallback
-import com.haretskiy.pavel.magiccamera.ui.fragments.QRFragment
+import com.haretskiy.pavel.magiccamera.ui.fragments.*
 import com.haretskiy.pavel.magiccamera.utils.ComparatorSizesByArea
 import com.haretskiy.pavel.magiccamera.utils.ImageSaver
 import com.haretskiy.pavel.magiccamera.utils.Prefs
@@ -66,7 +66,13 @@ val cameraModule: Module = applicationContext {
 }
 
 val googleVisioModule: Module = applicationContext {
+    factory { BarcodeTrackerFactory() }
+    factory { BarcodeDetector.Builder(androidApplication()).build() }
 
+    factory { FaceTrackerFactory() }
+    factory { FaceDetector.Builder(androidApplication()).build() }
+
+    factory { GoogleApiAvailability.getInstance() }
 }
 
 val modules = listOf(appModule, camera2Module, cameraModule, googleVisioModule)

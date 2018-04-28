@@ -22,7 +22,6 @@
     <string name="camera_error">This device doesn\'t support Camera2 API.</string>
     <string name="settings">Settings</string>
     <string name="unable_to_start_camera">Unable to start camera source.</string>
-    <string name="low_storage">Face detector dependencies cannot be downloaded due to low device storage</string>
     <string name="detector_not_avail">Detector dependencies are not yet available.</string>
 
 

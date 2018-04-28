@@ -2,8 +2,6 @@ package com.haretskiy.pavel.magiccamera.ui.fragments
 
 
 import android.Manifest
-import android.content.Intent
-import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -35,6 +33,11 @@ class QRFragment : Fragment() {
 
     private val permissionDialog: PermissionDialog by inject()
     private val toaster: Toaster by inject()
+    private val barcodeDetector: BarcodeDetector by inject()
+    private val barcodeFactory: BarcodeTrackerFactory by inject()
+    private val faceDetector: FaceDetector by inject()
+    private val faceFactory: FaceTrackerFactory by inject()
+    private val googleApiAvailability: GoogleApiAvailability  by inject()
 
     private var mCameraSource: CameraSource? = null
 
@@ -64,27 +67,9 @@ class QRFragment : Fragment() {
 
     private fun createCameraSource() {
 
-        /** A face detector is created to track faces.  An associated multi-processor instance
-         * is set to receive the face detection results, track the faces, and maintain graphics for
-         * each face on screen.  The factory is used by the multi-processor to create a separate
-        tracker instance for each face.*/
-        val faceDetector = FaceDetector.Builder(context).build()
-        val faceFactory = FaceTrackerFactory(faceOverlay)
-        faceDetector.setProcessor(MultiProcessor.Builder<Face>(faceFactory).build())
+        faceDetector.setProcessor(MultiProcessor.Builder<Face>(faceFactory.initialize(faceOverlay)).build())
+        barcodeDetector.setProcessor(MultiProcessor.Builder<Barcode>(barcodeFactory.initialize(faceOverlay)).build())
 
-        /** A barcode detector is created to track barcodes.  An associated multi-processor instance
-         * is set to receive the barcode detection results, track the barcodes, and maintain
-         * graphics for each barcode on screen.  The factory is used by the multi-processor to
-         * create a separate tracker instance for each barcode.*/
-        val barcodeDetector = BarcodeDetector.Builder(context).build()
-        val barcodeFactory = BarcodeTrackerFactory(faceOverlay)
-        barcodeDetector.setProcessor(MultiProcessor.Builder<Barcode>(barcodeFactory).build())
-
-        /** A multi-detector groups the two detectors together as one detector.  All images received
-         * by this detector from the camera will be sent to each of the underlying detectors, which
-         * will each do face and barcode detection, respectively.  The detection results from each
-         * are then sent to associated tracker instances which maintain per-item graphics on the
-         * screen.*/
         val multiDetector = MultiDetector.Builder()
                 .add(faceDetector)
                 .add(barcodeDetector)
@@ -101,15 +86,6 @@ class QRFragment : Fragment() {
              * available.  The detectors will automatically become operational once the library
              * downloads complete on device.*/
             toaster.showToast(getString(R.string.detector_not_avail), false)
-
-            // Check for low storage.  If there is low storage, the native library will not be
-            // downloaded, so detection will not become operational.
-            val lowStorageFilter = IntentFilter(Intent.ACTION_DEVICE_STORAGE_LOW)
-            val hasLowStorage = context?.registerReceiver(null, lowStorageFilter) != null
-
-            if (hasLowStorage) {
-                toaster.showToast(getString(R.string.low_storage), false)
-            }
         }
 
         /* Creates and starts the camera.  Note that this uses a higher resolution in comparison
@@ -127,7 +103,6 @@ class QRFragment : Fragment() {
      */
     override fun onResume() {
         super.onResume()
-
         startCameraSource()
     }
 
@@ -155,12 +130,12 @@ class QRFragment : Fragment() {
      * (e.g., because onResume was called before the camera source was created), this will be called
      * again when the camera source is created.
      */
-    fun startCameraSource() {
+    private fun startCameraSource() {
 
         // check that the device has play services available.
-        val code = GoogleApiAvailability.getInstance().isGooglePlayServicesAvailable(context)
+        val code = googleApiAvailability.isGooglePlayServicesAvailable(context)
         if (code != ConnectionResult.SUCCESS) {
-            val dlg = GoogleApiAvailability.getInstance().getErrorDialog(activity, code, RC_HANDLE_GMS)
+            val dlg = googleApiAvailability.getErrorDialog(activity, code, RC_HANDLE_GMS)
             dlg.show()
         }
 
