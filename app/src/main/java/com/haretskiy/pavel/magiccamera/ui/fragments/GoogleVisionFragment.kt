@@ -1,8 +1,8 @@
 package com.haretskiy.pavel.magiccamera.ui.fragments
 
-
 import android.Manifest
 import android.content.pm.PackageManager
+import android.hardware.Camera
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
@@ -37,6 +37,10 @@ class GoogleVisionFragment : Fragment() {
     private val faceDetector: FaceDetector by inject()
     private val faceFactory: FaceTrackerFactory by inject()
     private val googleApiAvailability: GoogleApiAvailability  by inject()
+
+    var cameraType = NOTHIHG_CAMERA
+
+    private var cameras = Camera.getNumberOfCameras()
 
     private var mCameraSource: CameraSource? = null
 
@@ -86,13 +90,13 @@ class GoogleVisionFragment : Fragment() {
              * downloads complete on device.*/
             toaster.showToast(getString(R.string.detector_not_avail), false)
         }
-
+        choseCamera()
         /* Creates and starts the camera.  Note that this uses a higher resolution in comparison
         * to other detection examples to enable the barcode detector to detect small barcodes
         * at long distances.*/
         mCameraSource = CameraSource.Builder(context, multiDetector)
                 .setAutoFocusEnabled(true)
-                .setFacing(CameraSource.CAMERA_FACING_BACK)
+                .setFacing(cameraType)
                 .setRequestedPreviewSize(MAX_PREVIEW_HEIGHT, MAX_PREVIEW_WIDTH)
                 .setRequestedFps(CAMERA_FPS)
                 .build()
@@ -124,6 +128,20 @@ class GoogleVisionFragment : Fragment() {
         super.onDestroy()
         if (mCameraSource != null) {
             mCameraSource?.release()
+        }
+    }
+
+    private fun choseCamera() {
+        if (cameras == NO_CAMERA) {
+            cameraType = NOTHIHG_CAMERA
+        } else if (cameras == ONE_CAMERA) {
+            cameraType = CameraSource.CAMERA_FACING_BACK
+        } else if (cameras == TWO_CAMERAS) {
+            cameraType = when (cameraType) {
+                CameraSource.CAMERA_FACING_BACK -> CameraSource.CAMERA_FACING_FRONT
+                CameraSource.CAMERA_FACING_FRONT -> CameraSource.CAMERA_FACING_BACK
+                else -> CameraSource.CAMERA_FACING_FRONT
+            }
         }
     }
 

@@ -10,12 +10,9 @@ import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v4.content.ContextCompat.getColor
 import android.view.*
-import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_CAMERA1_ID
-import com.haretskiy.pavel.magiccamera.FRAGMENT_DIALOG_COMP
-import com.haretskiy.pavel.magiccamera.FULL_SCREEN
-import com.haretskiy.pavel.magiccamera.R
-import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
+import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.cameraApi.CameraHolderCallback
+import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
 import com.haretskiy.pavel.magiccamera.utils.ImageSaver
 import kotlinx.android.synthetic.main.fragment_camera.*
 import kotlinx.android.synthetic.main.fragment_camera.view.*
@@ -26,7 +23,6 @@ class CameraFragment : Fragment() {
     private val holderCallback: CameraHolderCallback by inject()
     private val imageSaver: ImageSaver by inject()
     private val permissionDialog: PermissionDialog by inject()
-    private val windowManager: WindowManager by inject()
     private val paint = Paint()
 
     private var cameras = 0
@@ -205,9 +201,9 @@ class CameraFragment : Fragment() {
     }
 
     private fun choseCamera() {
-        if (cameras == 1) {
+        if (cameras == ONE_CAMERA) {
             setCameraId(0)
-        } else if (cameras == 2) {
+        } else if (cameras == TWO_CAMERAS) {
             when (currentCameraID) {
                 -1 -> setCameraId(0)
                 0 -> setCameraId(1)

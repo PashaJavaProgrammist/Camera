@@ -7,6 +7,8 @@ import android.os.Build
 import com.google.android.gms.vision.face.Face
 import com.haretskiy.pavel.magiccamera.BOX_STROKE_WIDTH
 import com.haretskiy.pavel.magiccamera.ID_TEXT_SIZE
+import com.haretskiy.pavel.magiccamera.ID_X_OFFSET
+import com.haretskiy.pavel.magiccamera.ID_Y_OFFSET
 import com.haretskiy.pavel.magiccamera.googleVisioApi.graphic.TrackedGraphic
 import com.haretskiy.pavel.magiccamera.googleVisioApi.ui.GraphicOverlay
 
@@ -56,7 +58,7 @@ class FaceGraphic(overlay: GraphicOverlay) : TrackedGraphic<Face>(overlay) {
         val cy = translateY(face.position.y + face.height / 2)
 //        canvas.drawCircle(cx, cy, FACE_POSITION_RADIUS, mFacePositionPaint)
 //        canvas.drawText("id: $id", cx + ID_X_OFFSET, cy + ID_Y_OFFSET, mIdPaint)
-
+        canvas.drawText("Smile: " + String.format("%.2f", face.isSmilingProbability), cx - ID_X_OFFSET, cy - ID_Y_OFFSET, mIdPaint)
         // Draws an oval around the face.
         val xOffset = scaleX(face.width / 2.0f)
         val yOffset = scaleY(face.height / 2.0f)
@@ -72,7 +74,7 @@ class FaceGraphic(overlay: GraphicOverlay) : TrackedGraphic<Face>(overlay) {
     }
 
     companion object {
-        private val COLOR_CHOICES = intArrayOf(Color.MAGENTA, Color.RED, Color.YELLOW)
+        private val COLOR_CHOICES = intArrayOf(Color.BLUE, Color.CYAN, Color.MAGENTA, Color.RED, Color.YELLOW)
         private var mCurrentColorIndex = 0
     }
 }
