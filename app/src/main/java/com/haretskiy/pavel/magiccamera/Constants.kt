@@ -8,6 +8,7 @@ const val SIGN_IN = "SIGN IN"
 const val SIGN_UP = "SIGN UP"
 
 const val BUNDLE_KEY_EMAIL = "BUNDLE_KEY_EMAIL"
+const val BUNDLE_KEY_LAST_URI = "BUNDLE_KEY_LAST_URI"
 
 const val PASSWORDS_DO_NOT_MATCH = "Passwords doesn't match"
 const val FIELDS_ARE_EMPTY = "Password and email fields mustn't be empty"

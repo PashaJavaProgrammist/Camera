@@ -18,8 +18,8 @@ import android.view.WindowManager
 import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.ui.views.AutoFitTextureView
 import com.haretskiy.pavel.magiccamera.utils.ComparatorAreas
-import com.haretskiy.pavel.magiccamera.utils.ImageSaver
 import com.haretskiy.pavel.magiccamera.utils.Toaster
+import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageSaver
 import java.io.File
 import java.util.*
 import java.util.concurrent.Semaphore
@@ -29,7 +29,7 @@ class Camera2Helper(
         private val context: Context,
         private val windowManager: WindowManager,
         private val toaster: Toaster,
-        private val imageSaver: ImageSaver,
+        private val imageSaverImpl: ImageSaver,
         val comparatorAreas: ComparatorAreas,
         private val cameraManager: CameraManager) {
 
@@ -83,7 +83,7 @@ class Camera2Helper(
      * still image is ready to be saved.
      */
     private val onImageAvailableListener = ImageReader.OnImageAvailableListener {
-        imageSaver.saveImageApi2(it.acquireNextImage(), file)
+        imageSaverImpl.saveImage(it.acquireNextImage(), file)
     }
 
     /**
@@ -482,7 +482,7 @@ class Camera2Helper(
      * Lock the focus as the first step for a still image capture.
      */
     fun takePicture() {
-        file = imageSaver.createFile()
+        file = imageSaverImpl.createFile()
         try {
             // This is how to tell the camera to lock focus.
             previewRequestBuilder.set(CaptureRequest.CONTROL_AF_TRIGGER,

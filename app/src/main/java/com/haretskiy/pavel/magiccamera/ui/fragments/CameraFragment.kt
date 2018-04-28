@@ -13,7 +13,7 @@ import android.view.*
 import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.cameraApi.CameraHolderCallback
 import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
-import com.haretskiy.pavel.magiccamera.utils.ImageSaver
+import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageSaver
 import kotlinx.android.synthetic.main.fragment_camera.*
 import kotlinx.android.synthetic.main.fragment_camera.view.*
 import org.koin.android.ext.android.inject
@@ -21,7 +21,7 @@ import org.koin.android.ext.android.inject
 class CameraFragment : Fragment() {
 
     private val holderCallback: CameraHolderCallback by inject()
-    private val imageSaver: ImageSaver by inject()
+    private val imageSaverImpl: ImageSaver by inject()
     private val permissionDialog: PermissionDialog by inject()
     private val paint = Paint()
 
@@ -229,7 +229,7 @@ class CameraFragment : Fragment() {
 
     private fun takePicture() {
         camera?.takePicture(null, null, Camera.PictureCallback { data, _ ->
-            imageSaver.saveImageApi1(data)
+            imageSaverImpl.saveImage(data)
             surfaceView.visibility = View.GONE
             surfaceView.visibility = View.VISIBLE
         })

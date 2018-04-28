@@ -15,10 +15,9 @@ import com.haretskiy.pavel.magiccamera.navigation.Router
 import com.haretskiy.pavel.magiccamera.navigation.RouterImpl
 import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
 import com.haretskiy.pavel.magiccamera.ui.fragments.*
-import com.haretskiy.pavel.magiccamera.utils.ComparatorAreas
-import com.haretskiy.pavel.magiccamera.utils.ImageSaver
-import com.haretskiy.pavel.magiccamera.utils.Prefs
-import com.haretskiy.pavel.magiccamera.utils.Toaster
+import com.haretskiy.pavel.magiccamera.utils.*
+import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageLoader
+import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageSaver
 import com.haretskiy.pavel.magiccamera.viewmodels.LoginViewModel
 import org.koin.android.architecture.ext.viewModel
 import org.koin.android.ext.koin.androidApplication
@@ -35,12 +34,9 @@ val appModule: Module = applicationContext {
     factory { GalleryFragment() }
     factory { SettingsFragment() }
     bean { FirebaseAuth.getInstance() }
-    viewModel { LoginViewModel(get()) }
-    bean { RouterImpl(androidApplication()) as Router }
-    bean { Prefs(androidApplication()) }
-    factory { Toaster(androidApplication()) }
     factory { PermissionDialog() }
-    factory { ImageSaver(androidApplication(), get(), get()) }
+
+    viewModel { LoginViewModel(get()) }
 }
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
@@ -52,7 +48,6 @@ val camera2Module: Module = applicationContext {
     factory {
         androidApplication().getSystemService(Context.WINDOW_SERVICE) as WindowManager
     }
-    factory { ComparatorAreas() }
     factory { Camera2Helper(androidApplication(), get(), get(), get(), get(), get()) }
 }
 
@@ -61,11 +56,20 @@ val cameraModule: Module = applicationContext {
     factory { CameraHolderCallback(get()) }
 }
 
-val googleVisioModule: Module = applicationContext {
+val googleVisionModule: Module = applicationContext {
     factory { GoogleApiAvailability.getInstance() }
 }
 
-val modules = listOf(appModule, camera2Module, cameraModule, googleVisioModule)
+val utilsModule: Module = applicationContext {
+    factory { ComparatorAreas() }
+    bean { RouterImpl(androidApplication()) as Router }
+    bean { Prefs(androidApplication()) }
+    factory { Toaster(androidApplication()) }
+    factory { ImageSaverImpl(androidApplication(), get(), get()) as ImageSaver }
+    factory { GlideImageLoaderImpl(androidApplication()) as ImageLoader }
+}
+
+val modules = listOf(appModule, camera2Module, cameraModule, googleVisionModule, utilsModule)
 
 private fun signFragment(isSignIn: String): LoginFragment {
     val args = Bundle()

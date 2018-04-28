@@ -24,9 +24,11 @@ import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.googleVisionApi.barcodeDerector.BarcodeTrackerFactory
 import com.haretskiy.pavel.magiccamera.googleVisionApi.faceDetector.FaceTrackerFactory
 import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
-import com.haretskiy.pavel.magiccamera.utils.ImageSaver
+import com.haretskiy.pavel.magiccamera.utils.Prefs
 import com.haretskiy.pavel.magiccamera.utils.Toaster
-import kotlinx.android.synthetic.main.fragment_qr.*
+import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageLoader
+import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageSaver
+import kotlinx.android.synthetic.main.fragment_google_vision.*
 import org.koin.android.ext.android.inject
 import java.io.IOException
 
@@ -36,6 +38,8 @@ class GoogleVisionFragment : Fragment() {
     private val toaster: Toaster by inject()
     private val googleApiAvailability: GoogleApiAvailability  by inject()
     private val imageSaver: ImageSaver by inject()
+    private val prefs: Prefs by inject()
+    private val imageLoader: ImageLoader by inject()
 
     private var cameraType = NOTHIHG_CAMERA
 
@@ -47,14 +51,11 @@ class GoogleVisionFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        cameraType = savedInstanceState?.getInt(BUNDLE_KEY_CAMERA_GOOGLE, NOTHIHG_CAMERA)
-                ?: NOTHIHG_CAMERA
+        cameraType = savedInstanceState?.getInt(BUNDLE_KEY_CAMERA_GOOGLE, NOTHIHG_CAMERA) ?: NOTHIHG_CAMERA
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                              savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_qr, container, false)
-    }
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
+            inflater.inflate(R.layout.fragment_google_vision, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -67,6 +68,7 @@ class GoogleVisionFragment : Fragment() {
         }
         bt_change_camera_type.setOnClickListener({ changeCamera() })
         bt_take_a_picture.setOnClickListener({ takePicture() })
+        imageLoader.loadRoundImageIntoView(last_photo, prefs.getLastPhotoUri())
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -232,7 +234,8 @@ class GoogleVisionFragment : Fragment() {
                     }, 20)
                 },
                 { data ->
-                    imageSaver.saveImageApi1(data)
+                    imageSaver.saveImage(data)
+                    Handler().postDelayed({ imageLoader.loadRoundImageIntoView(last_photo, prefs.getLastPhotoUri()) }, 200)
                 })
     }
 

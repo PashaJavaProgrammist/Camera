@@ -3,10 +3,7 @@ package com.haretskiy.pavel.magiccamera.utils
 import android.content.Context
 import android.content.SharedPreferences
 import android.preference.PreferenceManager
-import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_EMAIL
-import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_IS_LOG_IN
-import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_PREFS_CAMERA_SIZE
-import com.haretskiy.pavel.magiccamera.EMPTY_STRING
+import com.haretskiy.pavel.magiccamera.*
 
 
 class Prefs(context: Context) {
@@ -29,7 +26,14 @@ class Prefs(context: Context) {
         if (email != null) save(BUNDLE_KEY_EMAIL, email)
     }
 
-    fun getUserEmail() = getString(BUNDLE_KEY_EMAIL, EMPTY_STRING)
+    fun getUserEmail(): String = getString(BUNDLE_KEY_EMAIL, EMPTY_STRING)
+
+    fun saveLastPhotoUri(uri: String) {
+        save(BUNDLE_KEY_LAST_URI, uri)
+    }
+
+    fun getLastPhotoUri(): String = getString(BUNDLE_KEY_LAST_URI, EMPTY_STRING)
+
 
     fun isUserLogIn() = getBoolean(BUNDLE_KEY_IS_LOG_IN, false)
 

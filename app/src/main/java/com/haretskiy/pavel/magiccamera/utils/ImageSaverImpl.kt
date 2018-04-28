@@ -10,17 +10,18 @@ import com.haretskiy.pavel.magiccamera.ERROR_SAVING
 import com.haretskiy.pavel.magiccamera.PIC_FILE_NAME
 import com.haretskiy.pavel.magiccamera.SUCCESSFUL_SAVING
 import com.haretskiy.pavel.magiccamera.TAG
+import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageSaver
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 
 
-class ImageSaver(private val context: Context, private val toaster: Toaster, private val prefs: Prefs) {
+class ImageSaverImpl(private val context: Context, private val toaster: Toaster, private val prefs: Prefs) : ImageSaver {
 
-    fun createFile() = File(context.getExternalFilesDir(null), "${prefs.getUserEmail()}_${System.currentTimeMillis()}$PIC_FILE_NAME")
+    override fun createFile() = File(context.getExternalFilesDir(null), "${prefs.getUserEmail()}_${System.currentTimeMillis()}$PIC_FILE_NAME")
 
     @RequiresApi(Build.VERSION_CODES.KITKAT)
-    fun saveImageApi2(image: Image, file: File) {
+    override fun saveImage(image: Image, file: File) {
         Handler().post({
             val buffer = image.planes[0].buffer
             val bytes = ByteArray(buffer.remaining())
@@ -30,6 +31,7 @@ class ImageSaver(private val context: Context, private val toaster: Toaster, pri
                 output = FileOutputStream(file).apply {
                     write(bytes)
                 }
+                prefs.saveLastPhotoUri(file.absolutePath)
             } catch (e: IOException) {
                 Log.e(TAG, e.toString())
             } finally {
@@ -45,7 +47,7 @@ class ImageSaver(private val context: Context, private val toaster: Toaster, pri
         })
     }
 
-    fun saveImageApi1(data: ByteArray) {
+    override fun saveImage(data: ByteArray) {
         Handler().post({
             try {
                 val file = createFile()
@@ -53,6 +55,7 @@ class ImageSaver(private val context: Context, private val toaster: Toaster, pri
                 fos.write(data)
                 fos.close()
                 toaster.showToast("$SUCCESSFUL_SAVING$file", false)
+                prefs.saveLastPhotoUri(file.absolutePath)
             } catch (e: Exception) {
                 toaster.showToast("$ERROR_SAVING${e.message}", false)
                 e.printStackTrace()
