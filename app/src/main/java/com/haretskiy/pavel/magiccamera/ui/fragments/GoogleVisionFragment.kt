@@ -55,6 +55,7 @@ class GoogleVisionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        setButtonsVisible(false)
         val permission = context?.let { ContextCompat.checkSelfPermission(it, Manifest.permission.CAMERA) }
         if (permission != PackageManager.PERMISSION_GRANTED) {
             requestCameraPermission()
@@ -69,6 +70,36 @@ class GoogleVisionFragment : Fragment() {
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
         outState.putInt(BUNDLE_KEY_CAMERA_GOOGLE, cameraType)
+    }
+
+    /**
+     * Restarts the camera.
+     */
+    override fun onResume() {
+        super.onResume()
+        activity?.window?.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        startCameraSource()
+    }
+
+    /**
+     * Stops the camera.
+     */
+    override fun onPause() {
+        super.onPause()
+        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        preview.stop()
+        setButtonsVisible(false)
+    }
+
+    /**
+     * Releases the resources associated with the camera source, the associated detectors, and the
+     * rest of the processing pipeline.
+     */
+    override fun onDestroy() {
+        super.onDestroy()
+        if (mCameraSource != null) {
+            mCameraSource?.release()
+        }
     }
 
     /**
@@ -120,6 +151,7 @@ class GoogleVisionFragment : Fragment() {
                 toaster.showToast(getString(R.string.camera_not_found), true)
             }
             else -> {
+                setButtonsVisible(true)
                 mCameraSource = CameraSource.Builder(context, multiDetector)
                         .setAutoFocusEnabled(true)
                         .setFacing(cameraType)
@@ -127,35 +159,6 @@ class GoogleVisionFragment : Fragment() {
                         .setRequestedFps(CAMERA_FPS)
                         .build()
             }
-        }
-    }
-
-    /**
-     * Restarts the camera.
-     */
-    override fun onResume() {
-        super.onResume()
-        activity?.window?.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
-        startCameraSource()
-    }
-
-    /**
-     * Stops the camera.
-     */
-    override fun onPause() {
-        super.onPause()
-        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-        preview.stop()
-    }
-
-    /**
-     * Releases the resources associated with the camera source, the associated detectors, and the
-     * rest of the processing pipeline.
-     */
-    override fun onDestroy() {
-        super.onDestroy()
-        if (mCameraSource != null) {
-            mCameraSource?.release()
         }
     }
 
@@ -192,6 +195,16 @@ class GoogleVisionFragment : Fragment() {
         preview.stop()
         createCameraSource()
         startCameraSource()
+    }
+
+    private fun setButtonsVisible(doIt: Boolean) {
+        if (doIt) {
+            bt_change_camera_type.visibility = View.VISIBLE
+            bt_take_a_picture.visibility = View.VISIBLE
+        } else {
+            bt_change_camera_type.visibility = View.GONE
+            bt_take_a_picture.visibility = View.GONE
+        }
     }
 
     /**
