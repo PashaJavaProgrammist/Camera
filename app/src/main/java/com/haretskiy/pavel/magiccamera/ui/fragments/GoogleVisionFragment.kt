@@ -199,12 +199,10 @@ class GoogleVisionFragment : Fragment() {
     }
 
     private fun choseCamera() {
-        if (cameras == NO_CAMERA) {
-            cameraType = NOTHIHG_CAMERA
-        } else if (cameras == ONE_CAMERA) {
-            cameraType = CameraSource.CAMERA_FACING_BACK
-        } else if (cameras == TWO_CAMERAS) {
-            cameraType = when (cameraType) {
+        when (cameras) {
+            NO_CAMERA -> cameraType = NOTHIHG_CAMERA
+            ONE_CAMERA -> cameraType = CameraSource.CAMERA_FACING_BACK
+            TWO_CAMERAS -> cameraType = when (cameraType) {
                 CameraSource.CAMERA_FACING_BACK -> CameraSource.CAMERA_FACING_FRONT
                 CameraSource.CAMERA_FACING_FRONT -> CameraSource.CAMERA_FACING_BACK
                 else -> CameraSource.CAMERA_FACING_FRONT
