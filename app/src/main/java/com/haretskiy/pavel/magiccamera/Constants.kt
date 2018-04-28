@@ -48,3 +48,8 @@ const val BUNDLE_KEY_CAMERA1_ID = "BUNDLE_KEY_CAMERA1_ID"
 
 //Google visio constants
 const val RC_HANDLE_GMS = 9001
+const val FACE_POSITION_RADIUS = 10.0f
+const val ID_TEXT_SIZE = 40.0f
+const val ID_Y_OFFSET = 50.0f
+const val ID_X_OFFSET = -50.0f
+const val BOX_STROKE_WIDTH = 5.0f

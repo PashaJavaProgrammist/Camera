@@ -70,7 +70,12 @@ val googleVisioModule: Module = applicationContext {
     factory { BarcodeDetector.Builder(androidApplication()).build() }
 
     factory { FaceTrackerFactory() }
-    factory { FaceDetector.Builder(androidApplication()).build() }
+    factory {
+        FaceDetector.Builder(androidApplication())
+                .setClassificationType(FaceDetector.ALL_CLASSIFICATIONS)
+                .setTrackingEnabled(true)
+                .build()
+    }
 
     factory { GoogleApiAvailability.getInstance() }
 }
