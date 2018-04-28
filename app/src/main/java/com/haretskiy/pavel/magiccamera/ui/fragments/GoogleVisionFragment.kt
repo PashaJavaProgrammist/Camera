@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.pm.PackageManager
 import android.hardware.Camera
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
@@ -23,6 +24,7 @@ import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.googleVisioApi.barcodeDerector.BarcodeTrackerFactory
 import com.haretskiy.pavel.magiccamera.googleVisioApi.faceDetector.FaceTrackerFactory
 import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
+import com.haretskiy.pavel.magiccamera.utils.ImageSaver
 import com.haretskiy.pavel.magiccamera.utils.Toaster
 import kotlinx.android.synthetic.main.fragment_qr.*
 import org.koin.android.ext.android.inject
@@ -33,6 +35,7 @@ class GoogleVisionFragment : Fragment() {
     private val permissionDialog: PermissionDialog by inject()
     private val toaster: Toaster by inject()
     private val googleApiAvailability: GoogleApiAvailability  by inject()
+    private val imageSaver: ImageSaver by inject()
 
     private var cameraType = NOTHIHG_CAMERA
 
@@ -62,9 +65,8 @@ class GoogleVisionFragment : Fragment() {
         } else {
             createCameraSource()
         }
-        bt_change_camera_type.setOnClickListener({
-            changeCamera()
-        })
+        bt_change_camera_type.setOnClickListener({ changeCamera() })
+        bt_take_a_picture.setOnClickListener({ takePicture() })
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
@@ -151,7 +153,6 @@ class GoogleVisionFragment : Fragment() {
                 toaster.showToast(getString(R.string.camera_not_found), true)
             }
             else -> {
-                setButtonsVisible(true)
                 mCameraSource = CameraSource.Builder(context, multiDetector)
                         .setAutoFocusEnabled(true)
                         .setFacing(cameraType)
@@ -197,6 +198,18 @@ class GoogleVisionFragment : Fragment() {
         startCameraSource()
     }
 
+    private fun takePicture() {
+        mCameraSource?.takePicture(
+                {
+                    preview.visibility = View.GONE
+                    Handler().postDelayed({ preview.visibility = View.VISIBLE }, 20)
+                },
+                { data ->
+                    imageSaver.saveImageApi1(data)
+                })
+    }
+
+
     private fun setButtonsVisible(doIt: Boolean) {
         if (doIt) {
             bt_change_camera_type.visibility = View.VISIBLE
@@ -213,7 +226,7 @@ class GoogleVisionFragment : Fragment() {
      * again when the camera source is created.
      */
     private fun startCameraSource() {
-
+        setButtonsVisible(true)
         // check that the device has play services available.
         val code = googleApiAvailability.isGooglePlayServicesAvailable(context)
         if (code != ConnectionResult.SUCCESS) {
