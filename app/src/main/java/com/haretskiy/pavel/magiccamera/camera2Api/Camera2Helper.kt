@@ -17,7 +17,7 @@ import android.view.Surface
 import android.view.WindowManager
 import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.ui.views.AutoFitTextureView
-import com.haretskiy.pavel.magiccamera.utils.ComparatorSizesByArea
+import com.haretskiy.pavel.magiccamera.utils.ComparatorAreas
 import com.haretskiy.pavel.magiccamera.utils.ImageSaver
 import com.haretskiy.pavel.magiccamera.utils.Toaster
 import java.io.File
@@ -30,7 +30,7 @@ class Camera2Helper(
         private val windowManager: WindowManager,
         private val toaster: Toaster,
         private val imageSaver: ImageSaver,
-        val comparatorSizesByArea: ComparatorSizesByArea,
+        val comparatorAreas: ComparatorAreas,
         private val cameraManager: CameraManager) {
 
     var texture: AutoFitTextureView? = null
@@ -568,8 +568,8 @@ class Camera2Helper(
         // Pick the smallest of those big enough. If there is no one big enough, pick the
         // largest of those not big enough.
         return when {
-            bigEnough.size > 0 -> Collections.min(bigEnough, comparatorSizesByArea)
-            notBigEnough.size > 0 -> Collections.max(notBigEnough, comparatorSizesByArea)
+            bigEnough.size > 0 -> Collections.min(bigEnough, comparatorAreas)
+            notBigEnough.size > 0 -> Collections.max(notBigEnough, comparatorAreas)
             else -> {
                 Log.e(TAG, "Couldn't find any suitable preview size")
                 choices[0]

@@ -202,7 +202,11 @@ class GoogleVisionFragment : Fragment() {
         mCameraSource?.takePicture(
                 {
                     preview.visibility = View.GONE
-                    Handler().postDelayed({ preview.visibility = View.VISIBLE }, 20)
+                    setButtonsVisible(false)
+                    Handler().postDelayed({
+                        preview.visibility = View.VISIBLE
+                        setButtonsVisible(true)
+                    }, 20)
                 },
                 { data ->
                     imageSaver.saveImageApi1(data)

@@ -20,8 +20,8 @@ import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import com.haretskiy.pavel.magiccamera.*
-import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
 import com.haretskiy.pavel.magiccamera.camera2Api.Camera2Helper
+import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
 import com.haretskiy.pavel.magiccamera.utils.Prefs
 import kotlinx.android.synthetic.main.fragment_camera2.*
 import org.koin.android.ext.android.inject
@@ -119,7 +119,7 @@ class Camera2Fragment : Fragment(), View.OnClickListener {
         spinner_sizes.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onNothingSelected(parent: AdapterView<*>?) {
 //                closeCamera()
-//                currentSizeOfScreen = Collections.max(Arrays.asList(*sizesOfScreen), comparatorSizesByArea)
+//                currentSizeOfScreen = Collections.max(Arrays.asList(*sizesOfScreen), comparatorAreas)
 //                openCamera()
             }
 
@@ -224,18 +224,18 @@ class Camera2Fragment : Fragment(), View.OnClickListener {
             camera2Helper.configurationMap = characteristics.get(
                     CameraCharacteristics.SCALER_STREAM_CONFIGURATION_MAP) ?: return
             camera2Helper.sizesOfScreen = camera2Helper.configurationMap.getOutputSizes(ImageFormat.JPEG)
-            Arrays.sort(camera2Helper.sizesOfScreen, camera2Helper.comparatorSizesByArea)
+            Arrays.sort(camera2Helper.sizesOfScreen, camera2Helper.comparatorAreas)
             val pos = prefs.getCameraScreenSizePosition(camera2Helper.currentCameraID)
             if (pos != -1) {
                 camera2Helper.currentSizeOfScreen = camera2Helper.sizesOfScreen[pos]
                 Handler().post({ spinner_sizes.setSelection(pos) })
             } else {
-                camera2Helper.currentSizeOfScreen = Collections.max(Arrays.asList(*camera2Helper.sizesOfScreen), camera2Helper.comparatorSizesByArea)
+                camera2Helper.currentSizeOfScreen = Collections.max(Arrays.asList(*camera2Helper.sizesOfScreen), camera2Helper.comparatorAreas)
             }
             initSpinnerAdapter(camera2Helper.sizesOfScreen)
             /*
             // For still image captures, we use the largest available size.
-            currentSizeOfScreen = Collections.max(Arrays.asList(*sizesOfScreen), comparatorSizesByArea)
+            currentSizeOfScreen = Collections.max(Arrays.asList(*sizesOfScreen), comparatorAreas)
             */
         } catch (e: CameraAccessException) {
             Log.e(TAG, e.toString())

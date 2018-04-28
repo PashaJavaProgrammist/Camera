@@ -7,6 +7,8 @@ const val SIGN_UP_FLAG = "flag_sign_up"
 const val SIGN_IN = "SIGN IN"
 const val SIGN_UP = "SIGN UP"
 
+const val BUNDLE_KEY_EMAIL = "BUNDLE_KEY_EMAIL"
+
 const val PASSWORDS_DO_NOT_MATCH = "Passwords doesn't match"
 const val FIELDS_ARE_EMPTY = "Password and email fields mustn't be empty"
 const val EMPTY_STRING = ""
@@ -25,6 +27,9 @@ const val FRAGMENT_DIALOG_SETTINGS = "settings_dialog"
 const val FRAGMENT_DIALOG_ERROR = "error_dialog"
 
 const val TAG = "Camera2BasicFragment"
+
+const val SUCCESSFUL_SAVING = "Successful saving:\n"
+const val ERROR_SAVING = "Error of saving..\n"
 
 //camera state: Showing camera preview.
 const val STATE_PREVIEW = 0

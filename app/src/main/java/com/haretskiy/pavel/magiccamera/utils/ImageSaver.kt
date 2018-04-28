@@ -6,16 +6,18 @@ import android.os.Build
 import android.os.Handler
 import android.support.annotation.RequiresApi
 import android.util.Log
+import com.haretskiy.pavel.magiccamera.ERROR_SAVING
 import com.haretskiy.pavel.magiccamera.PIC_FILE_NAME
+import com.haretskiy.pavel.magiccamera.SUCCESSFUL_SAVING
 import com.haretskiy.pavel.magiccamera.TAG
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 
 
-class ImageSaver(private val context: Context, private val toaster: Toaster) {
+class ImageSaver(private val context: Context, private val toaster: Toaster, private val prefs: Prefs) {
 
-    fun createFile() = File(context.getExternalFilesDir(null), "${System.currentTimeMillis()}$PIC_FILE_NAME")
+    fun createFile() = File(context.getExternalFilesDir(null), "${prefs.getUserEmail()}_${System.currentTimeMillis()}$PIC_FILE_NAME")
 
     @RequiresApi(Build.VERSION_CODES.KITKAT)
     fun saveImageApi2(image: Image, file: File) {
@@ -50,8 +52,9 @@ class ImageSaver(private val context: Context, private val toaster: Toaster) {
                 val fos = FileOutputStream(file)
                 fos.write(data)
                 fos.close()
-                toaster.showToast("Saved: $file", false)
+                toaster.showToast("$SUCCESSFUL_SAVING$file", false)
             } catch (e: Exception) {
+                toaster.showToast("$ERROR_SAVING${e.message}", false)
                 e.printStackTrace()
             }
         })
