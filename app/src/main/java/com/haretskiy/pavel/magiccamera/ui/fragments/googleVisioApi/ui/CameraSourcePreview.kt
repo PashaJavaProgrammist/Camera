@@ -24,7 +24,7 @@ class CameraSourcePreview @JvmOverloads constructor(mContext: Context, attrs: At
 
     private var mOverlay: GraphicOverlay? = null
 
-    fun setSurfaceParams() {
+    private fun setSurfaceParams() {
         mSurfaceView.holder.addCallback(SurfaceCallback())
         addView(mSurfaceView)
     }
@@ -45,6 +45,7 @@ class CameraSourcePreview @JvmOverloads constructor(mContext: Context, attrs: At
 
     @Throws(IOException::class)
     fun start(cameraSource: CameraSource, overlay: GraphicOverlay) {
+        removeAllViews()
         setSurfaceParams()
         mOverlay = overlay
         start(cameraSource)
@@ -52,13 +53,13 @@ class CameraSourcePreview @JvmOverloads constructor(mContext: Context, attrs: At
 
     fun stop() {
         if (mCameraSource != null) {
-            mCameraSource!!.stop()
+            mCameraSource?.stop()
         }
     }
 
     fun release() {
         if (mCameraSource != null) {
-            mCameraSource!!.release()
+            mCameraSource?.release()
             mCameraSource = null
         }
     }
@@ -84,18 +85,18 @@ class CameraSourcePreview @JvmOverloads constructor(mContext: Context, attrs: At
         } else {
             if (mStartRequested && mSurfaceAvailable) {
                 mCameraSource?.start(mSurfaceView.holder)
-                if (mOverlay != null) {
-                    val size = mCameraSource!!.previewSize
+                val size = mCameraSource?.previewSize
+                if (mOverlay != null && size != null) {
                     val min = Math.min(size.width, size.height)
                     val max = Math.max(size.width, size.height)
                     if (isPortraitMode()) {
                         // Swap width and height sizes when in portrait, since it will be rotated by
                         // 90 degrees
-                        mOverlay!!.setCameraInfo(min, max, mCameraSource!!.cameraFacing)
+                        mOverlay?.setCameraInfo(min, max, mCameraSource?.cameraFacing ?: 0)
                     } else {
-                        mOverlay!!.setCameraInfo(max, min, mCameraSource!!.cameraFacing)
+                        mOverlay?.setCameraInfo(max, min, mCameraSource?.cameraFacing ?: 0)
                     }
-                    mOverlay!!.clear()
+                    mOverlay?.clear()
                 }
                 mStartRequested = false
             }
@@ -124,7 +125,7 @@ class CameraSourcePreview @JvmOverloads constructor(mContext: Context, attrs: At
         var width = 320
         var height = 240
         if (mCameraSource != null) {
-            val size = mCameraSource!!.previewSize
+            val size = mCameraSource?.previewSize
             if (size != null) {
                 width = size.width
                 height = size.height

@@ -27,7 +27,6 @@ import com.haretskiy.pavel.magiccamera.R
 import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
 import com.haretskiy.pavel.magiccamera.ui.fragments.googleVisioApi.barcode.BarcodeTrackerFactory
 import com.haretskiy.pavel.magiccamera.ui.fragments.googleVisioApi.faceDetector.FaceTrackerFactory
-import kotlinx.android.synthetic.main.fragment_qr.*
 import org.koin.android.ext.android.inject
 import java.io.IOException
 
@@ -84,6 +83,10 @@ class QRFragment : Fragment() {
         val barcodeDetector = BarcodeDetector.Builder(context).build()
         val barcodeFactory = BarcodeTrackerFactory(faceOverlay)
         barcodeDetector.setProcessor(MultiProcessor.Builder<Barcode>(barcodeFactory).build())
+
+        /*= BarcodeDetector.Builder(context)
+                .setBarcodeFormats(Barcode.ALL_FORMATS)
+                .build()*/
 
         // A multi-detector groups the two detectors together as one detector.  All images received
         // by this detector from the camera will be sent to each of the underlying detectors, which
