@@ -19,9 +19,7 @@ import com.google.android.gms.vision.barcode.Barcode
 import com.google.android.gms.vision.barcode.BarcodeDetector
 import com.google.android.gms.vision.face.Face
 import com.google.android.gms.vision.face.FaceDetector
-import com.haretskiy.pavel.magiccamera.FRAGMENT_DIALOG_COMP
-import com.haretskiy.pavel.magiccamera.R
-import com.haretskiy.pavel.magiccamera.RC_HANDLE_GMS
+import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.googleVisioApi.barcodeDerector.BarcodeTrackerFactory
 import com.haretskiy.pavel.magiccamera.googleVisioApi.faceDetector.FaceTrackerFactory
 import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
@@ -93,9 +91,10 @@ class GoogleVisionFragment : Fragment() {
         * to other detection examples to enable the barcode detector to detect small barcodes
         * at long distances.*/
         mCameraSource = CameraSource.Builder(context, multiDetector)
+                .setAutoFocusEnabled(true)
                 .setFacing(CameraSource.CAMERA_FACING_BACK)
-                .setRequestedPreviewSize(1600, 1024)
-                .setRequestedFps(15.0f)
+                .setRequestedPreviewSize(MAX_PREVIEW_HEIGHT, MAX_PREVIEW_WIDTH)
+                .setRequestedFps(CAMERA_FPS)
                 .build()
     }
 

@@ -53,3 +53,4 @@ const val ID_TEXT_SIZE = 40.0f
 const val ID_Y_OFFSET = 50.0f
 const val ID_X_OFFSET = -50.0f
 const val BOX_STROKE_WIDTH = 5.0f
+const val CAMERA_FPS = 20.0f
