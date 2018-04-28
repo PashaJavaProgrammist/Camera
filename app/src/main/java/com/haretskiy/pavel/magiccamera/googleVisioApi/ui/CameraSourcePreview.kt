@@ -1,9 +1,11 @@
 package com.haretskiy.pavel.magiccamera.googleVisioApi.ui
 
+import android.Manifest
 import android.content.Context
+import android.content.pm.PackageManager
 import android.content.res.Configuration
+import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
-import android.util.Log
 import android.view.SurfaceHolder
 import android.view.SurfaceView
 import android.view.ViewGroup
@@ -27,8 +29,6 @@ class CameraSourcePreview(private val mContext: Context, attrs: AttributeSet) : 
             if (orientation == Configuration.ORIENTATION_PORTRAIT) {
                 return true
             }
-
-            Log.d(TAG, "isPortraitMode returning false by default")
             return false
         }
 
@@ -61,34 +61,40 @@ class CameraSourcePreview(private val mContext: Context, attrs: AttributeSet) : 
 
     fun stop() {
         if (mCameraSource != null) {
-            mCameraSource!!.stop()
+            mCameraSource?.stop()
         }
     }
 
     fun release() {
         if (mCameraSource != null) {
-            mCameraSource!!.release()
+            mCameraSource?.release()
             mCameraSource = null
         }
     }
 
     private fun startIfReady() {
         if (mStartRequested && mSurfaceAvailable) {
-            mCameraSource!!.start(mSurfaceView.holder)
-            if (mOverlay != null) {
-                val size = mCameraSource!!.previewSize
-                val min = Math.min(size.width, size.height)
-                val max = Math.max(size.width, size.height)
-                if (isPortraitMode) {
-                    // Swap width and height sizes when in portrait, since it will be rotated by
-                    // 90 degrees
-                    mOverlay!!.setCameraInfo(min, max, mCameraSource!!.cameraFacing)
-                } else {
-                    mOverlay!!.setCameraInfo(max, min, mCameraSource!!.cameraFacing)
+            val permission = context?.let { ContextCompat.checkSelfPermission(it, Manifest.permission.CAMERA) }
+            if (permission == PackageManager.PERMISSION_GRANTED) {
+                mCameraSource?.start(mSurfaceView.holder)
+                if (mOverlay != null) {
+                    val size = mCameraSource?.previewSize
+                    if (size != null) {
+                        val min = Math.min(size.width, size.height)
+                        val max = Math.max(size.width, size.height)
+
+                        if (isPortraitMode) {
+                            // Swap width and height sizes when in portrait, since it will be rotated by
+                            // 90 degrees
+                            mOverlay?.setCameraInfo(min, max, mCameraSource?.cameraFacing ?: 0)
+                        } else {
+                            mOverlay?.setCameraInfo(max, min, mCameraSource?.cameraFacing ?: 0)
+                        }
+                    }
+                    mOverlay?.clear()
                 }
-                mOverlay!!.clear()
+                mStartRequested = false
             }
-            mStartRequested = false
         }
     }
 
@@ -98,7 +104,7 @@ class CameraSourcePreview(private val mContext: Context, attrs: AttributeSet) : 
             try {
                 startIfReady()
             } catch (e: IOException) {
-                Log.e(TAG, "Could not start camera source.", e)
+                //Could not start camera source
             }
 
         }
@@ -114,7 +120,7 @@ class CameraSourcePreview(private val mContext: Context, attrs: AttributeSet) : 
         var width = 320
         var height = 240
         if (mCameraSource != null) {
-            val size = mCameraSource!!.previewSize
+            val size = mCameraSource?.previewSize
             if (size != null) {
                 width = size.width
                 height = size.height
@@ -149,12 +155,8 @@ class CameraSourcePreview(private val mContext: Context, attrs: AttributeSet) : 
         try {
             startIfReady()
         } catch (e: IOException) {
-            Log.e(TAG, "Could not start camera source.", e)
+            //Could not start camera source
         }
 
-    }
-
-    companion object {
-        private val TAG = "CameraSourcePreview"
     }
 }
