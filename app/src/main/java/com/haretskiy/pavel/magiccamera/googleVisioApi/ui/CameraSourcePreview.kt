@@ -142,10 +142,12 @@ class CameraSourcePreview(private val mContext: Context, attrs: AttributeSet) : 
         var childHeight = (layoutWidth.toFloat() / width.toFloat() * height).toInt()
 
         // If height is too tall using fit width, does fit height instead.
-        if (childHeight > layoutHeight) {
+        if (childHeight < layoutHeight) {
             childHeight = layoutHeight
             childWidth = (layoutHeight.toFloat() / height.toFloat() * width).toInt()
         }
+
+
         var i = 0
         while (i != childCount) {
             getChildAt(i).layout(0, 0, childWidth, childHeight)

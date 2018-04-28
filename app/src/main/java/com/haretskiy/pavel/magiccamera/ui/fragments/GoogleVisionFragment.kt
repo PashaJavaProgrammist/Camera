@@ -9,6 +9,7 @@ import android.support.v4.content.ContextCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.WindowManager
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.vision.CameraSource
@@ -103,6 +104,7 @@ class GoogleVisionFragment : Fragment() {
      */
     override fun onResume() {
         super.onResume()
+        activity?.window?.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
         startCameraSource()
     }
 
@@ -111,6 +113,7 @@ class GoogleVisionFragment : Fragment() {
      */
     override fun onPause() {
         super.onPause()
+        activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
         preview.stop()
     }
 
