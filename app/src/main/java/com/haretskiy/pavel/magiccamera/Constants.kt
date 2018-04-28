@@ -57,3 +57,4 @@ const val ID_Y_OFFSET = 50.0f
 const val ID_X_OFFSET = -50.0f
 const val BOX_STROKE_WIDTH = 5.0f
 const val CAMERA_FPS = 20.0f
+const val BUNDLE_KEY_CAMERA_GOOGLE = "BUNDLE_KEY_CAMERA_GOOGLE"

@@ -32,17 +32,21 @@ class GoogleVisionFragment : Fragment() {
 
     private val permissionDialog: PermissionDialog by inject()
     private val toaster: Toaster by inject()
-    private val barcodeDetector: BarcodeDetector by inject()
-    private val barcodeFactory: BarcodeTrackerFactory by inject()
-    private val faceDetector: FaceDetector by inject()
-    private val faceFactory: FaceTrackerFactory by inject()
     private val googleApiAvailability: GoogleApiAvailability  by inject()
 
-    var cameraType = NOTHIHG_CAMERA
+    private var cameraType = NOTHIHG_CAMERA
 
     private var cameras = Camera.getNumberOfCameras()
 
     private var mCameraSource: CameraSource? = null
+
+    private lateinit var multiDetector: MultiDetector
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        cameraType = savedInstanceState?.getInt(BUNDLE_KEY_CAMERA_GOOGLE, NOTHIHG_CAMERA)
+                ?: NOTHIHG_CAMERA
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -57,6 +61,14 @@ class GoogleVisionFragment : Fragment() {
         } else {
             createCameraSource()
         }
+        bt_change_camera_type.setOnClickListener({
+            changeCamera()
+        })
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt(BUNDLE_KEY_CAMERA_GOOGLE, cameraType)
     }
 
     /**
@@ -70,10 +82,19 @@ class GoogleVisionFragment : Fragment() {
 
     private fun createCameraSource() {
 
-        faceDetector.setProcessor(MultiProcessor.Builder<Face>(faceFactory.initialize(faceOverlay)).build())
-        barcodeDetector.setProcessor(MultiProcessor.Builder<Barcode>(barcodeFactory.initialize(faceOverlay)).build())
+        val faceDetector = FaceDetector.Builder(context)
+                .setClassificationType(FaceDetector.ALL_CLASSIFICATIONS)
+                .setTrackingEnabled(true)
+                .build()
+        val faceFactory = FaceTrackerFactory(faceOverlay)
+        faceDetector.setProcessor(MultiProcessor.Builder<Face>(faceFactory).build())
 
-        val multiDetector = MultiDetector.Builder()
+        val barcodeDetector = BarcodeDetector.Builder(context).build()
+        val barcodeFactory = BarcodeTrackerFactory(faceOverlay)
+        barcodeDetector.setProcessor(
+                MultiProcessor.Builder<Barcode>(barcodeFactory).build())
+
+        multiDetector = MultiDetector.Builder()
                 .add(faceDetector)
                 .add(barcodeDetector)
                 .build()
@@ -90,16 +111,23 @@ class GoogleVisionFragment : Fragment() {
              * downloads complete on device.*/
             toaster.showToast(getString(R.string.detector_not_avail), false)
         }
-        choseCamera()
+        initCameraType()
         /* Creates and starts the camera.  Note that this uses a higher resolution in comparison
         * to other detection examples to enable the barcode detector to detect small barcodes
         * at long distances.*/
-        mCameraSource = CameraSource.Builder(context, multiDetector)
-                .setAutoFocusEnabled(true)
-                .setFacing(cameraType)
-                .setRequestedPreviewSize(MAX_PREVIEW_HEIGHT, MAX_PREVIEW_WIDTH)
-                .setRequestedFps(CAMERA_FPS)
-                .build()
+        when (cameras) {
+            NO_CAMERA -> {
+                toaster.showToast(getString(R.string.camera_not_found), true)
+            }
+            else -> {
+                mCameraSource = CameraSource.Builder(context, multiDetector)
+                        .setAutoFocusEnabled(true)
+                        .setFacing(cameraType)
+                        .setRequestedPreviewSize(MAX_PREVIEW_HEIGHT, MAX_PREVIEW_WIDTH)
+                        .setRequestedFps(CAMERA_FPS)
+                        .build()
+            }
+        }
     }
 
     /**
@@ -131,6 +159,16 @@ class GoogleVisionFragment : Fragment() {
         }
     }
 
+    private fun initCameraType() {
+        if (cameraType == NOTHIHG_CAMERA) {
+            when (cameras) {
+                NO_CAMERA -> cameraType = NOTHIHG_CAMERA
+                ONE_CAMERA -> cameraType = CameraSource.CAMERA_FACING_BACK
+                TWO_CAMERAS -> cameraType = CameraSource.CAMERA_FACING_FRONT
+            }
+        }
+    }
+
     private fun choseCamera() {
         if (cameras == NO_CAMERA) {
             cameraType = NOTHIHG_CAMERA
@@ -143,6 +181,17 @@ class GoogleVisionFragment : Fragment() {
                 else -> CameraSource.CAMERA_FACING_FRONT
             }
         }
+    }
+
+    private fun changeCamera() {
+        if (mCameraSource != null) {
+            mCameraSource?.release()
+            mCameraSource = null
+        }
+        choseCamera()
+        preview.stop()
+        createCameraSource()
+        startCameraSource()
     }
 
     /**

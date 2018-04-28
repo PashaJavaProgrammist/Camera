@@ -9,14 +9,7 @@ import com.haretskiy.pavel.magiccamera.googleVisioApi.ui.GraphicOverlay
  * Factory for creating a tracker and associated graphic to be associated with a new barcode.  The
  * multi-processor uses this factory to create barcode trackers as needed -- one for each barcode.
  */
-internal class BarcodeTrackerFactory : MultiProcessor.Factory<Barcode> {
-
-    private lateinit var mGraphicOverlay: GraphicOverlay
-
-    fun initialize(graphicOverlay: GraphicOverlay): BarcodeTrackerFactory {
-        mGraphicOverlay = graphicOverlay
-        return this
-    }
+internal class BarcodeTrackerFactory(private val mGraphicOverlay: GraphicOverlay) : MultiProcessor.Factory<Barcode> {
 
     override fun create(barcode: Barcode) = GraphicTracker(mGraphicOverlay, BarcodeGraphic(mGraphicOverlay))
 }
