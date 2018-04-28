@@ -35,7 +35,7 @@ val appModule: Module = applicationContext {
     factory { params: ParameterProvider ->
         signFragment(params[BUNDLE_KEY_SIGN])
     }
-    factory { QRFragment() }
+    factory { GoogleVisionFragment() }
     factory { GalleryFragment() }
     factory { SettingsFragment() }
     bean { FirebaseAuth.getInstance() }

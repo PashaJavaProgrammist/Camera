@@ -29,7 +29,7 @@ import kotlinx.android.synthetic.main.fragment_qr.*
 import org.koin.android.ext.android.inject
 import java.io.IOException
 
-class QRFragment : Fragment() {
+class GoogleVisionFragment : Fragment() {
 
     private val permissionDialog: PermissionDialog by inject()
     private val toaster: Toaster by inject()

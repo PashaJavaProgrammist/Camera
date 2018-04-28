@@ -5,17 +5,13 @@ import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
 import com.haretskiy.pavel.magiccamera.R
 import com.haretskiy.pavel.magiccamera.navigation.Router
-import com.haretskiy.pavel.magiccamera.ui.fragments.GalleryFragment
-import com.haretskiy.pavel.magiccamera.ui.fragments.SettingsFragment
-import com.haretskiy.pavel.magiccamera.ui.fragments.Camera2Fragment
-import com.haretskiy.pavel.magiccamera.ui.fragments.CameraFragment
-import com.haretskiy.pavel.magiccamera.ui.fragments.QRFragment
+import com.haretskiy.pavel.magiccamera.ui.fragments.*
 import kotlinx.android.synthetic.main.activity_camera.*
 import org.koin.android.ext.android.inject
 
 class CameraActivity : AppCompatActivity() {
 
-    private val qrFragment: QRFragment by inject()
+    private val googleVisionFragment: GoogleVisionFragment by inject()
     private val camera2Fragment: Camera2Fragment by inject()
     private val cameraFragment: CameraFragment by inject()
     private val galleryFragment: GalleryFragment by inject()
@@ -37,7 +33,7 @@ class CameraActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_qr -> {
-                router.doFragmentTransaction(qrFragment, supportFragmentManager, R.id.frame_for_fragments)
+                router.doFragmentTransaction(googleVisionFragment, supportFragmentManager, R.id.frame_for_fragments)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_settings -> {
