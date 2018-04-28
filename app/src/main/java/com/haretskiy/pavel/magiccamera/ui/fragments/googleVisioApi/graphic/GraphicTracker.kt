@@ -5,7 +5,13 @@ import com.google.android.gms.vision.Tracker
 import com.haretskiy.pavel.magiccamera.ui.fragments.googleVisioApi.ui.GraphicOverlay
 
 
-class GraphicTracker<T>(val mOverlay: GraphicOverlay, val mGraphic: TrackedGraphic<T>) : Tracker<T>() {
+/**
+ * Generic tracker which is used for tracking either a face or a barcode (and can really be used for
+ * any type of item).  This is used to receive newly detected items, add a graphical representation
+ * to an overlay, update the graphics as the item changes, and remove the graphics when the item
+ * goes away.
+ */
+class GraphicTracker<T>(private val mOverlay: GraphicOverlay, private val mGraphic: TrackedGraphic<T>) : Tracker<T>() {
 
     /**
      * Start tracking the detected item instance within the item overlay.
@@ -17,7 +23,7 @@ class GraphicTracker<T>(val mOverlay: GraphicOverlay, val mGraphic: TrackedGraph
     /**
      * Update the position/characteristics of the item within the overlay.
      */
-    override fun onUpdate(detectionResults: Detector.Detections<T>?, item: T) {
+    override fun onUpdate(detectionResults: Detector.Detections<T>?, item: T?) {
         mOverlay.add(mGraphic)
         mGraphic.updateItem(item)
     }
@@ -38,5 +44,4 @@ class GraphicTracker<T>(val mOverlay: GraphicOverlay, val mGraphic: TrackedGraph
     override fun onDone() {
         mOverlay.remove(mGraphic)
     }
-
 }

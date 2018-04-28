@@ -1,11 +1,19 @@
 package com.haretskiy.pavel.magiccamera.ui.fragments.googleVisioApi.faceDetector
 
 import com.google.android.gms.vision.MultiProcessor
+import com.google.android.gms.vision.Tracker
 import com.google.android.gms.vision.face.Face
 import com.haretskiy.pavel.magiccamera.ui.fragments.googleVisioApi.graphic.GraphicTracker
 import com.haretskiy.pavel.magiccamera.ui.fragments.googleVisioApi.ui.GraphicOverlay
 
-class FaceTrackerFactory(private val mGraphicOverlay: GraphicOverlay) : MultiProcessor.Factory<Face> {
+/**
+ * Factory for creating a tracker and associated graphic to be associated with a new face.  The
+ * multi-processor uses this factory to create face trackers as needed -- one for each individual.
+ */
+internal class FaceTrackerFactory(private val mGraphicOverlay: GraphicOverlay) : MultiProcessor.Factory<Face> {
 
-    override fun create(face: Face) = GraphicTracker(mGraphicOverlay, FaceGraphic(mGraphicOverlay))
+    override fun create(face: Face): Tracker<Face> {
+        val graphic = FaceGraphic(mGraphicOverlay)
+        return GraphicTracker(mGraphicOverlay, graphic)
+    }
 }

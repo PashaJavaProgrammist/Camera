@@ -5,6 +5,11 @@ import com.google.android.gms.vision.CameraSource
 import com.haretskiy.pavel.magiccamera.ui.fragments.googleVisioApi.ui.GraphicOverlay
 
 
+/**
+ * Base class for a custom graphics object to be rendered within the graphic overlay.  Subclass
+ * this and implement the [Graphic.draw] method to define the
+ * graphics element.  Add instances to the overlay using [GraphicOverlay.add].
+ */
 abstract class Graphic(private val mOverlay: GraphicOverlay) {
 
     /**

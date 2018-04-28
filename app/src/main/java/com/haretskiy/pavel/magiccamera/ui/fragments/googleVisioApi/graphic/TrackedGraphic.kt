@@ -2,9 +2,14 @@ package com.haretskiy.pavel.magiccamera.ui.fragments.googleVisioApi.graphic
 
 import com.haretskiy.pavel.magiccamera.ui.fragments.googleVisioApi.ui.GraphicOverlay
 
+/**
+ * Common base class for defining graphics for a particular item type.  This along with
+ * [GraphicTracker] avoids the need to duplicate this code for both the face and barcode
+ * instances.
+ */
 abstract class TrackedGraphic<T>(overlay: GraphicOverlay) : Graphic(overlay) {
-
     var id: Int = 0
+        set
 
-    abstract fun updateItem(item: T)
+    abstract fun updateItem(item: T?)
 }

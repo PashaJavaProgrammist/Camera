@@ -27,6 +27,7 @@ import com.haretskiy.pavel.magiccamera.R
 import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
 import com.haretskiy.pavel.magiccamera.ui.fragments.googleVisioApi.barcode.BarcodeTrackerFactory
 import com.haretskiy.pavel.magiccamera.ui.fragments.googleVisioApi.faceDetector.FaceTrackerFactory
+import kotlinx.android.synthetic.main.fragment_qr.*
 import org.koin.android.ext.android.inject
 import java.io.IOException
 

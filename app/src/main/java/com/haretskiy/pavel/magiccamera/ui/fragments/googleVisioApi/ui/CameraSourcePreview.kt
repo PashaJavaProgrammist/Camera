@@ -1,10 +1,7 @@
 package com.haretskiy.pavel.magiccamera.ui.fragments.googleVisioApi.ui
 
-import android.Manifest
 import android.content.Context
-import android.content.pm.PackageManager
 import android.content.res.Configuration
-import android.support.v4.content.ContextCompat
 import android.util.AttributeSet
 import android.util.Log
 import android.view.SurfaceHolder
@@ -13,23 +10,37 @@ import android.view.ViewGroup
 import com.google.android.gms.vision.CameraSource
 import java.io.IOException
 
-
-class CameraSourcePreview @JvmOverloads constructor(mContext: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : ViewGroup(mContext, attrs, defStyleAttr) {
-
-    private val TAG = "CameraSourcePreview"
-    var mStartRequested = false
-    var mSurfaceAvailable = false
-    private var mSurfaceView = SurfaceView(mContext)
+class CameraSourcePreview(private val mContext: Context, attrs: AttributeSet) : ViewGroup(mContext, attrs) {
+    private val mSurfaceView: SurfaceView
+    private var mStartRequested: Boolean = false
+    private var mSurfaceAvailable: Boolean = false
     private var mCameraSource: CameraSource? = null
 
     private var mOverlay: GraphicOverlay? = null
 
-    private fun setSurfaceParams() {
+    private val isPortraitMode: Boolean
+        get() {
+            val orientation = mContext.resources.configuration.orientation
+            if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                return false
+            }
+            if (orientation == Configuration.ORIENTATION_PORTRAIT) {
+                return true
+            }
+
+            Log.d(TAG, "isPortraitMode returning false by default")
+            return false
+        }
+
+    init {
+        mStartRequested = false
+        mSurfaceAvailable = false
+
+        mSurfaceView = SurfaceView(mContext)
         mSurfaceView.holder.addCallback(SurfaceCallback())
         addView(mSurfaceView)
     }
 
-    @Throws(IOException::class)
     fun start(cameraSource: CameraSource?) {
         if (cameraSource == null) {
             stop()
@@ -43,63 +54,41 @@ class CameraSourcePreview @JvmOverloads constructor(mContext: Context, attrs: At
         }
     }
 
-    @Throws(IOException::class)
     fun start(cameraSource: CameraSource, overlay: GraphicOverlay) {
-        removeAllViews()
-        setSurfaceParams()
         mOverlay = overlay
         start(cameraSource)
     }
 
     fun stop() {
         if (mCameraSource != null) {
-            mCameraSource?.stop()
+            mCameraSource!!.stop()
         }
     }
 
     fun release() {
         if (mCameraSource != null) {
-            mCameraSource?.release()
+            mCameraSource!!.release()
             mCameraSource = null
         }
     }
 
-    private fun isPortraitMode(): Boolean {
-        val orientation = resources.configuration.orientation
-        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            return false
-        }
-        if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-            return true
-        }
-
-        Log.d(TAG, "isPortraitMode returning false by default")
-        return false
-    }
-
-    @Throws(IOException::class)
     private fun startIfReady() {
-        val permission = context?.let { ContextCompat.checkSelfPermission(it, Manifest.permission.CAMERA) }
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            //not perm
-        } else {
-            if (mStartRequested && mSurfaceAvailable) {
-                mCameraSource?.start(mSurfaceView.holder)
-                val size = mCameraSource?.previewSize
-                if (mOverlay != null && size != null) {
-                    val min = Math.min(size.width, size.height)
-                    val max = Math.max(size.width, size.height)
-                    if (isPortraitMode()) {
-                        // Swap width and height sizes when in portrait, since it will be rotated by
-                        // 90 degrees
-                        mOverlay?.setCameraInfo(min, max, mCameraSource?.cameraFacing ?: 0)
-                    } else {
-                        mOverlay?.setCameraInfo(max, min, mCameraSource?.cameraFacing ?: 0)
-                    }
-                    mOverlay?.clear()
+        if (mStartRequested && mSurfaceAvailable) {
+            mCameraSource!!.start(mSurfaceView.holder)
+            if (mOverlay != null) {
+                val size = mCameraSource!!.previewSize
+                val min = Math.min(size.width, size.height)
+                val max = Math.max(size.width, size.height)
+                if (isPortraitMode) {
+                    // Swap width and height sizes when in portrait, since it will be rotated by
+                    // 90 degrees
+                    mOverlay!!.setCameraInfo(min, max, mCameraSource!!.cameraFacing)
+                } else {
+                    mOverlay!!.setCameraInfo(max, min, mCameraSource!!.cameraFacing)
                 }
-                mStartRequested = false
+                mOverlay!!.clear()
             }
+            mStartRequested = false
         }
     }
 
@@ -125,7 +114,7 @@ class CameraSourcePreview @JvmOverloads constructor(mContext: Context, attrs: At
         var width = 320
         var height = 240
         if (mCameraSource != null) {
-            val size = mCameraSource?.previewSize
+            val size = mCameraSource!!.previewSize
             if (size != null) {
                 width = size.width
                 height = size.height
@@ -133,7 +122,7 @@ class CameraSourcePreview @JvmOverloads constructor(mContext: Context, attrs: At
         }
 
         // Swap width and height sizes when in portrait, since it will be rotated 90 degrees
-        if (isPortraitMode()) {
+        if (isPortraitMode) {
             val tmp = width
             width = height
             height = tmp
@@ -151,9 +140,10 @@ class CameraSourcePreview @JvmOverloads constructor(mContext: Context, attrs: At
             childHeight = layoutHeight
             childWidth = (layoutHeight.toFloat() / height.toFloat() * width).toInt()
         }
-
-        for (i in 0 until childCount) {
+        var i = 0
+        while (i != childCount) {
             getChildAt(i).layout(0, 0, childWidth, childHeight)
+            ++i
         }
 
         try {
@@ -164,4 +154,7 @@ class CameraSourcePreview @JvmOverloads constructor(mContext: Context, attrs: At
 
     }
 
+    companion object {
+        private val TAG = "CameraSourcePreview"
+    }
 }

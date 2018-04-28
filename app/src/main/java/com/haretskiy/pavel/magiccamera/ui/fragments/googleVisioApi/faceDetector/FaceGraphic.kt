@@ -9,40 +9,35 @@ import com.haretskiy.pavel.magiccamera.ui.fragments.googleVisioApi.ui.GraphicOve
 
 class FaceGraphic(overlay: GraphicOverlay) : TrackedGraphic<Face>(overlay) {
 
-    private val FACE_POSITION_RADIUS = 10.0f
-    private val ID_TEXT_SIZE = 40.0f
-    private val ID_Y_OFFSET = 50.0f
-    private val ID_X_OFFSET = -50.0f
-    private val BOX_STROKE_WIDTH = 5.0f
-
-    private val COLOR_CHOICES = intArrayOf(Color.MAGENTA, Color.RED, Color.YELLOW)
-
-    private val mFacePositionPaint = Paint()
-    private val mIdPaint: Paint = Paint()
-    private val mBoxPaint: Paint = Paint()
-
-    private val mCurrentColorIndex = (0 + 1) % COLOR_CHOICES.size
-    val selectedColor = COLOR_CHOICES[mCurrentColorIndex]
+    private val mFacePositionPaint: Paint
+    private val mIdPaint: Paint
+    private val mBoxPaint: Paint
 
     private var mFace: Face? = null
 
-    fun setPaints() {
+    init {
+
+        mCurrentColorIndex = (mCurrentColorIndex + 1) % COLOR_CHOICES.size
+        val selectedColor = COLOR_CHOICES[mCurrentColorIndex]
+
+        mFacePositionPaint = Paint()
         mFacePositionPaint.color = selectedColor
 
+        mIdPaint = Paint()
         mIdPaint.color = selectedColor
         mIdPaint.textSize = ID_TEXT_SIZE
 
+        mBoxPaint = Paint()
         mBoxPaint.color = selectedColor
         mBoxPaint.style = Paint.Style.STROKE
         mBoxPaint.strokeWidth = BOX_STROKE_WIDTH
     }
 
-
     /**
      * Updates the face instance from the detection of the most recent frame.  Invalidates the
      * relevant portions of the overlay to trigger a redraw.
      */
-    override fun updateItem(item: Face) {
+    override fun updateItem(item: Face?) {
         mFace = item
         postInvalidate()
     }
@@ -52,7 +47,7 @@ class FaceGraphic(overlay: GraphicOverlay) : TrackedGraphic<Face>(overlay) {
      */
     override fun draw(canvas: Canvas) {
         val face = mFace ?: return
-        setPaints()
+
         // Draws a circle at the position of the detected face, with the face's track id below.
         val cx = translateX(face.position.x + face.width / 2)
         val cy = translateY(face.position.y + face.height / 2)
@@ -66,7 +61,17 @@ class FaceGraphic(overlay: GraphicOverlay) : TrackedGraphic<Face>(overlay) {
         val top = cy - yOffset
         val right = cx + xOffset
         val bottom = cy + yOffset
-        canvas.drawRect(left, top, right, bottom, mBoxPaint) //oval???
+        canvas.drawOval(left, top, right, bottom, mBoxPaint)
     }
 
+    companion object {
+        private val FACE_POSITION_RADIUS = 10.0f
+        private val ID_TEXT_SIZE = 40.0f
+        private val ID_Y_OFFSET = 50.0f
+        private val ID_X_OFFSET = -50.0f
+        private val BOX_STROKE_WIDTH = 5.0f
+
+        private val COLOR_CHOICES = intArrayOf(Color.MAGENTA, Color.RED, Color.YELLOW)
+        private var mCurrentColorIndex = 0
+    }
 }
