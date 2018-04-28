@@ -9,7 +9,6 @@ import com.haretskiy.pavel.magiccamera.googleVisioApi.ui.GraphicOverlay
  */
 abstract class TrackedGraphic<T>(overlay: GraphicOverlay) : Graphic(overlay) {
     var id: Int = 0
-        set
 
     abstract fun updateItem(item: T?)
 }

@@ -21,6 +21,9 @@
     <string name="request_permission">Needs camera permission, if you want to take a picture.\n\nIf you press "Don't show again" receive permission manually in settings</string>
     <string name="camera_error">This device doesn\'t support Camera2 API.</string>
     <string name="settings">Settings</string>
+    <string name="unable_to_start_camera">Unable to start camera source.</string>
+    <string name="low_storage">Face detector dependencies cannot be downloaded due to low device storage</string>
+    <string name="detector_not_avail">Detector dependencies are not yet available.</string>
 
 
 </resources>
