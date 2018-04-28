@@ -163,6 +163,31 @@ class GoogleVisionFragment : Fragment() {
         }
     }
 
+    /**
+     * Starts or restarts the camera source, if it exists.  If the camera source doesn't exist yet
+     * (e.g., because onResume was called before the camera source was created), this will be called
+     * again when the camera source is created.
+     */
+    private fun startCameraSource() {
+        setButtonsVisible(true)
+        // check that the device has play services available.
+        val code = googleApiAvailability.isGooglePlayServicesAvailable(context)
+        if (code != ConnectionResult.SUCCESS) {
+            val dlg = googleApiAvailability.getErrorDialog(activity, code, RC_HANDLE_GMS)
+            dlg.show()
+        }
+
+        if (mCameraSource != null) {
+            try {
+                preview.start(mCameraSource!!, faceOverlay)
+            } catch (e: IOException) {
+                toaster.showToast(getString(R.string.unable_to_start_camera), false)
+                mCameraSource?.release()
+                mCameraSource = null
+            }
+        }
+    }
+
     private fun initCameraType() {
         if (cameraType == NOTHIHG_CAMERA) {
             when (cameras) {
@@ -221,31 +246,6 @@ class GoogleVisionFragment : Fragment() {
         } else {
             bt_change_camera_type.visibility = View.GONE
             bt_take_a_picture.visibility = View.GONE
-        }
-    }
-
-    /**
-     * Starts or restarts the camera source, if it exists.  If the camera source doesn't exist yet
-     * (e.g., because onResume was called before the camera source was created), this will be called
-     * again when the camera source is created.
-     */
-    private fun startCameraSource() {
-        setButtonsVisible(true)
-        // check that the device has play services available.
-        val code = googleApiAvailability.isGooglePlayServicesAvailable(context)
-        if (code != ConnectionResult.SUCCESS) {
-            val dlg = googleApiAvailability.getErrorDialog(activity, code, RC_HANDLE_GMS)
-            dlg.show()
-        }
-
-        if (mCameraSource != null) {
-            try {
-                preview.start(mCameraSource!!, faceOverlay)
-            } catch (e: IOException) {
-                toaster.showToast(getString(R.string.unable_to_start_camera), false)
-                mCameraSource?.release()
-                mCameraSource = null
-            }
         }
     }
 
