@@ -21,4 +21,15 @@ class GlideImageLoaderImpl(private val context: Context) : ImageLoader {
                         .error(R.mipmap.ic_launcher_round))
                 .into(imageView)
     }
+
+    override fun loadFullScreenImageIntoView(imageView: ImageView, uri: String) {
+        Glide.with(context)
+                .load(uri)
+                .apply(RequestOptions
+                        .centerCropTransform()
+                        .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                        .placeholder(R.mipmap.ic_launcher_round)
+                        .error(R.mipmap.ic_launcher_round))
+                .into(imageView)
+    }
 }

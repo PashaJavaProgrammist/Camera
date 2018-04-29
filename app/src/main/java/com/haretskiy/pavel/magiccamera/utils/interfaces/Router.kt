@@ -5,11 +5,13 @@ import android.support.v4.app.FragmentManager
 
 interface Router {
 
-    fun goToCameraActivity()
+    fun startCameraActivity()
 
-    fun goToLoginActivity()
+    fun startLoginActivity()
 
     fun startSettingsActivity()
 
     fun doFragmentTransaction(fragment: Fragment, fragmentManager: FragmentManager, containerId: Int)
+
+    fun startPhotoDetailActivity(uri: String)
 }

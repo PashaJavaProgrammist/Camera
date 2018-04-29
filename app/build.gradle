@@ -70,6 +70,7 @@ dependencies {
     implementation('com.crashlytics.sdk.android:crashlytics:2.9.1@aar') { transitive = true }
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.7.1'
+    implementation 'com.android.support:support-v4:27.1.1'
     kapt 'com.github.bumptech.glide:compiler:4.7.1'
     //ROOM DB
     implementation "android.arch.persistence.room:runtime:1.0.0"

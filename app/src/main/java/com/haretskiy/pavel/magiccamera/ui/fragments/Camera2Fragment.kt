@@ -59,7 +59,7 @@ class Camera2Fragment : Fragment(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         camera2Helper.getAvailableCameras()
-        camera2Helper.currentCameraID = savedInstanceState?.getString(KEY_BUNDLE_CURRENT_CAMERA_ID, EMPTY_STRING) ?: EMPTY_STRING
+        camera2Helper.currentCameraID = savedInstanceState?.getString(BUNDLE_KEY_CURRENT_CAMERA_ID, EMPTY_STRING) ?: EMPTY_STRING
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -99,7 +99,7 @@ class Camera2Fragment : Fragment(), View.OnClickListener {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putString(KEY_BUNDLE_CURRENT_CAMERA_ID, camera2Helper.currentCameraID)
+        outState.putString(BUNDLE_KEY_CURRENT_CAMERA_ID, camera2Helper.currentCameraID)
     }
 
     override fun onClick(view: View) {

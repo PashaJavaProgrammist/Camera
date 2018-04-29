@@ -5,4 +5,7 @@ import android.widget.ImageView
 interface ImageLoader {
 
     fun loadRoundImageIntoView(imageView: ImageView, uri: String)
+
+    fun loadFullScreenImageIntoView(imageView: ImageView, uri: String)
+
 }

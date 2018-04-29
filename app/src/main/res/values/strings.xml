@@ -26,5 +26,7 @@
     <string name="camera_not_found">Your phone doesn\'t have camera</string>
     <string name="last">last</string>
 
+    <string name="title_activity_photo_detail">PhotoDetailActivity</string>
+    <string name="scan_photo">Scan photo</string>
 
 </resources>

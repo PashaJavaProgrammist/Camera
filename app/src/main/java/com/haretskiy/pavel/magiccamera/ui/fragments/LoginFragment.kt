@@ -67,7 +67,7 @@ class LoginFragment : Fragment(), View.OnClickListener {
         Toast.makeText(context, user?.email, Toast.LENGTH_SHORT).show()
         prefs.setUserStateLogIn()
         prefs.saveEmail(user?.email)
-        router.goToCameraActivity()
+        router.startCameraActivity()
     }
 
 }

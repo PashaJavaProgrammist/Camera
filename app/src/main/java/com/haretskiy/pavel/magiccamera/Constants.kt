@@ -7,17 +7,18 @@ const val SIGN_UP_FLAG = "flag_sign_up"
 const val SIGN_IN = "SIGN IN"
 const val SIGN_UP = "SIGN UP"
 
-const val BUNDLE_KEY_EMAIL = "BUNDLE_KEY_EMAIL"
-const val BUNDLE_KEY_LAST_URI = "BUNDLE_KEY_LAST_URI"
-
 const val PASSWORDS_DO_NOT_MATCH = "Passwords doesn't match"
 const val FIELDS_ARE_EMPTY = "Password and email fields mustn't be empty"
 const val EMPTY_STRING = ""
-//const val KEY_BUNDLE_TOKEN = "token_user_firebase"
-const val KEY_BUNDLE_CURRENT_CAMERA_ID = "current_camera_id"
 
+const val BUNDLE_KEY_CURRENT_CAMERA_ID = "current_camera_id"
+const val BUNDLE_KEY_URI_TO_DETAIL = "BUNDLE_KEY_URI_TO_DETAIL"
+const val BUNDLE_KEY_EMAIL = "BUNDLE_KEY_EMAIL"
+const val BUNDLE_KEY_LAST_URI = "BUNDLE_KEY_LAST_URI"
 const val BUNDLE_KEY_IS_LOG_IN = "is_user_log_in"
 const val BUNDLE_KEY_PREFS_CAMERA_SIZE = "camera_size_prefs"
+const val BUNDLE_KEY_CAMERA1_ID = "BUNDLE_KEY_CAMERA1_ID"
+const val BUNDLE_KEY_CAMERA_GOOGLE = "BUNDLE_KEY_CAMERA_GOOGLE"
 
 //Camera2 constants
 const val CODE_REQUEST_CAMERA_PERMISSION = 1
@@ -26,7 +27,7 @@ const val PIC_FILE_NAME = "photo.jpg"
 const val FRAGMENT_DIALOG_COMP = "Compl_dialog"
 
 const val TAG = "Camera2BasicFragment"
-
+const val PACKAGE_SETTINGS = "package:"
 const val SUCCESSFUL_SAVING = "Successful saving:\n"
 const val ERROR_SAVING = "Error of saving..\n"
 
@@ -51,7 +52,6 @@ const val NOTHING_CAMERA = -1
 
 //Camera constants
 const val FULL_SCREEN = true
-const val BUNDLE_KEY_CAMERA1_ID = "BUNDLE_KEY_CAMERA1_ID"
 
 //Google vision constants
 const val RC_HANDLE_GMS = 9001
@@ -61,6 +61,5 @@ const val ID_Y_OFFSET = 50.0f
 const val ID_X_OFFSET = -50.0f
 const val BOX_STROKE_WIDTH = 5.0f
 const val CAMERA_FPS = 20.0f
-const val BUNDLE_KEY_CAMERA_GOOGLE = "BUNDLE_KEY_CAMERA_GOOGLE"
 
 const val DB_NAME = "camera_database"

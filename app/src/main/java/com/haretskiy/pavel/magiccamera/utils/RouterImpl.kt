@@ -8,13 +8,16 @@ import android.provider.Settings
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
+import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_URI_TO_DETAIL
+import com.haretskiy.pavel.magiccamera.PACKAGE_SETTINGS
 import com.haretskiy.pavel.magiccamera.ui.activities.CameraActivity
 import com.haretskiy.pavel.magiccamera.ui.activities.LoginActivity
+import com.haretskiy.pavel.magiccamera.ui.activities.PhotoDetailActivity
 import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 
 class RouterImpl(private val context: Context) : Router {
 
-    override fun goToCameraActivity() {
+    override fun startCameraActivity() {
         val intent = Intent(context, CameraActivity::class.java)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
@@ -24,14 +27,14 @@ class RouterImpl(private val context: Context) : Router {
         context.startActivity(intent)
     }
 
-    override fun goToLoginActivity() {
+    override fun startLoginActivity() {
         val intent = Intent(context, LoginActivity::class.java)
         context.startActivity(intent)
     }
 
     override fun startSettingsActivity() {
         val openSettingsIntent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
-                Uri.parse("package:${context.packageName}"))
+                Uri.parse("$PACKAGE_SETTINGS${context.packageName}"))
         context.startActivity(openSettingsIntent)
     }
 
@@ -41,5 +44,11 @@ class RouterImpl(private val context: Context) : Router {
             setTransition(FragmentTransaction.TRANSIT_FRAGMENT_FADE)
         }
         ft.commit()
+    }
+
+    override fun startPhotoDetailActivity(uri: String) {
+        val intent = Intent(context, PhotoDetailActivity::class.java)
+        intent.putExtra(BUNDLE_KEY_URI_TO_DETAIL, uri)
+        context.startActivity(intent)
     }
 }

@@ -22,6 +22,7 @@ import com.haretskiy.pavel.magiccamera.utils.Prefs
 import com.haretskiy.pavel.magiccamera.utils.Toaster
 import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageLoader
 import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageSaver
+import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 import kotlinx.android.synthetic.main.fragment_google_vision.*
 import org.koin.android.ext.android.inject
 import java.io.IOException
@@ -35,6 +36,7 @@ class GoogleVisionFragment : Fragment() {
     private val prefs: Prefs by inject()
     private val imageLoader: ImageLoader by inject()
     private val cameraSourceManager: CameraSourceManager by inject()
+    private val router: Router by inject()
 
     private var cameraType = NOTHING_CAMERA
     private var cameras = Camera.getNumberOfCameras()
@@ -62,6 +64,10 @@ class GoogleVisionFragment : Fragment() {
         bt_change_camera_type.setOnClickListener({ changeCamera() })
         bt_take_a_picture.setOnClickListener({ takePicture() })
         imageLoader.loadRoundImageIntoView(last_photo, prefs.getLastPhotoUri())
+        last_photo.setOnClickListener({
+            val uri = prefs.getLastPhotoUri()
+            if (uri != EMPTY_STRING) router.startPhotoDetailActivity(uri)
+        })
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
