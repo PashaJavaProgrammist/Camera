@@ -32,7 +32,11 @@ class GalleryFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val c = context
         if (c != null) {
-            rcv_gallery_list.layoutManager = AutoFitGridLayoutManager(c, 3, resources.getDimension(R.dimen.card_width).toInt(), GridLayoutManager.VERTICAL, false)
+            rcv_gallery_list.layoutManager = AutoFitGridLayoutManager(
+                    c,
+                    3,
+                    resources.getDimension(R.dimen.card_width).toInt(),
+                    GridLayoutManager.VERTICAL, false)
         }
         val galleryAdapter = GalleryPhotoAdapter(diffCallBack, imageLoader, router)
         rcv_gallery_list.adapter = galleryAdapter
