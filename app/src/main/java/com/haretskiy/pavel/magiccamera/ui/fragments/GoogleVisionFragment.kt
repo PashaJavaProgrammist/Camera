@@ -38,13 +38,13 @@ class GoogleVisionFragment : Fragment() {
     private val cameraSourceManager: CameraSourceManager by inject()
     private val router: Router by inject()
 
-    private var cameraType = NOTHING_CAMERA
+    private var cameraType = CAMERA_TYPE_NOT_FOUND
     private var cameras = Camera.getNumberOfCameras()
     private var mCameraSource: CameraSource? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        cameraType = savedInstanceState?.getInt(BUNDLE_KEY_CAMERA_GOOGLE, NOTHING_CAMERA) ?: NOTHING_CAMERA
+        cameraType = prefs.getCameraType()
         cameraSourceManager.cameraSourceLiveData.observe(this, Observer {
             if (mCameraSource != null) {
                 mCameraSource?.release()
@@ -70,11 +70,6 @@ class GoogleVisionFragment : Fragment() {
         })
     }
 
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putInt(BUNDLE_KEY_CAMERA_GOOGLE, cameraType)
-    }
-
     /**
      * Restarts the camera.
      */
@@ -97,6 +92,7 @@ class GoogleVisionFragment : Fragment() {
         activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
         preview.stop()
         setViewsVisible(false)
+        prefs.saveCameraType(cameraType)
     }
 
     /**
@@ -161,9 +157,9 @@ class GoogleVisionFragment : Fragment() {
     }
 
     private fun initCameraType() {
-        if (cameraType == NOTHING_CAMERA) {
+        if (cameraType == CAMERA_TYPE_NOT_FOUND) {
             when (cameras) {
-                NO_CAMERA -> cameraType = NOTHING_CAMERA
+                NO_CAMERA -> cameraType = CAMERA_TYPE_NOT_FOUND
                 ONE_CAMERA -> cameraType = CameraSource.CAMERA_FACING_BACK
                 TWO_CAMERAS -> cameraType = CameraSource.CAMERA_FACING_FRONT
             }
@@ -172,7 +168,7 @@ class GoogleVisionFragment : Fragment() {
 
     private fun choseCamera() {
         when (cameras) {
-            NO_CAMERA -> cameraType = NOTHING_CAMERA
+            NO_CAMERA -> cameraType = CAMERA_TYPE_NOT_FOUND
             ONE_CAMERA -> cameraType = CameraSource.CAMERA_FACING_BACK
             TWO_CAMERAS -> cameraType = when (cameraType) {
                 CameraSource.CAMERA_FACING_BACK -> CameraSource.CAMERA_FACING_FRONT

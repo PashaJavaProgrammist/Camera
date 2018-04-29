@@ -26,6 +26,12 @@ class Prefs(context: Context) {
         if (email != null) save(BUNDLE_KEY_EMAIL, email)
     }
 
+    fun saveCameraType(camera: Int) {
+        save(BUNDLE_KEY_CAMERA_TYPE_STATE, camera)
+    }
+
+    fun getCameraType() = getInt(BUNDLE_KEY_CAMERA_TYPE_STATE, CAMERA_TYPE_NOT_FOUND)
+
     fun getUserEmail(): String = getString(BUNDLE_KEY_EMAIL, EMPTY_STRING)
 
     fun saveLastPhotoUri(email: String, uri: String) {

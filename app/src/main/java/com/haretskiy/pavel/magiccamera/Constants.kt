@@ -20,6 +20,8 @@ const val BUNDLE_KEY_PREFS_CAMERA_SIZE = "camera_size_prefs"
 const val BUNDLE_KEY_CAMERA1_ID = "BUNDLE_KEY_CAMERA1_ID"
 const val BUNDLE_KEY_CAMERA_GOOGLE = "BUNDLE_KEY_CAMERA_GOOGLE"
 const val BUNDLE_KEY_FRAGMENT_ID = "BUNDLE_KEY_FRAGMENT_ID"
+const val BUNDLE_KEY_CAMERA_TYPE_STATE = "BUNDLE_KEY_CAMERA_TYPE_STATE"
+
 //Camera2 constants
 const val CODE_REQUEST_CAMERA_PERMISSION = 1
 const val PIC_FILE_NAME = "photo.jpg"
@@ -48,7 +50,7 @@ const val MAX_PREVIEW_HEIGHT = 1080
 const val TWO_CAMERAS = 2
 const val ONE_CAMERA = 1
 const val NO_CAMERA = 0
-const val NOTHING_CAMERA = -1
+const val CAMERA_TYPE_NOT_FOUND = -1
 
 //Camera constants
 const val FULL_SCREEN = true
