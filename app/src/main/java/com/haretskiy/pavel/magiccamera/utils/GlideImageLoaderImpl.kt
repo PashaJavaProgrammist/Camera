@@ -32,7 +32,29 @@ class GlideImageLoaderImpl(private val context: Context) : ImageLoader {
         })
     }
 
-    override fun loadFullScreenImageIntoView(imageView: ImageView, progressBar: ProgressBar, uri: String) {
+    override fun loadFullScreenImageIntoViewCenterInside(imageView: ImageView, progressBar: ProgressBar, uri: String) {
+        Handler().post({
+            Glide.with(context)
+                    .load(uri)
+                    .apply(RequestOptions
+                            .centerInsideTransform()
+                            .diskCacheStrategy(DiskCacheStrategy.RESOURCE))
+                    .listener(object : RequestListener<Drawable> {
+                        override fun onLoadFailed(e: GlideException?, model: Any?, target: Target<Drawable>?, isFirstResource: Boolean): Boolean {
+                            progressBar.visibility = View.GONE
+                            return false
+                        }
+
+                        override fun onResourceReady(resource: Drawable?, model: Any?, target: Target<Drawable>?, dataSource: DataSource?, isFirstResource: Boolean): Boolean {
+                            progressBar.visibility = View.GONE
+                            return false
+                        }
+                    })
+                    .into(imageView)
+        })
+    }
+
+    override fun loadFullScreenImageIntoViewCenterCrop(imageView: ImageView, progressBar: ProgressBar, uri: String) {
         Handler().post({
             Glide.with(context)
                     .load(uri)
