@@ -5,9 +5,7 @@ import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.WindowManager
-import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_URI_TO_DETAIL
-import com.haretskiy.pavel.magiccamera.EMPTY_STRING
-import com.haretskiy.pavel.magiccamera.R
+import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageLoader
 import kotlinx.android.synthetic.main.activity_photo_detail.*
 import org.koin.android.ext.android.inject
@@ -38,11 +36,7 @@ class PhotoDetailActivity : AppCompatActivity() {
     private var mVisible: Boolean = false
 
     private val mHideRunnable = Runnable { hide() }
-    /**
-     * Touch listener to use for in-layout UI controls to delay hiding the
-     * system UI. This is to prevent the jarring behavior of controls going away
-     * while interacting with activity UI.
-     */
+
     private val mDelayHideTouchListener = View.OnTouchListener { _, _ ->
         if (AUTO_HIDE) {
             delayedHide(AUTO_HIDE_DELAY_MILLIS)
@@ -60,12 +54,9 @@ class PhotoDetailActivity : AppCompatActivity() {
 
         mVisible = true
 
-        // Set up the user interaction to manually show or hide the system UI.
         iv_fullscreen_photo.setOnClickListener { toggle() }
 
-        // Upon interacting with UI controls, delay any scheduled hide()
-        // operations to prevent the jarring behavior of controls going away
-        // while interacting with the UI.
+
         dummy_button.setOnTouchListener(mDelayHideTouchListener)
     }
 
@@ -120,32 +111,8 @@ class PhotoDetailActivity : AppCompatActivity() {
         mHideHandler.postDelayed(mShowPart2Runnable, UI_ANIMATION_DELAY.toLong())
     }
 
-    /**
-     * Schedules a call to hide() in [delayMillis], canceling any
-     * previously scheduled calls.
-     */
     private fun delayedHide(delayMillis: Int) {
         mHideHandler.removeCallbacks(mHideRunnable)
         mHideHandler.postDelayed(mHideRunnable, delayMillis.toLong())
-    }
-
-    companion object {
-        /**
-         * Whether or not the system UI should be auto-hidden after
-         * [AUTO_HIDE_DELAY_MILLIS] milliseconds.
-         */
-        private val AUTO_HIDE = true
-
-        /**
-         * If [AUTO_HIDE] is set, the number of milliseconds to wait after
-         * user interaction before hiding the system UI.
-         */
-        private val AUTO_HIDE_DELAY_MILLIS = 3000
-
-        /**
-         * Some older devices needs a small delay between UI widget updates
-         * and a change of the status and navigation bar.
-         */
-        private val UI_ANIMATION_DELAY = 300
     }
 }

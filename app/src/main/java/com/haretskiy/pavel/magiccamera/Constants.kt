@@ -63,3 +63,7 @@ const val BOX_STROKE_WIDTH = 5.0f
 const val CAMERA_FPS = 20.0f
 
 const val DB_NAME = "camera_database"
+
+const val AUTO_HIDE = true
+const val AUTO_HIDE_DELAY_MILLIS = 3000
+const val UI_ANIMATION_DELAY = 300
