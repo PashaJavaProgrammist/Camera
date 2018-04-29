@@ -35,7 +35,7 @@ class ImageSaverImpl(private val context: Context,
                 output = FileOutputStream(file).apply {
                     write(bytes)
                 }
-                prefs.saveLastPhotoUri(file.absolutePath)
+                prefs.saveLastPhotoUri(prefs.getUserEmail(), file.absolutePath)
                 store.savePhoto(file.absolutePath, System.currentTimeMillis(), prefs.getUserEmail())
                 toaster.showToast("$SUCCESSFUL_SAVING$file", false)
             } catch (e: IOException) {
@@ -60,7 +60,7 @@ class ImageSaverImpl(private val context: Context,
                 val fos = FileOutputStream(file)
                 fos.write(data)
                 fos.close()
-                prefs.saveLastPhotoUri(file.absolutePath)
+                prefs.saveLastPhotoUri(prefs.getUserEmail(), file.absolutePath)
                 store.savePhoto(file.absolutePath, System.currentTimeMillis(), prefs.getUserEmail())
                 toaster.showToast("$SUCCESSFUL_SAVING$file", false)
             } catch (e: Exception) {

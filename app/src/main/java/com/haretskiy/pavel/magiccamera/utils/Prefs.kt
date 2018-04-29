@@ -28,11 +28,11 @@ class Prefs(context: Context) {
 
     fun getUserEmail(): String = getString(BUNDLE_KEY_EMAIL, EMPTY_STRING)
 
-    fun saveLastPhotoUri(uri: String) {
-        save(BUNDLE_KEY_LAST_URI, uri)
+    fun saveLastPhotoUri(email: String, uri: String) {
+        save(BUNDLE_KEY_LAST_URI + email, uri)
     }
 
-    fun getLastPhotoUri(): String = getString(BUNDLE_KEY_LAST_URI, EMPTY_STRING)
+    fun getLastPhotoUri(email: String): String = getString(BUNDLE_KEY_LAST_URI + email, EMPTY_STRING)
 
 
     fun isUserLogIn() = getBoolean(BUNDLE_KEY_IS_LOG_IN, false)

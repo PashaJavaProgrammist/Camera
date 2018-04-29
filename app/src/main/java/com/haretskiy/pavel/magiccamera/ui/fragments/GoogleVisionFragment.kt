@@ -63,9 +63,9 @@ class GoogleVisionFragment : Fragment() {
         setViewsVisible(false)
         bt_change_camera_type.setOnClickListener({ changeCamera() })
         bt_take_a_picture.setOnClickListener({ takePicture() })
-        imageLoader.loadRoundImageIntoView(last_photo, prefs.getLastPhotoUri())
+        imageLoader.loadRoundImageIntoView(last_photo, prefs.getLastPhotoUri(prefs.getUserEmail()))
         last_photo.setOnClickListener({
-            val uri = prefs.getLastPhotoUri()
+            val uri = prefs.getLastPhotoUri(prefs.getUserEmail())
             if (uri.isNotEmpty()) router.startPhotoDetailActivity(uri)
         })
     }
@@ -205,7 +205,7 @@ class GoogleVisionFragment : Fragment() {
                     },
                     { data ->
                         imageSaver.saveImage(data)
-                        Handler().postDelayed({ imageLoader.loadRoundImageIntoView(last_photo, prefs.getLastPhotoUri()) }, 200)
+                        Handler().postDelayed({ imageLoader.loadRoundImageIntoView(last_photo, prefs.getLastPhotoUri(prefs.getUserEmail())) }, 200)
                     })
         } catch (ex: Exception) {
             toaster.showToast("${ex.message}", false)
