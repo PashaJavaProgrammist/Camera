@@ -72,7 +72,7 @@ class PhotoDetailActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         window?.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
-        if (uri != EMPTY_STRING) imageLoader.loadFullScreenImageIntoView(iv_fullscreen_photo, uri)
+        if (uri != EMPTY_STRING) imageLoader.loadFullScreenImageIntoView(iv_fullscreen_photo, progress_photo, uri)
     }
 
     override fun onPause() {

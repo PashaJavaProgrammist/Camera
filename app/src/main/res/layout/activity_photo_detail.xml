@@ -5,6 +5,12 @@
     android:layout_height="match_parent"
     tools:context=".ui.activities.PhotoDetailActivity">
 
+    <ProgressBar
+        android:id="@+id/progress_photo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center" />
+
     <ImageView
         android:id="@+id/iv_fullscreen_photo"
         android:layout_width="match_parent"
