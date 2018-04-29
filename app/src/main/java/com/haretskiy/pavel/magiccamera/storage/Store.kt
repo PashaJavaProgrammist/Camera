@@ -9,4 +9,6 @@ interface Store {
     fun getAllPhotosList(): LiveData<List<ImageModel>>
     fun getAllUserPhotos(userEmail: String): LiveData<List<ImageModel>>
     fun getPhotoById(id: Long): LiveData<ImageModel>
+    fun deletePhoto(uri: String)
+    fun deleteAll()
 }

@@ -11,4 +11,12 @@ class PhotoStoreImpl(private val dao: PhotoStoreDao) : Store {
     override fun getAllPhotosList() = dao.all
 
     override fun getPhotoById(id: Long) = dao.getPhotoById(id)
+
+    override fun deletePhoto(uri: String) {
+        dao.deleteByUri(uri)
+    }
+
+    override fun deleteAll() {
+        dao.deleteAll()
+    }
 }
