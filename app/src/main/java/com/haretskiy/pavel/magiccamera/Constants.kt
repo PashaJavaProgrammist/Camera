@@ -19,7 +19,7 @@ const val BUNDLE_KEY_IS_LOG_IN = "is_user_log_in"
 const val BUNDLE_KEY_PREFS_CAMERA_SIZE = "camera_size_prefs"
 const val BUNDLE_KEY_CAMERA1_ID = "BUNDLE_KEY_CAMERA1_ID"
 const val BUNDLE_KEY_CAMERA_GOOGLE = "BUNDLE_KEY_CAMERA_GOOGLE"
-
+const val BUNDLE_KEY_FRAGMENT_ID = "BUNDLE_KEY_FRAGMENT_ID"
 //Camera2 constants
 const val CODE_REQUEST_CAMERA_PERMISSION = 1
 const val PIC_FILE_NAME = "photo.jpg"
@@ -67,5 +67,9 @@ const val DB_NAME = "camera_database"
 const val AUTO_HIDE = true
 const val AUTO_HIDE_DELAY_MILLIS = 3000
 const val UI_ANIMATION_DELAY = 300
+
+const val PAGE_SIZE = 15
+const val PAGE_SIZE_HINT = 30
+const val PREFETCH_DISTANCE = 6
 
 const val FORMAT_DATE = "dd.MM.yyyy HH:mm:ss"

@@ -37,7 +37,7 @@ class GalleryFragment : Fragment() {
         val galleryAdapter = GalleryPhotoAdapter(diffCallBack, imageLoader, router)
         rcv_gallery_list.adapter = galleryAdapter
 
-        galleryViewModel.allPhotos.observe(this, Observer { galleryAdapter.submitList(it) })
+        galleryViewModel.getAllUserPhotosLiveData().observe(this, Observer { galleryAdapter.submitList(it) })
     }
 
 }
