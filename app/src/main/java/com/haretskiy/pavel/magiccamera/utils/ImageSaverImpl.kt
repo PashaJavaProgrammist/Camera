@@ -36,7 +36,7 @@ class ImageSaverImpl(private val context: Context,
                     write(bytes)
                 }
                 prefs.saveLastPhotoUri(file.absolutePath)
-                store.savePhoto(file.absolutePath, System.currentTimeMillis())
+                store.savePhoto(file.absolutePath, System.currentTimeMillis(), prefs.getUserEmail())
                 toaster.showToast("$SUCCESSFUL_SAVING$file", false)
             } catch (e: IOException) {
                 Log.e(TAG, e.toString())
@@ -61,7 +61,7 @@ class ImageSaverImpl(private val context: Context,
                 fos.write(data)
                 fos.close()
                 prefs.saveLastPhotoUri(file.absolutePath)
-                store.savePhoto(file.absolutePath, System.currentTimeMillis())
+                store.savePhoto(file.absolutePath, System.currentTimeMillis(), prefs.getUserEmail())
                 toaster.showToast("$SUCCESSFUL_SAVING$file", false)
             } catch (e: Exception) {
                 toaster.showToast("$ERROR_SAVING${e.message}", false)

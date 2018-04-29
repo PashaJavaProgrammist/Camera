@@ -17,4 +17,7 @@ interface PhotoStoreDao {
 
     @Query("SELECT * FROM images WHERE id = :id")
     fun getPhotoById(id: Long): LiveData<ImageModel>
+
+    @Query("SELECT * FROM images WHERE userEmail = :userMail")
+    fun getUsersPhotos(userMail: String): LiveData<List<ImageModel>>
 }
