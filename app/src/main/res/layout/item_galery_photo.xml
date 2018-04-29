@@ -3,8 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cv_photo_card"
-    android:layout_width="110dp"
-    android:layout_height="110dp"
+    android:layout_width="@dimen/card_width"
+    android:layout_height="@dimen/card_width"
     android:layout_margin="4dp"
     android:padding="4dp"
     card_view:cardCornerRadius="2dp">
@@ -32,6 +32,7 @@
         android:layout_marginStart="8dp"
         android:textColor="@android:color/white"
         android:textSize="12sp"
+        android:textStyle="bold"
         app:outerShadowRadius="10dp"
         app:strokeColor="@android:color/black"
         app:strokeJoinStyle="round" />

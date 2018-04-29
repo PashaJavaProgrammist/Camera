@@ -111,7 +111,7 @@ class Camera2Fragment : Fragment(), View.OnClickListener {
 
     private fun initSpinnerAdapter(array: Array<Size>) {
         spinner_sizes.adapter = null
-        spinner_sizes.adapter = ArrayAdapter(context, R.layout.item_view, array)
+        spinner_sizes.adapter = ArrayAdapter(context, R.layout.item_border_text_string, array)
     }
 
     private fun initSpinnerListener() {

@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.haretskiy.pavel.magiccamera.R
 import com.haretskiy.pavel.magiccamera.adapters.GalleryPhotoAdapter
+import com.haretskiy.pavel.magiccamera.utils.AutoFitGridLayoutManager
 import com.haretskiy.pavel.magiccamera.utils.DiffCallBack
 import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageLoader
 import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
@@ -29,8 +30,10 @@ class GalleryFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
-        rcv_gallery_list.layoutManager = GridLayoutManager(context, 3)
+        val c = context
+        if (c != null) {
+            rcv_gallery_list.layoutManager = AutoFitGridLayoutManager(c, 3, resources.getDimension(R.dimen.card_width).toInt(), GridLayoutManager.VERTICAL, false)
+        }
         val galleryAdapter = GalleryPhotoAdapter(diffCallBack, imageLoader, router)
         rcv_gallery_list.adapter = galleryAdapter
 
