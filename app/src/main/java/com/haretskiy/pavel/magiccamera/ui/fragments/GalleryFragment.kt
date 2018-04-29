@@ -10,7 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.haretskiy.pavel.magiccamera.R
 import com.haretskiy.pavel.magiccamera.adapters.GalleryPhotoAdapter
-import com.haretskiy.pavel.magiccamera.pagging.DiffCallBack
+import com.haretskiy.pavel.magiccamera.utils.DiffCallBack
 import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageLoader
 import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 import com.haretskiy.pavel.magiccamera.viewmodels.GalleryViewModel

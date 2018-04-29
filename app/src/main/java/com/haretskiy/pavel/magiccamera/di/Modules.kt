@@ -14,7 +14,6 @@ import com.haretskiy.pavel.magiccamera.DB_NAME
 import com.haretskiy.pavel.magiccamera.camera2Api.Camera2Helper
 import com.haretskiy.pavel.magiccamera.cameraApi.CameraHolderCallback
 import com.haretskiy.pavel.magiccamera.googleVisionApi.googleVisionUtlis.CameraSourceManager
-import com.haretskiy.pavel.magiccamera.pagging.DiffCallBack
 import com.haretskiy.pavel.magiccamera.storage.Database
 import com.haretskiy.pavel.magiccamera.storage.PhotoStoreImpl
 import com.haretskiy.pavel.magiccamera.storage.Store

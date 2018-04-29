@@ -1,4 +1,4 @@
-package com.haretskiy.pavel.magiccamera.pagging
+package com.haretskiy.pavel.magiccamera.utils
 
 import android.support.v7.util.DiffUtil
 import com.haretskiy.pavel.magiccamera.models.Photo
