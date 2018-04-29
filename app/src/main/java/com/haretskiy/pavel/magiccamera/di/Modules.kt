@@ -1,4 +1,4 @@
-package com.haretskiy.pavel.magiccamera.di_koin
+package com.haretskiy.pavel.magiccamera.di
 
 import android.arch.persistence.room.Room
 import android.content.Context
