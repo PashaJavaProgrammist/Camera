@@ -29,5 +29,6 @@
     <string name="title_activity_photo_detail">PhotoDetailActivity</string>
     <string name="scan_photo">Scan photo</string>
     <string name="photo">photo</string>
+    <string name="log_out">Log Out</string>
 
 </resources>

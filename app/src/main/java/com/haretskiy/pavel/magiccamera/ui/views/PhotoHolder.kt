@@ -14,11 +14,11 @@ class PhotoHolder(private val cardView: CardView, private val imageLoader: Image
     fun bindHolder(photo: Photo) {
         cardView.tv_date.text = photo.date.convertToDate()
         imageLoader.loadImageInGallery(cardView.iv_photo_item, cardView.pb_gallery, photo.uri)
-        cardView.iv_photo_item.setOnClickListener({ onClickImage(photo.uri) })
+        cardView.iv_photo_item.setOnClickListener({ onClickImage(photo.uri, photo.date) })
     }
 
-    private fun onClickImage(uri: String) {
-        router.startPhotoDetailActivity(uri)
+    private fun onClickImage(uri: String, date: Long) {
+        router.startPhotoDetailActivity(uri, date)
     }
 
 }

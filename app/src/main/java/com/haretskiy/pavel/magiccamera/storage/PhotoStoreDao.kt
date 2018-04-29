@@ -24,7 +24,10 @@ interface PhotoStoreDao {
     fun getPhotoByUri(uri: String): LiveData<Photo>
 
     @Query("SELECT * FROM images WHERE userEmail = :userMail")
-    fun getUsersPhotos(userMail: String): DataSource.Factory<Int, Photo>
+    fun getUserPhotos(userMail: String): DataSource.Factory<Int, Photo>
+
+    @Query("DELETE FROM images WHERE userEmail = :userMail")
+    fun deleteAllUserPhotos(userMail: String)
 
     @Query("DELETE FROM images WHERE id = :id")
     fun deleteById(id: Long)

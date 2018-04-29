@@ -15,6 +15,7 @@ class PhotoDetailActivity : AppCompatActivity() {
     private val imageLoader: ImageLoader by inject()
 
     private var uri = EMPTY_STRING
+    private var date = 0L
     private val mHideHandler = Handler()
 
     private val mHidePart2Runnable = Runnable {
@@ -49,6 +50,7 @@ class PhotoDetailActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         uri = intent.getStringExtra(BUNDLE_KEY_URI_TO_DETAIL)
+        date = intent.getLongExtra(BUNDLE_KEY_DATA_TO_DETAIL, 0L)
         mVisible = true
         iv_fullscreen_photo.setOnClickListener { toggle() }
         dummy_button.setOnTouchListener(mDelayHideTouchListener)
@@ -66,7 +68,8 @@ class PhotoDetailActivity : AppCompatActivity() {
     override fun onResume() {
         super.onResume()
         window?.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
-        if (uri != EMPTY_STRING) imageLoader.loadFullScreenImageIntoViewCenterInside(iv_fullscreen_photo, progress_photo, uri)
+        if (uri.isNotEmpty()) imageLoader.loadFullScreenImageIntoViewCenterInside(iv_fullscreen_photo, progress_photo, uri)
+        if (date != 0L) tv_date_detail.text = date.convertToDate()
     }
 
     override fun onPause() {

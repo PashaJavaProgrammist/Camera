@@ -66,7 +66,7 @@ class GoogleVisionFragment : Fragment() {
         imageLoader.loadRoundImageIntoView(last_photo, prefs.getLastPhotoUri(prefs.getUserEmail()))
         last_photo.setOnClickListener({
             val uri = prefs.getLastPhotoUri(prefs.getUserEmail())
-            if (uri.isNotEmpty()) router.startPhotoDetailActivity(uri)
+            if (uri.isNotEmpty()) router.startPhotoDetailActivity(uri, 0)
         })
     }
 
