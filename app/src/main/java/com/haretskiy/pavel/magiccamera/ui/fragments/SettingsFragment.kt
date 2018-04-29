@@ -8,7 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 
 import com.haretskiy.pavel.magiccamera.R
-import com.haretskiy.pavel.magiccamera.navigation.Router
+import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 import kotlinx.android.synthetic.main.fragment_settings.view.*
 import org.koin.android.ext.android.inject
 

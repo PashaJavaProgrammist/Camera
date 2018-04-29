@@ -1,5 +1,6 @@
-package com.haretskiy.pavel.magiccamera.di
+package com.haretskiy.pavel.magiccamera.di_koin
 
+import android.arch.persistence.room.Room
 import android.content.Context
 import android.hardware.camera2.CameraManager
 import android.os.Build
@@ -9,16 +10,19 @@ import android.view.WindowManager
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.firebase.auth.FirebaseAuth
 import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_SIGN
+import com.haretskiy.pavel.magiccamera.DB_NAME
 import com.haretskiy.pavel.magiccamera.camera2Api.Camera2Helper
 import com.haretskiy.pavel.magiccamera.cameraApi.CameraHolderCallback
 import com.haretskiy.pavel.magiccamera.googleVisionApi.googleVisionUtlis.CameraSourceManager
-import com.haretskiy.pavel.magiccamera.navigation.Router
-import com.haretskiy.pavel.magiccamera.navigation.RouterImpl
+import com.haretskiy.pavel.magiccamera.storage.Database
+import com.haretskiy.pavel.magiccamera.storage.PhotoStoreImpl
+import com.haretskiy.pavel.magiccamera.storage.Store
 import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
 import com.haretskiy.pavel.magiccamera.ui.fragments.*
 import com.haretskiy.pavel.magiccamera.utils.*
 import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageLoader
 import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageSaver
+import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 import com.haretskiy.pavel.magiccamera.viewmodels.LoginViewModel
 import org.koin.android.architecture.ext.viewModel
 import org.koin.android.ext.koin.androidApplication
@@ -37,6 +41,8 @@ val appModule: Module = applicationContext {
     bean { FirebaseAuth.getInstance() }
     factory { PermissionDialog() }
 
+    bean { PhotoStoreImpl(Room.databaseBuilder(androidApplication(), Database::class.java, DB_NAME).build().storeDao()) as Store }
+
     viewModel { LoginViewModel(get()) }
 }
 
@@ -50,6 +56,7 @@ val camera2Module: Module = applicationContext {
         androidApplication().getSystemService(Context.WINDOW_SERVICE) as WindowManager
     }
     factory { Camera2Helper(androidApplication(), get(), get(), get(), get(), get()) }
+
 }
 
 val cameraModule: Module = applicationContext {
@@ -67,7 +74,7 @@ val utilsModule: Module = applicationContext {
     bean { RouterImpl(androidApplication()) as Router }
     bean { Prefs(androidApplication()) }
     factory { Toaster(androidApplication()) }
-    factory { ImageSaverImpl(androidApplication(), get(), get()) as ImageSaver }
+    factory { ImageSaverImpl(androidApplication(), get(), get(), get()) as ImageSaver }
     factory { GlideImageLoaderImpl(androidApplication()) as ImageLoader }
 }
 

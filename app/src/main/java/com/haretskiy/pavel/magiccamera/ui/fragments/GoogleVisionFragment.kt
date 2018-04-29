@@ -36,13 +36,13 @@ class GoogleVisionFragment : Fragment() {
     private val imageLoader: ImageLoader by inject()
     private val cameraSourceManager: CameraSourceManager by inject()
 
-    private var cameraType = NOTHIHG_CAMERA
+    private var cameraType = NOTHING_CAMERA
     private var cameras = Camera.getNumberOfCameras()
     private var mCameraSource: CameraSource? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        cameraType = savedInstanceState?.getInt(BUNDLE_KEY_CAMERA_GOOGLE, NOTHIHG_CAMERA) ?: NOTHIHG_CAMERA
+        cameraType = savedInstanceState?.getInt(BUNDLE_KEY_CAMERA_GOOGLE, NOTHING_CAMERA) ?: NOTHING_CAMERA
         cameraSourceManager.cameraSourceLiveData.observe(this, Observer {
             if (mCameraSource != null) {
                 mCameraSource?.release()
@@ -155,9 +155,9 @@ class GoogleVisionFragment : Fragment() {
     }
 
     private fun initCameraType() {
-        if (cameraType == NOTHIHG_CAMERA) {
+        if (cameraType == NOTHING_CAMERA) {
             when (cameras) {
-                NO_CAMERA -> cameraType = NOTHIHG_CAMERA
+                NO_CAMERA -> cameraType = NOTHING_CAMERA
                 ONE_CAMERA -> cameraType = CameraSource.CAMERA_FACING_BACK
                 TWO_CAMERAS -> cameraType = CameraSource.CAMERA_FACING_FRONT
             }
@@ -166,7 +166,7 @@ class GoogleVisionFragment : Fragment() {
 
     private fun choseCamera() {
         when (cameras) {
-            NO_CAMERA -> cameraType = NOTHIHG_CAMERA
+            NO_CAMERA -> cameraType = NOTHING_CAMERA
             ONE_CAMERA -> cameraType = CameraSource.CAMERA_FACING_BACK
             TWO_CAMERAS -> cameraType = when (cameraType) {
                 CameraSource.CAMERA_FACING_BACK -> CameraSource.CAMERA_FACING_FRONT

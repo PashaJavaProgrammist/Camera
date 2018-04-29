@@ -10,13 +10,17 @@ import com.haretskiy.pavel.magiccamera.ERROR_SAVING
 import com.haretskiy.pavel.magiccamera.PIC_FILE_NAME
 import com.haretskiy.pavel.magiccamera.SUCCESSFUL_SAVING
 import com.haretskiy.pavel.magiccamera.TAG
+import com.haretskiy.pavel.magiccamera.storage.Store
 import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageSaver
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 
 
-class ImageSaverImpl(private val context: Context, private val toaster: Toaster, private val prefs: Prefs) : ImageSaver {
+class ImageSaverImpl(private val context: Context,
+                     private val toaster: Toaster,
+                     private val prefs: Prefs,
+                     private val store: Store) : ImageSaver {
 
     override fun createFile() = File(context.getExternalFilesDir(null), "${prefs.getUserEmail()}_${System.currentTimeMillis()}$PIC_FILE_NAME")
 
@@ -32,6 +36,8 @@ class ImageSaverImpl(private val context: Context, private val toaster: Toaster,
                     write(bytes)
                 }
                 prefs.saveLastPhotoUri(file.absolutePath)
+                store.savePhoto(file.absolutePath, System.currentTimeMillis())
+                toaster.showToast("$SUCCESSFUL_SAVING$file", false)
             } catch (e: IOException) {
                 Log.e(TAG, e.toString())
             } finally {
@@ -54,8 +60,9 @@ class ImageSaverImpl(private val context: Context, private val toaster: Toaster,
                 val fos = FileOutputStream(file)
                 fos.write(data)
                 fos.close()
-                toaster.showToast("$SUCCESSFUL_SAVING$file", false)
                 prefs.saveLastPhotoUri(file.absolutePath)
+                store.savePhoto(file.absolutePath, System.currentTimeMillis())
+                toaster.showToast("$SUCCESSFUL_SAVING$file", false)
             } catch (e: Exception) {
                 toaster.showToast("$ERROR_SAVING${e.message}", false)
                 e.printStackTrace()

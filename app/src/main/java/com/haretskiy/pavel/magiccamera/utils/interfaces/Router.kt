@@ -1,4 +1,4 @@
-package com.haretskiy.pavel.magiccamera.navigation
+package com.haretskiy.pavel.magiccamera.utils.interfaces
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager

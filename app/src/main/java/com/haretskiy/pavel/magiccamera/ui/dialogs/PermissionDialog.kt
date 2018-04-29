@@ -7,7 +7,7 @@ import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import com.haretskiy.pavel.magiccamera.CODE_REQUEST_CAMERA_PERMISSION
 import com.haretskiy.pavel.magiccamera.R
-import com.haretskiy.pavel.magiccamera.navigation.Router
+import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 import org.koin.android.ext.android.inject
 
 /**

@@ -1,4 +1,4 @@
-package com.haretskiy.pavel.magiccamera.navigation
+package com.haretskiy.pavel.magiccamera.utils
 
 import android.content.Context
 import android.content.Intent
@@ -8,10 +8,9 @@ import android.provider.Settings
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
-import com.haretskiy.pavel.magiccamera.BuildConfig
-import com.haretskiy.pavel.magiccamera.KEY_BUNDLE_TOKEN
 import com.haretskiy.pavel.magiccamera.ui.activities.CameraActivity
 import com.haretskiy.pavel.magiccamera.ui.activities.LoginActivity
+import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 
 class RouterImpl(private val context: Context) : Router {
 

@@ -4,10 +4,10 @@ import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
 import com.haretskiy.pavel.magiccamera.R
-import com.haretskiy.pavel.magiccamera.navigation.Router
 import com.haretskiy.pavel.magiccamera.ui.fragments.GalleryFragment
 import com.haretskiy.pavel.magiccamera.ui.fragments.GoogleVisionFragment
 import com.haretskiy.pavel.magiccamera.ui.fragments.SettingsFragment
+import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 import kotlinx.android.synthetic.main.activity_camera.*
 import org.koin.android.ext.android.inject
 

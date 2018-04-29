@@ -10,8 +10,8 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseUser
 import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.models.FirebaseLoginResponse
-import com.haretskiy.pavel.magiccamera.navigation.Router
 import com.haretskiy.pavel.magiccamera.utils.Prefs
+import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 import com.haretskiy.pavel.magiccamera.viewmodels.LoginViewModel
 import kotlinx.android.synthetic.main.fragment_sign.*
 import kotlinx.android.synthetic.main.fragment_sign.view.*

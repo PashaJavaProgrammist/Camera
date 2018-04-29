@@ -4,9 +4,9 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.adapters.TabViewPagerAdapter
-import com.haretskiy.pavel.magiccamera.navigation.Router
 import com.haretskiy.pavel.magiccamera.ui.fragments.LoginFragment
 import com.haretskiy.pavel.magiccamera.utils.Prefs
+import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 import kotlinx.android.synthetic.main.activity_login.*
 import org.koin.android.ext.android.inject
 
