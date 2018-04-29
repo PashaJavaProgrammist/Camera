@@ -1,10 +1,10 @@
 package com.haretskiy.pavel.magiccamera.storage
 
-import com.haretskiy.pavel.magiccamera.models.ImageModel
+import com.haretskiy.pavel.magiccamera.models.Photo
 
 class PhotoStoreImpl(private val dao: PhotoStoreDao) : Store {
 
-    override fun savePhoto(uri: String, date: Long, email: String): Unit = Thread({ dao.insert(ImageModel(date, uri, email)) }).start()
+    override fun savePhoto(uri: String, date: Long, email: String): Unit = Thread({ dao.insert(Photo(date, uri, email)) }).start()
 
     override fun getAllUserPhotos(userEmail: String) = dao.getUsersPhotos(userEmail)
 

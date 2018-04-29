@@ -1,8 +1,6 @@
 package com.haretskiy.pavel.magiccamera
 
-//import android.support.v4.app.FragmentActivity
-//import android.widget.Toast
+import java.text.SimpleDateFormat
+import java.util.*
 
-//fun FragmentActivity.showToast(text: String) {
-//    runOnUiThread { Toast.makeText(this, text, Toast.LENGTH_SHORT).show() }
-//}
+fun Long.convertToDate() = SimpleDateFormat(FORMAT_DATE, Locale.getDefault()).format(Date(this))

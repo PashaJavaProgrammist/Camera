@@ -10,7 +10,7 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
 import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_URI_TO_DETAIL
 import com.haretskiy.pavel.magiccamera.PACKAGE_SETTINGS
-import com.haretskiy.pavel.magiccamera.ui.activities.CameraActivity
+import com.haretskiy.pavel.magiccamera.ui.activities.HostActivity
 import com.haretskiy.pavel.magiccamera.ui.activities.LoginActivity
 import com.haretskiy.pavel.magiccamera.ui.activities.PhotoDetailActivity
 import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
@@ -18,7 +18,7 @@ import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 class RouterImpl(private val context: Context) : Router {
 
     override fun startCameraActivity() {
-        val intent = Intent(context, CameraActivity::class.java)
+        val intent = Intent(context, HostActivity::class.java)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
         } else {

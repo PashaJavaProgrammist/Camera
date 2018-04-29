@@ -14,6 +14,7 @@ import com.haretskiy.pavel.magiccamera.DB_NAME
 import com.haretskiy.pavel.magiccamera.camera2Api.Camera2Helper
 import com.haretskiy.pavel.magiccamera.cameraApi.CameraHolderCallback
 import com.haretskiy.pavel.magiccamera.googleVisionApi.googleVisionUtlis.CameraSourceManager
+import com.haretskiy.pavel.magiccamera.pagging.DiffCallBack
 import com.haretskiy.pavel.magiccamera.storage.Database
 import com.haretskiy.pavel.magiccamera.storage.PhotoStoreImpl
 import com.haretskiy.pavel.magiccamera.storage.Store
@@ -23,6 +24,7 @@ import com.haretskiy.pavel.magiccamera.utils.*
 import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageLoader
 import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageSaver
 import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
+import com.haretskiy.pavel.magiccamera.viewmodels.GalleryViewModel
 import com.haretskiy.pavel.magiccamera.viewmodels.LoginViewModel
 import org.koin.android.architecture.ext.viewModel
 import org.koin.android.ext.koin.androidApplication
@@ -43,7 +45,10 @@ val appModule: Module = applicationContext {
 
     bean { PhotoStoreImpl(Room.databaseBuilder(androidApplication(), Database::class.java, DB_NAME).build().storeDao()) as Store }
 
+    factory { DiffCallBack() }
+
     viewModel { LoginViewModel(get()) }
+    viewModel { GalleryViewModel(androidApplication(), get(), get()) }
 }
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)

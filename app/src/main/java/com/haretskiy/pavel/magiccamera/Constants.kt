@@ -67,3 +67,5 @@ const val DB_NAME = "camera_database"
 const val AUTO_HIDE = true
 const val AUTO_HIDE_DELAY_MILLIS = 3000
 const val UI_ANIMATION_DELAY = 300
+
+const val FORMAT_DATE = "dd.MM.yyyy HH:mm:ss"

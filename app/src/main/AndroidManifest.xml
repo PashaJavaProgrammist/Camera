@@ -38,7 +38,7 @@
             android:value="cdd6e2b9836d2304fd3fa2a93fa24fd44b026930" />
 
         <activity
-            android:name=".ui.activities.CameraActivity"
+            android:name=".ui.activities.HostActivity"
             android:label="@string/title_activity_camera" />
         <activity
             android:name=".ui.activities.PhotoDetailActivity"

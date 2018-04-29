@@ -11,16 +11,14 @@ import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 import kotlinx.android.synthetic.main.activity_camera.*
 import org.koin.android.ext.android.inject
 
-class CameraActivity : AppCompatActivity() {
+class HostActivity : AppCompatActivity() {
 
-    private val galleryFragment: GalleryFragment by inject()
-    private val settingsFragment: SettingsFragment by inject()
     private val router: Router by inject()
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_gallery -> {
-                router.doFragmentTransaction(galleryFragment, supportFragmentManager, R.id.frame_for_fragments)
+                router.doFragmentTransaction(GalleryFragment(), supportFragmentManager, R.id.frame_for_fragments)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_camera -> {
@@ -28,7 +26,7 @@ class CameraActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_settings -> {
-                router.doFragmentTransaction(settingsFragment, supportFragmentManager, R.id.frame_for_fragments)
+                router.doFragmentTransaction(SettingsFragment(), supportFragmentManager, R.id.frame_for_fragments)
                 return@OnNavigationItemSelectedListener true
             }
         }
@@ -40,6 +38,7 @@ class CameraActivity : AppCompatActivity() {
         setContentView(R.layout.activity_camera)
 
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+        navigation.selectedItemId = R.id.navigation_camera
     }
 
     override fun onBackPressed() {
