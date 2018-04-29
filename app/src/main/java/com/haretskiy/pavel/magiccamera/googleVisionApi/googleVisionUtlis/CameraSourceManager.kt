@@ -2,6 +2,7 @@ package com.haretskiy.pavel.magiccamera.googleVisionApi.googleVisionUtlis
 
 import android.arch.lifecycle.MutableLiveData
 import android.content.Context
+import android.os.Handler
 import com.google.android.gms.vision.CameraSource
 import com.google.android.gms.vision.MultiDetector
 import com.google.android.gms.vision.MultiProcessor
@@ -20,7 +21,7 @@ class CameraSourceManager(private val context: Context, private val toaster: Toa
     val cameraSourceLiveData: MutableLiveData<CameraSource> = MutableLiveData()
 
     fun createCameraSource(faceOverlay: GraphicOverlay, cameraType: Int, cameras: Int) {
-        Thread({
+        Handler().post({
             val faceDetector = FaceDetector.Builder(context)
                     .setClassificationType(FaceDetector.ALL_CLASSIFICATIONS)
                     .setTrackingEnabled(true)
@@ -67,7 +68,7 @@ class CameraSourceManager(private val context: Context, private val toaster: Toa
                     cameraSourceLiveData.postValue(mCameraSource)
                 }
             }
-        }).start()
+        })
     }
 
 }
