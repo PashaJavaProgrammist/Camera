@@ -28,5 +28,6 @@
 
     <string name="title_activity_photo_detail">PhotoDetailActivity</string>
     <string name="scan_photo">Scan photo</string>
+    <string name="photo">photo</string>
 
 </resources>

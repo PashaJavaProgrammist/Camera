@@ -6,7 +6,7 @@ import com.haretskiy.pavel.magiccamera.models.ImageModel
 
 class ImageModelHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-    fun updateHolder(imageModel: ImageModel) {
+    fun bindHolder(imageModel: ImageModel?) {
 
     }
 
