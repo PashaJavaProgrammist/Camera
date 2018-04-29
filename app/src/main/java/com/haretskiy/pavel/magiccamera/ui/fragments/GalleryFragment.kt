@@ -14,7 +14,7 @@ import com.haretskiy.pavel.magiccamera.utils.AutoFitGridLayoutManager
 import com.haretskiy.pavel.magiccamera.utils.DiffCallBack
 import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageLoader
 import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
-import com.haretskiy.pavel.magiccamera.viewmodels.GalleryViewModel
+import com.haretskiy.pavel.magiccamera.viewModels.GalleryViewModel
 import kotlinx.android.synthetic.main.fragment_gallery.*
 import org.koin.android.ext.android.inject
 

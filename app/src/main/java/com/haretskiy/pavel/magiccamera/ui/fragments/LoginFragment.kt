@@ -12,7 +12,7 @@ import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.models.FirebaseLoginResponse
 import com.haretskiy.pavel.magiccamera.utils.Prefs
 import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
-import com.haretskiy.pavel.magiccamera.viewmodels.LoginViewModel
+import com.haretskiy.pavel.magiccamera.viewModels.LoginViewModel
 import kotlinx.android.synthetic.main.fragment_sign.*
 import kotlinx.android.synthetic.main.fragment_sign.view.*
 import org.koin.android.ext.android.inject

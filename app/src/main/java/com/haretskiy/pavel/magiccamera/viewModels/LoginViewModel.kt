@@ -1,4 +1,4 @@
-package com.haretskiy.pavel.magiccamera.viewmodels
+package com.haretskiy.pavel.magiccamera.viewModels
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel

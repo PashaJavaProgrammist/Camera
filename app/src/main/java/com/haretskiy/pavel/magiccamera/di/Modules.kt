@@ -23,8 +23,8 @@ import com.haretskiy.pavel.magiccamera.utils.*
 import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageLoader
 import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageSaver
 import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
-import com.haretskiy.pavel.magiccamera.viewmodels.GalleryViewModel
-import com.haretskiy.pavel.magiccamera.viewmodels.LoginViewModel
+import com.haretskiy.pavel.magiccamera.viewModels.GalleryViewModel
+import com.haretskiy.pavel.magiccamera.viewModels.LoginViewModel
 import org.koin.android.architecture.ext.viewModel
 import org.koin.android.ext.koin.androidApplication
 import org.koin.dsl.context.ParameterProvider
