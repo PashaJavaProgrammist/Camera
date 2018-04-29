@@ -75,6 +75,8 @@ dependencies {
     //ROOM DB
     implementation "android.arch.persistence.room:runtime:1.0.0"
     kapt "android.arch.persistence.room:compiler:1.0.0"
+    // Paging
+    implementation "android.arch.paging:runtime:1.0.0-rc1"
     //Google vision
     implementation 'com.google.android.gms:play-services-vision:15.0.0'
     //Constraint layout

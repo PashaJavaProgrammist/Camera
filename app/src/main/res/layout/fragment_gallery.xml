@@ -5,9 +5,5 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragments.GalleryFragment">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/title_gallery" />
 
 </FrameLayout>
