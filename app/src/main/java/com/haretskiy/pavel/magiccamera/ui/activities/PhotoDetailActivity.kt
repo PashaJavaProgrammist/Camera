@@ -15,7 +15,6 @@ class PhotoDetailActivity : AppCompatActivity() {
     private val imageLoader: ImageLoader by inject()
 
     private var uri = EMPTY_STRING
-
     private val mHideHandler = Handler()
 
     private val mHidePart2Runnable = Runnable {
@@ -46,17 +45,12 @@ class PhotoDetailActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.activity_photo_detail)
+
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
         uri = intent.getStringExtra(BUNDLE_KEY_URI_TO_DETAIL)
-
         mVisible = true
-
         iv_fullscreen_photo.setOnClickListener { toggle() }
-
-
         dummy_button.setOnTouchListener(mDelayHideTouchListener)
     }
 
