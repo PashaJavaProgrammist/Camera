@@ -15,4 +15,6 @@ interface PhotoStoreDao {
     @Insert
     fun insert(imageModel: ImageModel)
 
+    @Query("SELECT * FROM images WHERE id = :id")
+    fun getPhotoById(id: Long): LiveData<ImageModel>
 }
