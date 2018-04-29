@@ -29,12 +29,20 @@ class RouterImpl(private val context: Context) : Router {
 
     override fun startLoginActivity() {
         val intent = Intent(context, LoginActivity::class.java)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)
+        } else {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
         context.startActivity(intent)
     }
 
     override fun startSettingsActivity() {
         val openSettingsIntent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS,
                 Uri.parse("$PACKAGE_SETTINGS${context.packageName}"))
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            openSettingsIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
         context.startActivity(openSettingsIntent)
     }
 
@@ -49,6 +57,9 @@ class RouterImpl(private val context: Context) : Router {
     override fun startPhotoDetailActivity(uri: String) {
         val intent = Intent(context, PhotoDetailActivity::class.java)
         intent.putExtra(BUNDLE_KEY_URI_TO_DETAIL, uri)
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
         context.startActivity(intent)
     }
 }
