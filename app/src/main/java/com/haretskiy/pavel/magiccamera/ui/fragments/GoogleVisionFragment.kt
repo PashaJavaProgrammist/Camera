@@ -1,6 +1,7 @@
 package com.haretskiy.pavel.magiccamera.ui.fragments
 
 import android.Manifest
+import android.arch.lifecycle.Observer
 import android.content.pm.PackageManager
 import android.hardware.Camera
 import android.os.Bundle
@@ -14,15 +15,8 @@ import android.view.WindowManager
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.vision.CameraSource
-import com.google.android.gms.vision.MultiDetector
-import com.google.android.gms.vision.MultiProcessor
-import com.google.android.gms.vision.barcode.Barcode
-import com.google.android.gms.vision.barcode.BarcodeDetector
-import com.google.android.gms.vision.face.Face
-import com.google.android.gms.vision.face.FaceDetector
 import com.haretskiy.pavel.magiccamera.*
-import com.haretskiy.pavel.magiccamera.googleVisionApi.barcodeDerector.BarcodeTrackerFactory
-import com.haretskiy.pavel.magiccamera.googleVisionApi.faceDetector.FaceTrackerFactory
+import com.haretskiy.pavel.magiccamera.googleVisionApi.googleVisionUtlis.CameraSourceManager
 import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
 import com.haretskiy.pavel.magiccamera.utils.Prefs
 import com.haretskiy.pavel.magiccamera.utils.Toaster
@@ -40,18 +34,23 @@ class GoogleVisionFragment : Fragment() {
     private val imageSaver: ImageSaver by inject()
     private val prefs: Prefs by inject()
     private val imageLoader: ImageLoader by inject()
+    private val cameraSourceManager: CameraSourceManager by inject()
 
     private var cameraType = NOTHIHG_CAMERA
-
     private var cameras = Camera.getNumberOfCameras()
-
     private var mCameraSource: CameraSource? = null
-
-    private lateinit var multiDetector: MultiDetector
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         cameraType = savedInstanceState?.getInt(BUNDLE_KEY_CAMERA_GOOGLE, NOTHIHG_CAMERA) ?: NOTHIHG_CAMERA
+        cameraSourceManager.cameraSourceLiveData.observe(this, Observer {
+            if (mCameraSource != null) {
+                mCameraSource?.release()
+                mCameraSource = null
+            }
+            mCameraSource = it
+            startCameraSource()
+        })
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
@@ -59,13 +58,7 @@ class GoogleVisionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setButtonsVisible(false)
-        val permission = context?.let { ContextCompat.checkSelfPermission(it, Manifest.permission.CAMERA) }
-        if (permission != PackageManager.PERMISSION_GRANTED) {
-            requestCameraPermission()
-        } else {
-            createCameraSource()
-        }
+        setViewsVisible(false)
         bt_change_camera_type.setOnClickListener({ changeCamera() })
         bt_take_a_picture.setOnClickListener({ takePicture() })
         imageLoader.loadRoundImageIntoView(last_photo, prefs.getLastPhotoUri())
@@ -82,7 +75,12 @@ class GoogleVisionFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         activity?.window?.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
-        startCameraSource()
+        val permission = context?.let { ContextCompat.checkSelfPermission(it, Manifest.permission.CAMERA) }
+        if (permission != PackageManager.PERMISSION_GRANTED) {
+            requestCameraPermission()
+        } else {
+            getCameraSource()
+        }
     }
 
     /**
@@ -92,7 +90,7 @@ class GoogleVisionFragment : Fragment() {
         super.onPause()
         activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
         preview.stop()
-        setButtonsVisible(false)
+        setViewsVisible(false)
     }
 
     /**
@@ -101,16 +99,19 @@ class GoogleVisionFragment : Fragment() {
      */
     override fun onDestroy() {
         super.onDestroy()
-        if (mCameraSource != null) {
-            mCameraSource?.release()
+        try {
+            if (mCameraSource != null) {
+                mCameraSource?.release()
+            }
+        } catch (ex: Exception) {
+            toaster.showToast("${ex.message}", false)
         }
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         if (permissions[0] == Manifest.permission.CAMERA && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            createCameraSource()
-            startCameraSource()
+            getCameraSource()
         }
     }
 
@@ -123,54 +124,9 @@ class GoogleVisionFragment : Fragment() {
         permissionDialog.show(childFragmentManager, FRAGMENT_DIALOG_COMP)
     }
 
-    private fun createCameraSource() {
-
-        val faceDetector = FaceDetector.Builder(context)
-                .setClassificationType(FaceDetector.ALL_CLASSIFICATIONS)
-                .setTrackingEnabled(true)
-                .build()
-        val faceFactory = FaceTrackerFactory(faceOverlay)
-        faceDetector.setProcessor(MultiProcessor.Builder<Face>(faceFactory).build())
-
-        val barcodeDetector = BarcodeDetector.Builder(context).build()
-        val barcodeFactory = BarcodeTrackerFactory(faceOverlay)
-        barcodeDetector.setProcessor(
-                MultiProcessor.Builder<Barcode>(barcodeFactory).build())
-
-        multiDetector = MultiDetector.Builder()
-                .add(faceDetector)
-                .add(barcodeDetector)
-                .build()
-
-        if (!multiDetector.isOperational) {
-            /** Note: The first time that an app using the barcode or face API is installed on a
-             * device, GMS will download a native libraries to the device in order to do detection.
-             * Usually this completes before the app is run for the first time.  But if that
-             * download has not yet completed, then the above call will not detect any barcodes
-             * and/or faces.
-             *
-             * isOperational() can be used to check if the required native libraries are currently
-             * available.  The detectors will automatically become operational once the library
-             * downloads complete on device.*/
-            toaster.showToast(getString(R.string.detector_not_avail), false)
-        }
+    private fun getCameraSource() {
         initCameraType()
-        /* Creates and starts the camera.  Note that this uses a higher resolution in comparison
-        * to other detection examples to enable the barcode detector to detect small barcodes
-        * at long distances.*/
-        when (cameras) {
-            NO_CAMERA -> {
-                toaster.showToast(getString(R.string.camera_not_found), true)
-            }
-            else -> {
-                mCameraSource = CameraSource.Builder(context, multiDetector)
-                        .setAutoFocusEnabled(true)
-                        .setFacing(cameraType)
-                        .setRequestedPreviewSize(MAX_PREVIEW_HEIGHT, MAX_PREVIEW_WIDTH)
-                        .setRequestedFps(CAMERA_FPS)
-                        .build()
-            }
-        }
+        cameraSourceManager.createCameraSource(faceOverlay, cameraType, cameras)
     }
 
     /**
@@ -179,17 +135,17 @@ class GoogleVisionFragment : Fragment() {
      * again when the camera source is created.
      */
     private fun startCameraSource() {
-        setButtonsVisible(true)
+        setViewsVisible(true)
         // check that the device has play services available.
         val code = googleApiAvailability.isGooglePlayServicesAvailable(context)
         if (code != ConnectionResult.SUCCESS) {
             val dlg = googleApiAvailability.getErrorDialog(activity, code, RC_HANDLE_GMS)
             dlg.show()
         }
-
-        if (mCameraSource != null) {
+        val cameraSource = mCameraSource
+        if (cameraSource != null) {
             try {
-                preview.start(mCameraSource!!, faceOverlay)
+                preview.start(cameraSource, faceOverlay)
             } catch (e: IOException) {
                 toaster.showToast(getString(R.string.unable_to_start_camera), false)
                 mCameraSource?.release()
@@ -227,32 +183,36 @@ class GoogleVisionFragment : Fragment() {
         }
         choseCamera()
         preview.stop()
-        createCameraSource()
-        startCameraSource()
+        getCameraSource()
     }
 
     private fun takePicture() {
-        mCameraSource?.takePicture(
-                {
-                    preview.visibility = View.GONE
-                    setButtonsVisible(false)
-                    Handler().postDelayed({
-                        preview.visibility = View.VISIBLE
-                        setButtonsVisible(true)
-                    }, 20)
-                },
-                { data ->
-                    imageSaver.saveImage(data)
-                    Handler().postDelayed({ imageLoader.loadRoundImageIntoView(last_photo, prefs.getLastPhotoUri()) }, 200)
-                })
+        try {
+            mCameraSource?.takePicture(
+                    {
+                        preview.visibility = View.GONE
+                        setViewsVisible(false)
+                        Handler().postDelayed({
+                            preview.visibility = View.VISIBLE
+                            setViewsVisible(true)
+                        }, 20)
+                    },
+                    { data ->
+                        imageSaver.saveImage(data)
+                        Handler().postDelayed({ imageLoader.loadRoundImageIntoView(last_photo, prefs.getLastPhotoUri()) }, 200)
+                    })
+        } catch (ex: Exception) {
+            toaster.showToast("${ex.message}", false)
+        }
     }
 
-
-    private fun setButtonsVisible(doIt: Boolean) {
+    private fun setViewsVisible(doIt: Boolean) {
         if (doIt) {
+            last_photo.visibility = View.VISIBLE
             bt_change_camera_type.visibility = View.VISIBLE
             bt_take_a_picture.visibility = View.VISIBLE
         } else {
+            last_photo.visibility = View.GONE
             bt_change_camera_type.visibility = View.GONE
             bt_take_a_picture.visibility = View.GONE
         }

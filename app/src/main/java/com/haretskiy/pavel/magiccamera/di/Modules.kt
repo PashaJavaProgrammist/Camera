@@ -11,6 +11,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_SIGN
 import com.haretskiy.pavel.magiccamera.camera2Api.Camera2Helper
 import com.haretskiy.pavel.magiccamera.cameraApi.CameraHolderCallback
+import com.haretskiy.pavel.magiccamera.googleVisionApi.googleVisionUtlis.CameraSourceManager
 import com.haretskiy.pavel.magiccamera.navigation.Router
 import com.haretskiy.pavel.magiccamera.navigation.RouterImpl
 import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
@@ -58,6 +59,7 @@ val cameraModule: Module = applicationContext {
 
 val googleVisionModule: Module = applicationContext {
     factory { GoogleApiAvailability.getInstance() }
+    factory { CameraSourceManager(androidApplication(), get()) }
 }
 
 val utilsModule: Module = applicationContext {
