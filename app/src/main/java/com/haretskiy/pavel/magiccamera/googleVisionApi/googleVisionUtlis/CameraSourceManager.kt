@@ -13,7 +13,7 @@ import com.google.android.gms.vision.face.FaceDetector
 import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.googleVisionApi.barcodeDerector.BarcodeTrackerFactory
 import com.haretskiy.pavel.magiccamera.googleVisionApi.faceDetector.FaceTrackerFactory
-import com.haretskiy.pavel.magiccamera.googleVisionApi.ui.GraphicOverlay
+import com.haretskiy.pavel.magiccamera.googleVisionApi.views.GraphicOverlay
 import com.haretskiy.pavel.magiccamera.utils.Toaster
 
 class CameraSourceManager(private val context: Context, private val toaster: Toaster) {

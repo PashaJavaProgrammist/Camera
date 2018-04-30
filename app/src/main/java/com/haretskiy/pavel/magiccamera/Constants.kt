@@ -45,10 +45,10 @@ const val STATE_WAITING_PRECAPTURE = 2
 const val STATE_WAITING_NON_PRECAPTURE = 3
 //Camera state: Picture was taken.
 const val STATE_PICTURE_TAKEN = 4
-//Max preview width that is guaranteed by Camera2 API
+
 const val MAX_PREVIEW_WIDTH = 1920
-//Max preview height that is guaranteed by Camera2 API
 const val MAX_PREVIEW_HEIGHT = 1080
+
 const val TWO_CAMERAS = 2
 const val ONE_CAMERA = 1
 const val NO_CAMERA = 0

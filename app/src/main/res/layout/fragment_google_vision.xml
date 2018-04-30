@@ -7,7 +7,7 @@
     android:background="@android:color/black"
     tools:context=".ui.fragments.CameraFragment">
 
-    <com.haretskiy.pavel.magiccamera.googleVisionApi.ui.CameraSourcePreview
+    <com.haretskiy.pavel.magiccamera.googleVisionApi.views.CameraSourcePreview
         android:id="@+id/preview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,12 +19,12 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="1.0">
 
-        <com.haretskiy.pavel.magiccamera.googleVisionApi.ui.GraphicOverlay
+        <com.haretskiy.pavel.magiccamera.googleVisionApi.views.GraphicOverlay
             android:id="@+id/faceOverlay"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-    </com.haretskiy.pavel.magiccamera.googleVisionApi.ui.CameraSourcePreview>
+    </com.haretskiy.pavel.magiccamera.googleVisionApi.views.CameraSourcePreview>
 
     <ImageView
         android:id="@+id/bt_take_a_picture"

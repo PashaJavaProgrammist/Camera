@@ -10,7 +10,7 @@ import com.haretskiy.pavel.magiccamera.ID_TEXT_SIZE
 import com.haretskiy.pavel.magiccamera.ID_X_OFFSET
 import com.haretskiy.pavel.magiccamera.ID_Y_OFFSET
 import com.haretskiy.pavel.magiccamera.googleVisionApi.graphic.TrackedGraphic
-import com.haretskiy.pavel.magiccamera.googleVisionApi.ui.GraphicOverlay
+import com.haretskiy.pavel.magiccamera.googleVisionApi.views.GraphicOverlay
 
 class FaceGraphic(overlay: GraphicOverlay) : TrackedGraphic<Face>(overlay) {
 

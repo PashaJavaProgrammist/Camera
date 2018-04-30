@@ -1,6 +1,6 @@
 package com.haretskiy.pavel.magiccamera.googleVisionApi.graphic
 
-import com.haretskiy.pavel.magiccamera.googleVisionApi.ui.GraphicOverlay
+import com.haretskiy.pavel.magiccamera.googleVisionApi.views.GraphicOverlay
 
 /**
  * Common base class for defining graphics for a particular item type.  This along with
