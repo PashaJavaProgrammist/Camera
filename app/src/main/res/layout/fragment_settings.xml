@@ -6,6 +6,12 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragments.SettingsFragment">
 
+    <ProgressBar
+        android:id="@+id/settings_progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="100dp" />
+
     <Button
         android:id="@+id/bt_settings"
         android:layout_width="wrap_content"

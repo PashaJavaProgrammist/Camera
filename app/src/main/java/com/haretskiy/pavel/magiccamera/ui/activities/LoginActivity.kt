@@ -32,6 +32,11 @@ class LoginActivity : AppCompatActivity() {
         initViewPagerAdapter()
     }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finishAffinity()
+    }
+
     private fun initViewPagerAdapter() {
         tabViewPagerAdapter.addFragment(signUpFragment, SIGN_UP)
         tabViewPagerAdapter.addFragment(signInFragment, SIGN_IN)
