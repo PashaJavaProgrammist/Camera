@@ -65,15 +65,15 @@ const val ID_Y_OFFSET = 50.0f
 const val ID_X_OFFSET = -50.0f
 const val BOX_STROKE_WIDTH = 5.0f
 const val CAMERA_FPS = 20.0f
-
+//db
 const val DB_NAME = "camera_database"
-
+//detail
 const val AUTO_HIDE = true
 const val AUTO_HIDE_DELAY_MILLIS = 3000
 const val UI_ANIMATION_DELAY = 300
-
+const val FORMAT_DATE = "dd.MM.yyyy HH:mm:ss"
+//gallery
 const val PAGE_SIZE = 15
 const val PAGE_SIZE_HINT = 30
 const val PREFETCH_DISTANCE = 6
 
-const val FORMAT_DATE = "dd.MM.yyyy HH:mm:ss"
