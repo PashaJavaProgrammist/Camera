@@ -201,7 +201,9 @@ class GoogleVisionFragment : Fragment() {
                     },
                     { data ->
                         imageSaver.saveImage(data)
-                        Handler().postDelayed({ imageLoader.loadRoundImageIntoView(last_photo, prefs.getLastPhotoUri(prefs.getUserEmail())) }, 200)
+                        Handler().postDelayed({
+                            imageLoader.loadRoundImageIntoView(last_photo, prefs.getLastPhotoUri(prefs.getUserEmail()))
+                        }, 200)
                     })
         } catch (ex: Exception) {
             toaster.showToast("${ex.message}", false)
