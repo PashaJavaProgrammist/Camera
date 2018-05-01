@@ -31,7 +31,7 @@
         android:layout_width="30dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginBottom="65dp"
+        android:layout_marginBottom="@dimen/bottom_navigation_size_plus"
         android:contentDescription="@string/app_name"
         android:scaleX="2"
         android:scaleY="2"

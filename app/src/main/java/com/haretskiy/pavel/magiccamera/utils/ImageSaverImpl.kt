@@ -6,10 +6,7 @@ import android.os.Build
 import android.os.Handler
 import android.support.annotation.RequiresApi
 import android.util.Log
-import com.haretskiy.pavel.magiccamera.ERROR_SAVING
-import com.haretskiy.pavel.magiccamera.PIC_FILE_NAME
-import com.haretskiy.pavel.magiccamera.SUCCESSFUL_SAVING
-import com.haretskiy.pavel.magiccamera.TAG
+import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.storage.Store
 import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageSaver
 import java.io.File
@@ -62,7 +59,7 @@ class ImageSaverImpl(private val context: Context,
                 fos.close()
                 prefs.saveLastPhotoUri(prefs.getUserEmail(), file.absolutePath)
                 store.savePhoto(file.absolutePath, System.currentTimeMillis(), prefs.getUserEmail())
-                toaster.showToast("$SUCCESSFUL_SAVING$file", false)
+                toaster.showToast("$SUCCESSFUL_SAVING$file$SIZE_FILE${file.length()}", false)
             } catch (e: Exception) {
                 toaster.showToast("$ERROR_SAVING${e.message}", false)
                 e.printStackTrace()

@@ -33,6 +33,7 @@ const val FRAGMENT_DIALOG_COMP = "Compl_dialog"
 const val TAG = "Camera2BasicFragment"
 const val PACKAGE_SETTINGS = "package:"
 const val SUCCESSFUL_SAVING = "Successful saving:\n"
+const val SIZE_FILE = "\nSize: "
 const val ERROR_SAVING = "Error of saving..\n"
 
 //camera state: Showing camera preview.
