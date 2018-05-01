@@ -82,6 +82,7 @@ class GoogleVisionFragment : Fragment() {
         } else {
             getCameraSource()
         }
+        imageLoader.loadRoundImageIntoView(last_photo, prefs.getLastPhotoUri(prefs.getUserEmail()))
     }
 
     /**

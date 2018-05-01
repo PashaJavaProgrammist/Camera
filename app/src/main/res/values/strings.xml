@@ -30,5 +30,8 @@
     <string name="scan_photo">Scan photo</string>
     <string name="photo">photo</string>
     <string name="log_out">Log Out</string>
+    <string name="delete_this_photo">Delete this photo?</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
 </resources>

@@ -59,10 +59,27 @@ class ImageSaverImpl(private val context: Context,
                 fos.close()
                 prefs.saveLastPhotoUri(prefs.getUserEmail(), file.absolutePath)
                 store.savePhoto(file.absolutePath, System.currentTimeMillis(), prefs.getUserEmail())
-                toaster.showToast("$SUCCESSFUL_SAVING$file$SIZE_FILE${file.length()}", false)
+                toaster.showToast("$SUCCESSFUL_SAVING$file$SIZE_FILE${file.length() / 1024}", false)
             } catch (e: Exception) {
                 toaster.showToast("$ERROR_SAVING${e.message}", false)
                 e.printStackTrace()
+            }
+        })
+    }
+
+    override fun deleteFile(uri: String) {
+        val userEmail = prefs.getUserEmail()
+        Handler().post({
+            try {
+                val file = File(uri)
+                file.delete()
+                store.deletePhoto(uri)
+                if (uri == prefs.getLastPhotoUri(userEmail)) {
+                    prefs.saveLastPhotoUri(userEmail, EMPTY_STRING)
+                }
+                toaster.showToast(SUCCESSFUL_DELETING, false)
+            } catch (ex: Exception) {
+                toaster.showToast("${ex.message}", false)
             }
         })
     }

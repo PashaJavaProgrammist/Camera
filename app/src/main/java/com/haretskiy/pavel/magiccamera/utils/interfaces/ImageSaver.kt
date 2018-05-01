@@ -8,4 +8,5 @@ interface ImageSaver {
     fun createFile(): File
     fun saveImage(data: ByteArray)
     fun saveImage(image: Image, file: File)
+    fun deleteFile(uri: String)
 }

@@ -7,18 +7,18 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.haretskiy.pavel.magiccamera.R
 import com.haretskiy.pavel.magiccamera.models.Photo
+import com.haretskiy.pavel.magiccamera.ui.views.PhotoGallery
 import com.haretskiy.pavel.magiccamera.ui.views.PhotoHolder
 import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageLoader
-import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 
 class GalleryPhotoAdapter(diffUtilCallback: DiffUtil.ItemCallback<Photo>,
                           private val imageLoader: ImageLoader,
-                          private val router: Router)
+                          private val photoGallery: PhotoGallery)
     : PagedListAdapter<Photo, PhotoHolder>(diffUtilCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PhotoHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_galery_photo, parent, false) as CardView
-        return PhotoHolder(view, imageLoader, router)
+        return PhotoHolder(view, imageLoader, photoGallery)
     }
 
     override fun onBindViewHolder(holder: PhotoHolder, position: Int) {
