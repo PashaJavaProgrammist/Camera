@@ -15,12 +15,17 @@ import com.haretskiy.pavel.magiccamera.googleVisionApi.barcodeDerector.BarcodeGr
 import com.haretskiy.pavel.magiccamera.googleVisionApi.barcodeDerector.BarcodeTrackerFactory
 import com.haretskiy.pavel.magiccamera.googleVisionApi.faceDetector.FaceTrackerFactory
 import com.haretskiy.pavel.magiccamera.googleVisionApi.views.GraphicOverlay
+import com.haretskiy.pavel.magiccamera.models.BarCode
+import com.haretskiy.pavel.magiccamera.storage.BarCodeStore
+import com.haretskiy.pavel.magiccamera.utils.Prefs
 import com.haretskiy.pavel.magiccamera.utils.Toaster
 import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 
 class CameraSourceManager(
         private val context: Context,
         private val toaster: Toaster,
+        private val barCodeStore: BarCodeStore,
+        private val prefs: Prefs,
         private val router: Router) {
 
     private var timeOfLastResult = 0L
@@ -44,6 +49,11 @@ class CameraSourceManager(
                     if (time - timeOfLastResult > BARCODE_SCAN_DELAY) {
                         router.startBarcodeActivity(resultScanning)
                         timeOfLastResult = time
+                        try {
+                            barCodeStore.insert(BarCode(resultScanning, prefs.getUserEmail(), System.currentTimeMillis()))
+                        } catch (ex: Exception) {
+                            toaster.showToast(context.getString(R.string.unable_save_res_scan) + "${ex.message}", false)
+                        }
                     }
                 }
             })

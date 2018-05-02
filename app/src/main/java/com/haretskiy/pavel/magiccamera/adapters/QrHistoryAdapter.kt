@@ -6,13 +6,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.haretskiy.pavel.magiccamera.R
 import com.haretskiy.pavel.magiccamera.models.BarCode
+import com.haretskiy.pavel.magiccamera.ui.views.QRHistory
 import com.haretskiy.pavel.magiccamera.ui.views.QrHistoryHolder
 
-class QrHistoryAdapter(val context: Context, val list: List<BarCode>) : RecyclerView.Adapter<QrHistoryHolder>() {
+class QrHistoryAdapter(val context: Context, val qrHistory: QRHistory, val list: List<BarCode>) : RecyclerView.Adapter<QrHistoryHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): QrHistoryHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_qr_history, parent, false)
-        return QrHistoryHolder(view)
+        return QrHistoryHolder(qrHistory, view)
     }
 
     override fun getItemCount() = list.size
