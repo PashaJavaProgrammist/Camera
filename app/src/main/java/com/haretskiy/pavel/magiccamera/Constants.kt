@@ -68,6 +68,11 @@ const val ID_TEXT_SIZE = 40.0f
 const val ID_Y_OFFSET = 50.0f
 const val ID_X_OFFSET = -50.0f
 const val BOX_STROKE_WIDTH = 5.0f
+const val SMILE_LEVEL_NONE = "none"
+const val SMILE_LEVEL_LOW = "low"
+const val SMILE_LEVEL_MIDDLE = "medium"
+const val SMILE_LEVEL_HIGH = "high"
+const val SMILE_LEVEL_VERY_HIGH = "very high"
 
 const val CAMERA_FPS = 30.0f
 const val MAX_PREVIEW_HEIGHT = 2560
@@ -84,4 +89,3 @@ const val FORMAT_DATE = "dd.MM.yyyy HH:mm:ss"
 const val PAGE_SIZE = 15
 const val PAGE_SIZE_HINT = 30
 const val PREFETCH_DISTANCE = 6
-

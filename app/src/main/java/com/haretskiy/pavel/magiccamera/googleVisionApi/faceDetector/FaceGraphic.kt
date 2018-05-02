@@ -5,10 +5,7 @@ import android.graphics.Color
 import android.graphics.Paint
 import android.os.Build
 import com.google.android.gms.vision.face.Face
-import com.haretskiy.pavel.magiccamera.BOX_STROKE_WIDTH
-import com.haretskiy.pavel.magiccamera.ID_TEXT_SIZE
-import com.haretskiy.pavel.magiccamera.ID_X_OFFSET
-import com.haretskiy.pavel.magiccamera.ID_Y_OFFSET
+import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.googleVisionApi.graphic.TrackedGraphic
 import com.haretskiy.pavel.magiccamera.googleVisionApi.views.GraphicOverlay
 
@@ -58,7 +55,17 @@ class FaceGraphic(overlay: GraphicOverlay) : TrackedGraphic<Face>(overlay) {
         val cy = translateY(face.position.y + face.height / 2)
 //        canvas.drawCircle(cx, cy, FACE_POSITION_RADIUS, mFacePositionPaint)
 //        canvas.drawText("id: $id", cx + ID_X_OFFSET, cy + ID_Y_OFFSET, mIdPaint)
-        canvas.drawText("Smile: " + String.format("%.2f", face.isSmilingProbability), cx - ID_X_OFFSET, cy - ID_Y_OFFSET, mIdPaint)
+        val smileProb = face.isSmilingProbability
+        val smile = when (true) {
+            smileProb == 0f -> SMILE_LEVEL_NONE
+            smileProb <= 0.25 && smileProb > 0 -> SMILE_LEVEL_LOW
+            smileProb <= 0.50 && smileProb > 0.25 -> SMILE_LEVEL_MIDDLE
+            smileProb <= 0.75 && smileProb > 0.50 -> SMILE_LEVEL_HIGH
+            smileProb <= 1 && smileProb > 0.75 -> SMILE_LEVEL_VERY_HIGH
+            else -> SMILE_LEVEL_NONE
+        }
+
+        canvas.drawText("Smile: $smile", cx - ID_X_OFFSET, cy - ID_Y_OFFSET, mIdPaint)
         // Draws an oval around the face.
         val xOffset = scaleX(face.width / 2.0f)
         val yOffset = scaleY(face.height / 2.0f)
