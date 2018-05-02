@@ -95,3 +95,5 @@ const val PREFETCH_DISTANCE = 6
 
 const val BARCODE_SCAN_DELAY = 5000
 const val SHARE_TYPE_TEXT = "text/plain"
+const val SHARE_TYPE_IMAGE = "image/*"
+const val FILE_PROVIDER_AUTHORITY = "com.haretskiy.pavel.magiccamera.providers.fileprovider"

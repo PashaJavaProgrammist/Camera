@@ -8,13 +8,14 @@ import android.provider.Settings
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
+import android.support.v4.content.FileProvider
 import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.ui.activities.BarcodeScanResultActivity
 import com.haretskiy.pavel.magiccamera.ui.activities.HostActivity
 import com.haretskiy.pavel.magiccamera.ui.activities.LoginActivity
 import com.haretskiy.pavel.magiccamera.ui.activities.PhotoDetailActivity
 import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
-
+import java.io.File
 
 class RouterImpl(private val context: Context) : Router {
 
@@ -74,7 +75,7 @@ class RouterImpl(private val context: Context) : Router {
         context.startActivity(intent)
     }
 
-    override fun startShareActivity(resultOfScanning: String) {
+    override fun shareText(resultOfScanning: String) {
         val sendIntent = Intent()
         sendIntent.action = Intent.ACTION_SEND
         sendIntent.putExtra(Intent.EXTRA_TEXT, resultOfScanning)
@@ -83,5 +84,16 @@ class RouterImpl(private val context: Context) : Router {
             sendIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
         context.startActivity(sendIntent)
+    }
+
+    override fun shareImage(imageUri: String) {
+        val shareIntent = Intent(Intent.ACTION_SEND)
+        shareIntent.type = SHARE_TYPE_IMAGE
+        val uri = FileProvider.getUriForFile(context, FILE_PROVIDER_AUTHORITY, File(imageUri))
+        shareIntent.putExtra(Intent.EXTRA_STREAM, uri)
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        context.startActivity(shareIntent)
     }
 }

@@ -17,5 +17,7 @@ interface Router {
 
     fun startBarcodeActivity(resultOfScanning: String)
 
-    fun startShareActivity(resultOfScanning: String)
+    fun shareText(resultOfScanning: String)
+
+    fun shareImage(imageUri: String)
 }

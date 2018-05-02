@@ -21,7 +21,10 @@ class BarcodeScanResultActivity : AppCompatActivity() {
         scanResult = intent?.getStringExtra(BUNDLE_KEY_BARCODE_RESULT) ?: EMPTY_STRING
         if (scanResult.isNotEmpty()) tv_result_scan.text = scanResult
 
+        bt_share.setOnClickListener { if (scanResult.isNotEmpty()) router.shareText(scanResult) }
 
-        bt_share.setOnClickListener { if (scanResult.isNotEmpty()) router.startShareActivity(scanResult) }
+        bt_open_in_app.setOnClickListener {
+            //TODO:  inapp browser chrome custom tab
+        }
     }
 }

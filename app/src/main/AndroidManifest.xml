@@ -45,7 +45,18 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_photo_detail"
             android:theme="@style/FullscreenTheme" />
-        <activity android:name=".ui.activities.BarcodeScanResultActivity"></activity>
+        <activity android:name=".ui.activities.BarcodeScanResultActivity" />
+
+        <provider
+            android:name=".providers.GenericFileProvider"
+            android:authorities="com.haretskiy.pavel.magiccamera.providers.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/providers_path" />
+        </provider>
+
     </application>
 
 </manifest>
