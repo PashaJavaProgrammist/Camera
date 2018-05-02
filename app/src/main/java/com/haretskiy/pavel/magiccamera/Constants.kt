@@ -94,3 +94,4 @@ const val PAGE_SIZE_HINT = 30
 const val PREFETCH_DISTANCE = 6
 
 const val BARCODE_SCAN_DELAY = 5000
+const val SHARE_TYPE_TEXT = "text/plain"

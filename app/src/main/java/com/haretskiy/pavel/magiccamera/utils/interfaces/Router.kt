@@ -16,4 +16,6 @@ interface Router {
     fun startPhotoDetailActivity(uri: String, date: Long)
 
     fun startBarcodeActivity(resultOfScanning: String)
+
+    fun startShareActivity(resultOfScanning: String)
 }

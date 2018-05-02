@@ -8,15 +8,13 @@ import android.provider.Settings
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
-import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_BARCODE_RESULT
-import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_DATA_TO_DETAIL
-import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_URI_TO_ACTIVITY_DETAIL
-import com.haretskiy.pavel.magiccamera.PACKAGE_SETTINGS
+import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.ui.activities.BarcodeScanResultActivity
 import com.haretskiy.pavel.magiccamera.ui.activities.HostActivity
 import com.haretskiy.pavel.magiccamera.ui.activities.LoginActivity
 import com.haretskiy.pavel.magiccamera.ui.activities.PhotoDetailActivity
 import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
+
 
 class RouterImpl(private val context: Context) : Router {
 
@@ -74,5 +72,13 @@ class RouterImpl(private val context: Context) : Router {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
         context.startActivity(intent)
+    }
+
+    override fun startShareActivity(resultOfScanning: String) {
+        val sendIntent = Intent()
+        sendIntent.action = Intent.ACTION_SEND
+        sendIntent.putExtra(Intent.EXTRA_TEXT, resultOfScanning)
+        sendIntent.type = SHARE_TYPE_TEXT
+        context.startActivity(sendIntent)
     }
 }
