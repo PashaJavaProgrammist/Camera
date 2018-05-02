@@ -4,7 +4,7 @@ import android.arch.lifecycle.LiveData
 import android.arch.paging.DataSource
 import com.haretskiy.pavel.magiccamera.models.Photo
 
-interface Store {
+interface PhotoStore {
 
     fun savePhoto(uri: String, date: Long, email: String)
     fun getAllPhotosDataSourceFactory(): DataSource.Factory<Int, Photo>

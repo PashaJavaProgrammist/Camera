@@ -7,7 +7,7 @@ import android.os.Handler
 import android.support.annotation.RequiresApi
 import android.util.Log
 import com.haretskiy.pavel.magiccamera.*
-import com.haretskiy.pavel.magiccamera.storage.Store
+import com.haretskiy.pavel.magiccamera.storage.PhotoStore
 import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageSaver
 import java.io.File
 import java.io.FileOutputStream
@@ -17,7 +17,7 @@ import java.io.IOException
 class ImageSaverImpl(private val context: Context,
                      private val toaster: Toaster,
                      private val prefs: Prefs,
-                     private val store: Store) : ImageSaver {
+                     private val photoStore: PhotoStore) : ImageSaver {
 
     override fun createFile() = File(context.getExternalFilesDir(null), "${prefs.getUserEmail()}_${System.currentTimeMillis()}$PIC_FILE_NAME")
 
@@ -33,7 +33,7 @@ class ImageSaverImpl(private val context: Context,
                     write(bytes)
                 }
                 prefs.saveLastPhotoUri(prefs.getUserEmail(), file.absolutePath)
-                store.savePhoto(file.absolutePath, System.currentTimeMillis(), prefs.getUserEmail())
+                photoStore.savePhoto(file.absolutePath, System.currentTimeMillis(), prefs.getUserEmail())
                 toaster.showToast("$SUCCESSFUL_SAVING$file", false)
             } catch (e: IOException) {
                 Log.e(TAG, e.toString())
@@ -58,7 +58,7 @@ class ImageSaverImpl(private val context: Context,
                 fos.write(data)
                 fos.close()
                 prefs.saveLastPhotoUri(prefs.getUserEmail(), file.absolutePath)
-                store.savePhoto(file.absolutePath, System.currentTimeMillis(), prefs.getUserEmail())
+                photoStore.savePhoto(file.absolutePath, System.currentTimeMillis(), prefs.getUserEmail())
                 toaster.showToast("$SUCCESSFUL_SAVING$file$SIZE_FILE${file.length() / 1024}$KILOBYTES", false)
             } catch (e: Exception) {
                 toaster.showToast("$ERROR_SAVING${e.message}", false)
@@ -73,7 +73,7 @@ class ImageSaverImpl(private val context: Context,
             try {
                 val file = File(uri)
                 file.delete()
-                store.deletePhoto(uri)
+                photoStore.deletePhoto(uri)
                 if (uri == prefs.getLastPhotoUri(userEmail)) {
                     prefs.saveLastPhotoUri(userEmail, EMPTY_STRING)
                 }
