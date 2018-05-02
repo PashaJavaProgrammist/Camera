@@ -24,6 +24,7 @@ const val BUNDLE_KEY_DATA_TO_DETAIL = "BUNDLE_KEY_DATA_TO_DETAIL"
 const val BUNDLE_KEY_FRAGMENT_ID = "BUNDLE_KEY_FRAGMENT_ID"
 const val BUNDLE_KEY_CAMERA_TYPE_STATE = "BUNDLE_KEY_CAMERA_TYPE_STATE"
 const val BUNDLE_DIALOG_DELETE_IS_PHOTO_DETAIL = "BUNDLE_DIALOG_DELETE_IS_PHOTO_DETAIL"
+const val BUNDLE_DIALOG_DELETE_URI = "BUNDLE_DIALOG_DELETE_URI"
 
 //Camera2 constants
 const val CODE_REQUEST_CAMERA_PERMISSION = 1
@@ -39,8 +40,7 @@ const val SUCCESSFUL_DELETING = "Photo deleted"
 const val SIZE_FILE = "\nSize: "
 const val ERROR_SAVING = "Error of saving..\n"
 
-const val BUNDLE_DIALOG_DELETE_URI = "BUNDLE_DIALOG_DELETE_URI"
-
+const val KILOBYTES = " kilobytes"
 
 //camera state: Showing camera preview.
 const val STATE_PREVIEW = 0
@@ -52,9 +52,6 @@ const val STATE_WAITING_PRECAPTURE = 2
 const val STATE_WAITING_NON_PRECAPTURE = 3
 //Camera state: Picture was taken.
 const val STATE_PICTURE_TAKEN = 4
-
-const val MAX_PREVIEW_WIDTH = 1920
-const val MAX_PREVIEW_HEIGHT = 1080
 
 const val TWO_CAMERAS = 2
 const val ONE_CAMERA = 1
@@ -71,7 +68,11 @@ const val ID_TEXT_SIZE = 40.0f
 const val ID_Y_OFFSET = 50.0f
 const val ID_X_OFFSET = -50.0f
 const val BOX_STROKE_WIDTH = 5.0f
-const val CAMERA_FPS = 20.0f
+
+const val CAMERA_FPS = 30.0f
+const val MAX_PREVIEW_HEIGHT = 2560
+const val MAX_PREVIEW_WIDTH = 1440
+
 //db
 const val DB_NAME = "camera_database"
 //detail

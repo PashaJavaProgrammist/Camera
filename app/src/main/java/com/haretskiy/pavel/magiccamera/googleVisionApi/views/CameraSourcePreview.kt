@@ -117,8 +117,8 @@ class CameraSourcePreview(private val mContext: Context, attrs: AttributeSet) : 
     }
 
     override fun onLayout(changed: Boolean, left: Int, top: Int, right: Int, bottom: Int) {
-        var width = 320
-        var height = 240
+        var width = 2560
+        var height = 1440
         if (mCameraSource != null) {
             val size = mCameraSource?.previewSize
             if (size != null) {
