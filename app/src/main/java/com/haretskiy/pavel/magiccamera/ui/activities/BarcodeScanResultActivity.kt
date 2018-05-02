@@ -3,6 +3,9 @@ package com.haretskiy.pavel.magiccamera.ui.activities
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.haretskiy.pavel.magiccamera.*
+import com.haretskiy.pavel.magiccamera.models.BarCode
+import com.haretskiy.pavel.magiccamera.storage.BarCodeStore
+import com.haretskiy.pavel.magiccamera.utils.Prefs
 import com.haretskiy.pavel.magiccamera.utils.Toaster
 import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 import kotlinx.android.synthetic.main.activity_barcode_scan_result.*
@@ -14,6 +17,8 @@ class BarcodeScanResultActivity : AppCompatActivity() {
     private val router: Router by inject()
     private var scanResult = EMPTY_STRING
     private val toaster: Toaster by inject()
+    private val barCodeStore: BarCodeStore by inject()
+    private val prefs: Prefs by inject()
 
     private val pattern1 = Pattern.compile(URL_REGEX1)
     private val pattern2 = Pattern.compile(URL_REGEX2, Pattern.CASE_INSENSITIVE or Pattern.MULTILINE or Pattern.DOTALL)
@@ -23,7 +28,14 @@ class BarcodeScanResultActivity : AppCompatActivity() {
         setContentView(R.layout.activity_barcode_scan_result)
 
         scanResult = intent?.getStringExtra(BUNDLE_KEY_BARCODE_RESULT) ?: EMPTY_STRING
-        if (scanResult.isNotEmpty()) tv_result_scan.text = scanResult
+        if (scanResult.isNotEmpty()) {
+            tv_result_scan.text = scanResult
+            try {
+                barCodeStore.insert(BarCode(scanResult, prefs.getUserEmail(), System.currentTimeMillis()))
+            } catch (ex: Exception) {
+                toaster.showToast(getString(R.string.unable_save_res_scan) + "${ex.message}", false)
+            }
+        }
 
         bt_share.setOnClickListener { if (scanResult.isNotEmpty()) router.shareText(scanResult) }
 
@@ -37,7 +49,7 @@ class BarcodeScanResultActivity : AppCompatActivity() {
                     toaster.showToast(getString(R.string.url_do_not_found), false)
                 }
             } catch (ex: Exception) {
-                toaster.showToast(getString(R.string.another_browser), true)
+                toaster.showToast(getString(R.string.another_browser) + "${ex.message}", true)
             }
         }
     }

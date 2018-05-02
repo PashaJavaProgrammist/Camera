@@ -14,9 +14,7 @@ import com.haretskiy.pavel.magiccamera.DB_NAME
 import com.haretskiy.pavel.magiccamera.camera2Api.Camera2Helper
 import com.haretskiy.pavel.magiccamera.cameraApi.CameraHolderCallback
 import com.haretskiy.pavel.magiccamera.googleVisionApi.googleVisionUtlis.CameraSourceManager
-import com.haretskiy.pavel.magiccamera.storage.Database
-import com.haretskiy.pavel.magiccamera.storage.PhotoStore
-import com.haretskiy.pavel.magiccamera.storage.PhotoStoreImpl
+import com.haretskiy.pavel.magiccamera.storage.*
 import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
 import com.haretskiy.pavel.magiccamera.ui.fragments.*
 import com.haretskiy.pavel.magiccamera.utils.*
@@ -44,7 +42,10 @@ val appModule: Module = applicationContext {
     bean { FirebaseAuth.getInstance() }
     factory { PermissionDialog() }
 
-    bean { PhotoStoreImpl(Room.databaseBuilder(androidApplication(), Database::class.java, DB_NAME).build().storeDao()) as PhotoStore }
+    bean { Room.databaseBuilder(androidApplication(), Database::class.java, DB_NAME).build() }
+
+    bean { PhotoStoreImpl((get() as Database).photoStoreDao()) as PhotoStore }
+    bean { BarCodeStoreImpl((get() as Database).barCodeDao()) as BarCodeStore }
 
     factory { DiffCallBack() }
 
