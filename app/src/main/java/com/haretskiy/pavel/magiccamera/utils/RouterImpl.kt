@@ -5,9 +5,11 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
+import android.support.customtabs.CustomTabsIntent
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
+import android.support.v4.content.ContextCompat.getColor
 import android.support.v4.content.FileProvider
 import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.ui.activities.BarcodeScanResultActivity
@@ -16,6 +18,7 @@ import com.haretskiy.pavel.magiccamera.ui.activities.LoginActivity
 import com.haretskiy.pavel.magiccamera.ui.activities.PhotoDetailActivity
 import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 import java.io.File
+
 
 class RouterImpl(private val context: Context) : Router {
 
@@ -95,5 +98,17 @@ class RouterImpl(private val context: Context) : Router {
             shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
         context.startActivity(shareIntent)
+    }
+
+    override fun openCustomTabs(uri: String) {
+        val builder = CustomTabsIntent.Builder().apply {
+            setToolbarColor(getColor(context, R.color.colorPrimary))
+            setSecondaryToolbarColor(getColor(context, R.color.colorAccent))
+            setStartAnimations(context, android.R.anim.slide_in_left, android.R.anim.slide_out_right)
+            setExitAnimations(context, android.R.anim.slide_out_right, android.R.anim.slide_in_left)
+        }
+        val customTabsIntent = builder.build()
+        customTabsIntent.intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        customTabsIntent.launchUrl(context, Uri.parse(uri))
     }
 }

@@ -20,4 +20,6 @@ interface Router {
     fun shareText(resultOfScanning: String)
 
     fun shareImage(imageUri: String)
+
+    fun openCustomTabs(uri: String)
 }

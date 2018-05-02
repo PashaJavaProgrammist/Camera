@@ -24,7 +24,7 @@ class BarcodeScanResultActivity : AppCompatActivity() {
         bt_share.setOnClickListener { if (scanResult.isNotEmpty()) router.shareText(scanResult) }
 
         bt_open_in_app.setOnClickListener {
-            //TODO:  inapp browser chrome custom tab
+            router.openCustomTabs(scanResult)
         }
     }
 }
