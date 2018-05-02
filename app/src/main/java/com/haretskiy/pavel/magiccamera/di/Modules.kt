@@ -74,7 +74,7 @@ val cameraModule: Module = applicationContext {
 
 val googleVisionModule: Module = applicationContext {
     factory { GoogleApiAvailability.getInstance() }
-    factory { CameraSourceManager(androidApplication(), get()) }
+    factory { CameraSourceManager(androidApplication(), get(), get()) }
 }
 
 val utilsModule: Module = applicationContext {

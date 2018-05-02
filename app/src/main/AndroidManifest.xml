@@ -44,7 +44,8 @@
             android:name=".ui.activities.PhotoDetailActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_photo_detail"
-            android:theme="@style/FullscreenTheme"></activity>
+            android:theme="@style/FullscreenTheme" />
+        <activity android:name=".ui.activities.BarcodeScanResultActivity"></activity>
     </application>
 
 </manifest>

@@ -11,5 +11,7 @@ import com.haretskiy.pavel.magiccamera.googleVisionApi.views.GraphicOverlay
  */
 internal class BarcodeTrackerFactory(private val mGraphicOverlay: GraphicOverlay) : MultiProcessor.Factory<Barcode> {
 
-    override fun create(barcode: Barcode) = GraphicTracker(mGraphicOverlay, BarcodeGraphic(mGraphicOverlay))
+    val barcodeGraphic = BarcodeGraphic(mGraphicOverlay)
+
+    override fun create(barcode: Barcode) = GraphicTracker(mGraphicOverlay, barcodeGraphic)
 }

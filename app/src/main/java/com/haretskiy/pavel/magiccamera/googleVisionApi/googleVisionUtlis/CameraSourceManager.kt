@@ -11,12 +11,19 @@ import com.google.android.gms.vision.barcode.BarcodeDetector
 import com.google.android.gms.vision.face.Face
 import com.google.android.gms.vision.face.FaceDetector
 import com.haretskiy.pavel.magiccamera.*
+import com.haretskiy.pavel.magiccamera.googleVisionApi.barcodeDerector.BarcodeGraphic
 import com.haretskiy.pavel.magiccamera.googleVisionApi.barcodeDerector.BarcodeTrackerFactory
 import com.haretskiy.pavel.magiccamera.googleVisionApi.faceDetector.FaceTrackerFactory
 import com.haretskiy.pavel.magiccamera.googleVisionApi.views.GraphicOverlay
 import com.haretskiy.pavel.magiccamera.utils.Toaster
+import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 
-class CameraSourceManager(private val context: Context, private val toaster: Toaster) {
+class CameraSourceManager(
+        private val context: Context,
+        private val toaster: Toaster,
+        private val router: Router) {
+
+    private var timeOfLastResult = 0L
 
     val cameraSourceLiveData: MutableLiveData<CameraSource> = MutableLiveData()
 
@@ -31,6 +38,15 @@ class CameraSourceManager(private val context: Context, private val toaster: Toa
 
             val barcodeDetector = BarcodeDetector.Builder(context).build()
             val barcodeFactory = BarcodeTrackerFactory(faceOverlay)
+            barcodeFactory.barcodeGraphic.addBarcodeScannerListener(object : BarcodeGraphic.BarcodeScannerListener {
+                override fun onCodeFounded(resultScanning: String) {
+                    val time = System.currentTimeMillis()
+                    if (time - timeOfLastResult > BARCODE_SCAN_DELAY) {
+                        router.startBarcodeActivity(resultScanning)
+                        timeOfLastResult = time
+                    }
+                }
+            })
             barcodeDetector.setProcessor(
                     MultiProcessor.Builder<Barcode>(barcodeFactory).build())
 

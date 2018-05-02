@@ -14,4 +14,6 @@ interface Router {
     fun doFragmentTransaction(fragment: Fragment, fragmentManager: FragmentManager, containerId: Int)
 
     fun startPhotoDetailActivity(uri: String, date: Long)
+
+    fun startBarcodeActivity(resultOfScanning: String)
 }

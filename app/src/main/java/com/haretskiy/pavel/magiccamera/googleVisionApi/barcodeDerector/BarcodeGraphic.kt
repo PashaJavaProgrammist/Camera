@@ -18,6 +18,8 @@ class BarcodeGraphic(overlay: GraphicOverlay) : TrackedGraphic<Barcode>(overlay)
     private val mTextPaint: Paint
     private var mBarcode: Barcode? = null
 
+    private lateinit var barcodeScannerListener: BarcodeScannerListener
+
     init {
 
         mCurrentColorIndex = (mCurrentColorIndex + 1) % COLOR_CHOICES.size
@@ -58,10 +60,20 @@ class BarcodeGraphic(overlay: GraphicOverlay) : TrackedGraphic<Barcode>(overlay)
 
         // Draws a label at the bottom of the barcode indicate the barcode value that was detected.
         canvas.drawText(barcode.rawValue, rect.left, rect.bottom, mTextPaint)
+        barcodeScannerListener.onCodeFounded(barcode.rawValue)
     }
 
     companion object {
         private val COLOR_CHOICES = intArrayOf(Color.BLUE, Color.CYAN, Color.GREEN)
         private var mCurrentColorIndex = 0
+    }
+
+    fun addBarcodeScannerListener(barcodeScannerListener: BarcodeScannerListener) {
+        this.barcodeScannerListener = barcodeScannerListener
+
+    }
+
+    interface BarcodeScannerListener {
+        fun onCodeFounded(resultScanning: String)
     }
 }
