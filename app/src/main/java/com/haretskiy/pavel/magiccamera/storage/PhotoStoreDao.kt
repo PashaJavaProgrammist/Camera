@@ -11,7 +11,7 @@ import com.haretskiy.pavel.magiccamera.models.Photo
 @Dao
 interface PhotoStoreDao {
 
-    @get:Query("SELECT * FROM images")
+    @get:Query("SELECT * FROM images ORDER BY id DESC")
     val all: DataSource.Factory<Int, Photo>
 
     @Insert
@@ -23,7 +23,7 @@ interface PhotoStoreDao {
     @Query("SELECT * FROM images WHERE uri = :uri")
     fun getPhotoByUri(uri: String): LiveData<Photo>
 
-    @Query("SELECT * FROM images WHERE userEmail = :userMail")
+    @Query("SELECT * FROM images WHERE userEmail = :userMail ORDER BY id DESC")
     fun getUserPhotos(userMail: String): DataSource.Factory<Int, Photo>
 
     @Query("DELETE FROM images WHERE userEmail = :userMail")
