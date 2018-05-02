@@ -9,7 +9,7 @@ import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
 import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_DATA_TO_DETAIL
-import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_URI_TO_DETAIL
+import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_URI_TO_ACTIVITY_DETAIL
 import com.haretskiy.pavel.magiccamera.PACKAGE_SETTINGS
 import com.haretskiy.pavel.magiccamera.ui.activities.HostActivity
 import com.haretskiy.pavel.magiccamera.ui.activities.LoginActivity
@@ -57,7 +57,7 @@ class RouterImpl(private val context: Context) : Router {
 
     override fun startPhotoDetailActivity(uri: String, date: Long) {
         val intent = Intent(context, PhotoDetailActivity::class.java)
-        intent.putExtra(BUNDLE_KEY_URI_TO_DETAIL, uri)
+        intent.putExtra(BUNDLE_KEY_URI_TO_ACTIVITY_DETAIL, uri)
         intent.putExtra(BUNDLE_KEY_DATA_TO_DETAIL, date)
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

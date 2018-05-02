@@ -6,9 +6,11 @@ class PhotoStoreImpl(private val dao: PhotoStoreDao) : Store {
 
     override fun savePhoto(uri: String, date: Long, email: String): Unit = Thread({ dao.insert(Photo(date, uri, email)) }).start()
 
-    override fun getAllUserPhotos(userEmail: String) = dao.getUserPhotos(userEmail)
+    override fun getAllUserPhotosDataSourceFactory(userEmail: String) = dao.getUserPhotosDataSourceFactory(userEmail)
 
-    override fun getAllPhotosList() = dao.all
+    override fun getAllUserPhotosLiveData(userEmail: String) = dao.getUserPhotosLiveDataList(userEmail)
+
+    override fun getAllPhotosDataSourceFactory() = dao.all
 
     override fun getPhotoById(id: Long) = dao.getPhotoById(id)
 

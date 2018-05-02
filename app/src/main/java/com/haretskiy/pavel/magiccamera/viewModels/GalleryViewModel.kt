@@ -15,7 +15,7 @@ class GalleryViewModel(app: Application,
                        private val prefs: Prefs) : AndroidViewModel(app) {
 
     fun getAllUserPhotosLiveData() = LivePagedListBuilder(
-            store.getAllUserPhotos(prefs.getUserEmail()),
+            store.getAllUserPhotosDataSourceFactory(prefs.getUserEmail()),
             PagedList.Config.Builder()
                     .setPageSize(PAGE_SIZE)
                     .setInitialLoadSizeHint(PAGE_SIZE_HINT)
