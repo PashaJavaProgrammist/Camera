@@ -34,10 +34,10 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="content">Content</string>
-    <string name="open_inapp">Open INAPP</string>
+    <string name="open_inapp">Open in\n Chrome custom tabs</string>
     <string name="share">SHARE</string>
+    <string name="url_do_not_found">Url doesn\'t found</string>
+    <string name="another_browser">Can\'t open this in Chrome custom tabs. Press the link to try to open it in another browser</string>
 
 </resources>

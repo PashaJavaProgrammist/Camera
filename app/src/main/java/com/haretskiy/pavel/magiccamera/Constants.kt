@@ -97,3 +97,8 @@ const val BARCODE_SCAN_DELAY = 5000
 const val SHARE_TYPE_TEXT = "text/plain"
 const val SHARE_TYPE_IMAGE = "image/*"
 const val FILE_PROVIDER_AUTHORITY = "com.haretskiy.pavel.magiccamera.providers.fileprovider"
+
+const val URL_REGEX1 = "^((https?|ftp)://|(www|ftp)\\.)?[a-z0-9-]+(\\.[a-z0-9-]+)+([/?].*)?$"
+const val URL_REGEX2 = "(?:^|[\\W])((ht|f)tp(s?):\\/\\/|www\\.)" +
+        "(([\\w\\-]+\\.){1,}?([\\w\\-.~]+\\/?)*" +
+        "[\\p{Alnum}.,%_=?&#\\-+()\\[\\]\\*$~@!:/{};']*)"
