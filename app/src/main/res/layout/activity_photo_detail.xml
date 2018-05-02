@@ -40,7 +40,7 @@
         android:contentDescription="@string/app_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/btn_dialog" />
+        app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
 
     <com.haretskiy.pavel.magiccamera.ui.views.BorderTextView
         android:id="@+id/tv_date_detail"

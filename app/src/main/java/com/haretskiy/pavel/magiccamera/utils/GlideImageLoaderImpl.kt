@@ -13,7 +13,6 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.RequestOptions
 import com.bumptech.glide.request.target.Target
-import com.haretskiy.pavel.magiccamera.R
 import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageLoader
 
 class GlideImageLoaderImpl(private val context: Context) : ImageLoader {
@@ -25,9 +24,7 @@ class GlideImageLoaderImpl(private val context: Context) : ImageLoader {
                     .apply(RequestOptions
                             .circleCropTransform()
                             .override(100, 100)
-                            .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
-                            .placeholder(R.mipmap.ic_launcher_round)
-                            .error(R.mipmap.ic_launcher_round))
+                            .diskCacheStrategy(DiskCacheStrategy.RESOURCE))
                     .into(imageView)
         })
     }

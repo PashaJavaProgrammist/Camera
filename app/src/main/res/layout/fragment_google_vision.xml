@@ -60,7 +60,6 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         android:contentDescription="@string/last"
-        android:src="@mipmap/ic_launcher_round"
         app:layout_constraintBottom_toBottomOf="@+id/bt_take_a_picture"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/bt_take_a_picture"
