@@ -65,7 +65,7 @@ class FaceGraphic(overlay: GraphicOverlay) : TrackedGraphic<Face>(overlay) {
             else -> SMILE_LEVEL_NONE
         }
 
-        canvas.drawText("Smile: $smile", cx - ID_X_OFFSET, cy - ID_Y_OFFSET, mIdPaint)
+        canvas.drawText("Smile: $smile", cx + ID_X_OFFSET, cy, mIdPaint)
         // Draws an oval around the face.
         val xOffset = scaleX(face.width / 2.0f)
         val yOffset = scaleY(face.height / 2.0f)
