@@ -40,5 +40,9 @@
     <string name="url_do_not_found">Url doesn\'t found</string>
     <string name="another_browser">Can\'t open this in Chrome custom tabs. Press the link to try to open it in another browser</string>
     <string name="unable_save_res_scan">Unable to save result of scanning</string>
+    <string name="qr_history">QR History</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

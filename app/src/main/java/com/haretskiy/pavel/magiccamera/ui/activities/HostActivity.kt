@@ -7,6 +7,7 @@ import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_FRAGMENT_ID
 import com.haretskiy.pavel.magiccamera.R
 import com.haretskiy.pavel.magiccamera.ui.fragments.GalleryFragment
 import com.haretskiy.pavel.magiccamera.ui.fragments.GoogleVisionFragment
+import com.haretskiy.pavel.magiccamera.ui.fragments.QrHistoryFragment
 import com.haretskiy.pavel.magiccamera.ui.fragments.SettingsFragment
 import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 import kotlinx.android.synthetic.main.activity_camera.*
@@ -28,6 +29,11 @@ class HostActivity : AppCompatActivity() {
             R.id.navigation_camera -> {
                 navFragId = R.id.navigation_camera
                 router.doFragmentTransaction(GoogleVisionFragment(), supportFragmentManager, R.id.frame_for_fragments)
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_qr_history -> {
+                navFragId = R.id.navigation_qr_history
+                router.doFragmentTransaction(QrHistoryFragment(), supportFragmentManager, R.id.frame_for_fragments)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_settings -> {

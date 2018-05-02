@@ -11,6 +11,10 @@
         android:icon="@android:drawable/ic_menu_camera"
         android:title="@string/title_camera" />
     <item
+        android:id="@+id/navigation_qr_history"
+        android:icon="@android:drawable/ic_menu_agenda"
+        android:title="@string/qr_history" />
+    <item
         android:id="@+id/navigation_settings"
         android:icon="@android:drawable/ic_menu_manage"
         android:title="@string/settings" />
