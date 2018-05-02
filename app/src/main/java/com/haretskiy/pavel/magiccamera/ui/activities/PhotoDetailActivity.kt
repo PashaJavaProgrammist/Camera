@@ -8,15 +8,13 @@ import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_URI_TO_ACTIVITY_DETAIL
 import com.haretskiy.pavel.magiccamera.EMPTY_STRING
 import com.haretskiy.pavel.magiccamera.R
 import com.haretskiy.pavel.magiccamera.adapters.PhotoDetailViewPagerAdapter
-import com.haretskiy.pavel.magiccamera.storage.Store
-import com.haretskiy.pavel.magiccamera.utils.Prefs
+import com.haretskiy.pavel.magiccamera.viewModels.PhotoDetailViewModel
 import kotlinx.android.synthetic.main.activity_photo_detail.*
 import org.koin.android.ext.android.inject
 
 class PhotoDetailActivity : AppCompatActivity() {
 
-    private val store: Store by inject()
-    private val prefs: Prefs by inject()
+    private val photoDetailViewModel: PhotoDetailViewModel by inject()
 
     private var uri = EMPTY_STRING
 
@@ -26,7 +24,7 @@ class PhotoDetailActivity : AppCompatActivity() {
 
         uri = intent.getStringExtra(BUNDLE_KEY_URI_TO_ACTIVITY_DETAIL)
 
-        store.getAllUserPhotosLiveData(prefs.getUserEmail()).observe(this, Observer {
+        photoDetailViewModel.storagePhotosLiveData.observe(this, Observer {
             if (it != null) {
                 view_pager_details.adapter = PhotoDetailViewPagerAdapter(supportFragmentManager, it)
                 for ((i, item) in it.withIndex()) {

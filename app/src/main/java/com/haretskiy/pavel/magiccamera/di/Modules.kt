@@ -25,6 +25,7 @@ import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageSaver
 import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 import com.haretskiy.pavel.magiccamera.viewModels.GalleryViewModel
 import com.haretskiy.pavel.magiccamera.viewModels.LoginViewModel
+import com.haretskiy.pavel.magiccamera.viewModels.PhotoDetailViewModel
 import com.haretskiy.pavel.magiccamera.viewModels.SettingsViewModel
 import org.koin.android.architecture.ext.viewModel
 import org.koin.android.ext.koin.androidApplication
@@ -50,6 +51,7 @@ val appModule: Module = applicationContext {
     viewModel { LoginViewModel(get()) }
     viewModel { GalleryViewModel(androidApplication(), get(), get()) }
     viewModel { SettingsViewModel(get()) }
+    viewModel { PhotoDetailViewModel(get(), get()) }
 }
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
