@@ -79,6 +79,9 @@ class RouterImpl(private val context: Context) : Router {
         sendIntent.action = Intent.ACTION_SEND
         sendIntent.putExtra(Intent.EXTRA_TEXT, resultOfScanning)
         sendIntent.type = SHARE_TYPE_TEXT
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            sendIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
         context.startActivity(sendIntent)
     }
 }
