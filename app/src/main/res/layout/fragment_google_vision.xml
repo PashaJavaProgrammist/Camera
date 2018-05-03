@@ -71,8 +71,6 @@
         android:layout_marginRight="2dp"
         android:layout_marginTop="2dp"
         android:contentDescription="@string/app_name"
-        android:scaleX="0.8"
-        android:scaleY="0.8"
         android:src="@drawable/ic_switch_camera"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
