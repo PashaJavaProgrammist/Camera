@@ -35,8 +35,8 @@
 
     <ImageView
         android:id="@+id/iv_delete"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_gravity="end|top"
         android:layout_margin="4dp"
         android:layout_marginEnd="8dp"
@@ -45,19 +45,19 @@
         android:contentDescription="@string/app_name"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
+        app:srcCompat="@drawable/ic_delete" />
 
     <ImageView
         android:id="@+id/iv_share_photo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginEnd="12dp"
         android:layout_marginRight="12dp"
         android:layout_marginTop="4dp"
         android:contentDescription="@string/app_name"
         app:layout_constraintEnd_toStartOf="@+id/iv_delete"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/ic_menu_share" />
+        app:srcCompat="@drawable/ic_share" />
 
     <com.haretskiy.pavel.magiccamera.ui.views.BorderTextView
         android:id="@+id/tv_date_detail"

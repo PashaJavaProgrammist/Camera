@@ -27,18 +27,41 @@
     </com.haretskiy.pavel.magiccamera.googleVisionApi.views.CameraSourcePreview>
 
     <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/bottom_navigation_size_plus"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:contentDescription="@string/app_name"
+        android:scaleX="0.7"
+        android:scaleY="0.7"
+        android:src="@drawable/ic_round"
+        app:layout_constraintBottom_toBottomOf="@+id/preview"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
         android:id="@+id/bt_take_a_picture"
         android:layout_width="30dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginBottom="@dimen/bottom_navigation_size_plus"
+        android:layout_marginBottom="10dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:contentDescription="@string/app_name"
-        android:scaleX="2"
-        android:scaleY="2"
-        android:src="@android:drawable/ic_menu_camera"
-        app:layout_constraintBottom_toBottomOf="@+id/preview"
-        app:layout_constraintEnd_toEndOf="@+id/preview"
-        app:layout_constraintStart_toStartOf="@+id/preview" />
+        android:scaleX="1.2"
+        android:scaleY="1.2"
+        android:src="@drawable/ic_camera"
+        app:layout_constraintBottom_toBottomOf="@+id/imageView"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toTopOf="@+id/imageView" />
 
     <ImageView
         android:id="@+id/bt_change_camera_type"
@@ -48,7 +71,7 @@
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
         android:contentDescription="@string/app_name"
-        android:src="@android:drawable/ic_popup_sync"
+        android:src="@drawable/ic_change_camera"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
