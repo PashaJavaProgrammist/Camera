@@ -13,6 +13,10 @@ class QrHistoryHolder(val qrHistory: QRHistory, val view: View) : RecyclerView.V
         view.tv_date_qr_history.text = barCode.date.convertToDate()
 
         view.setOnClickListener { qrHistory.onClickHistoryItem(barCode.code) }
+        view.setOnLongClickListener {
+            qrHistory.onLongClickHistoryItem(barCode.code)
+            true
+        }
     }
 
 }

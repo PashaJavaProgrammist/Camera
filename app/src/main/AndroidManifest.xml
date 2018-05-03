@@ -45,7 +45,7 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:label="@string/title_activity_photo_detail"
             android:theme="@style/FullscreenTheme" />
-        <activity android:name=".ui.activities.BarcodeScanResultActivity" />
+        <activity android:name=".ui.activities.QrScanResultActivity" />
 
         <provider
             android:name=".providers.GenericFileProvider"

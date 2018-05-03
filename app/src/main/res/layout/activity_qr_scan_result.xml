@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/colorPrimary"
-    tools:context=".ui.activities.BarcodeScanResultActivity">
+    tools:context=".ui.activities.QrScanResultActivity">
 
     <TextView
         android:id="@+id/textView"
@@ -50,6 +50,9 @@
         android:layout_marginStart="8dp"
         android:text="@string/open_inapp"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/bt_share"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent" />
 
     <Button
@@ -64,6 +67,7 @@
         android:text="@string/share"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/bt_open_in_app" />
 
 </android.support.constraint.ConstraintLayout>

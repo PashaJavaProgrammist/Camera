@@ -34,4 +34,8 @@ class QrHistoryFragment : Fragment(), QRHistory {
     override fun onClickHistoryItem(content: String) {
         router.startBarcodeActivity(content)
     }
+
+    override fun onLongClickHistoryItem(content: String) {
+        qrHistoryVewModel.deleteQrCodeFromDB(childFragmentManager, content)
+    }
 }

@@ -12,10 +12,10 @@ import android.support.v4.app.FragmentTransaction
 import android.support.v4.content.ContextCompat.getColor
 import android.support.v4.content.FileProvider
 import com.haretskiy.pavel.magiccamera.*
-import com.haretskiy.pavel.magiccamera.ui.activities.BarcodeScanResultActivity
 import com.haretskiy.pavel.magiccamera.ui.activities.HostActivity
 import com.haretskiy.pavel.magiccamera.ui.activities.LoginActivity
 import com.haretskiy.pavel.magiccamera.ui.activities.PhotoDetailActivity
+import com.haretskiy.pavel.magiccamera.ui.activities.QrScanResultActivity
 import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 import java.io.File
 
@@ -70,7 +70,7 @@ class RouterImpl(private val context: Context) : Router {
     }
 
     override fun startBarcodeActivity(resultOfScanning: String) {
-        val intent = Intent(context, BarcodeScanResultActivity::class.java)
+        val intent = Intent(context, QrScanResultActivity::class.java)
         intent.putExtra(BUNDLE_KEY_BARCODE_RESULT, resultOfScanning)
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)

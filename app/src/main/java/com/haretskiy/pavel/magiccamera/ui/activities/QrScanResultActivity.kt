@@ -5,11 +5,11 @@ import android.support.v7.app.AppCompatActivity
 import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.utils.Toaster
 import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
-import kotlinx.android.synthetic.main.activity_barcode_scan_result.*
+import kotlinx.android.synthetic.main.activity_qr_scan_result.*
 import org.koin.android.ext.android.inject
 import java.util.regex.Pattern
 
-class BarcodeScanResultActivity : AppCompatActivity() {
+class QrScanResultActivity : AppCompatActivity() {
 
     private val router: Router by inject()
     private var scanResult = EMPTY_STRING
@@ -20,7 +20,7 @@ class BarcodeScanResultActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_barcode_scan_result)
+        setContentView(R.layout.activity_qr_scan_result)
 
         scanResult = intent?.getStringExtra(BUNDLE_KEY_BARCODE_RESULT) ?: EMPTY_STRING
         if (scanResult.isNotEmpty()) {
