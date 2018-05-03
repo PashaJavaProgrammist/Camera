@@ -44,11 +44,12 @@ class QrHistoryFragment : Fragment(), QRHistory {
         rv_qr_history.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if (dy > 0 && fab_qr_history.visibility == View.VISIBLE) {
-                    fab_qr_history.hide()
-                } else if (dy < 0 && fab_qr_history.visibility != View.VISIBLE) {
-                    fab_qr_history.show()
-                }
+                if (fab_qr_history != null)
+                    if (dy > 0 && fab_qr_history.visibility == View.VISIBLE) {
+                        fab_qr_history.hide()
+                    } else if (dy < 0 && fab_qr_history.visibility != View.VISIBLE) {
+                        fab_qr_history.show()
+                    }
             }
         })
 

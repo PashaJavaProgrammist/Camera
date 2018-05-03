@@ -46,11 +46,12 @@ class GalleryFragment : Fragment(), PhotoGallery {
         rcv_gallery_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
-                if (dy > 0 && fab_gallery.visibility == View.VISIBLE) {
-                    fab_gallery.hide()
-                } else if (dy < 0 && fab_gallery.visibility != View.VISIBLE) {
-                    fab_gallery.show()
-                }
+                if (fab_gallery != null)
+                    if (dy > 0 && fab_gallery.visibility == View.VISIBLE) {
+                        fab_gallery.hide()
+                    } else if (dy < 0 && fab_gallery.visibility != View.VISIBLE) {
+                        fab_gallery.show()
+                    }
             }
         })
 
