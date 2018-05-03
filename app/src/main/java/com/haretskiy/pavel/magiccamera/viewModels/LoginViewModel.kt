@@ -11,11 +11,13 @@ import com.haretskiy.pavel.magiccamera.FIELDS_ARE_EMPTY
 import com.haretskiy.pavel.magiccamera.PASSWORDS_DO_NOT_MATCH
 import com.haretskiy.pavel.magiccamera.models.FirebaseLoginResponse
 import com.haretskiy.pavel.magiccamera.utils.Prefs
+import com.haretskiy.pavel.magiccamera.utils.Toaster
 import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 
 class LoginViewModel(private val mAuth: FirebaseAuth,
                      private val router: Router,
-                     private val prefs: Prefs) : ViewModel() {
+                     private val prefs: Prefs,
+                     private val toaster: Toaster) : ViewModel() {
 
     val userInfo: MutableLiveData<FirebaseLoginResponse> = MutableLiveData()
 
@@ -58,9 +60,14 @@ class LoginViewModel(private val mAuth: FirebaseAuth,
     }
 
     fun onSuccessAuth(email: String) {
+        toaster.showToast(email, false)
         prefs.setUserStateLogIn()
         prefs.saveEmail(email)
         router.startHostActivity()
+    }
+
+    fun onErrorAuth(errorMessages: String) {
+        toaster.showToast(errorMessages, true)
     }
 
 }

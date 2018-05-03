@@ -44,6 +44,7 @@ class SettingsFragment : Fragment() {
         })
     }
 
+    //todo: move this in view model
     private fun signOut() {
         settings_progress_bar.visibility = View.GONE
         prefs.setUserStateLogOut()

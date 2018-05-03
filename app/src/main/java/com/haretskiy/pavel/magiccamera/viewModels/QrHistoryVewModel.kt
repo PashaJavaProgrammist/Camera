@@ -4,6 +4,7 @@ import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
 import android.os.Bundle
 import android.support.v4.app.FragmentManager
+import com.haretskiy.pavel.magiccamera.BUNDLE_DIALOG_DELETE_IS_QR_DETAIL
 import com.haretskiy.pavel.magiccamera.BUNDLE_DIALOG_DELETE_QR_CODE
 import com.haretskiy.pavel.magiccamera.DELETE_QR_DIALOG
 import com.haretskiy.pavel.magiccamera.models.BarCode
@@ -32,6 +33,7 @@ class QrHistoryVewModel(private val barCodeStore: BarCodeStore,
     private fun newDeleteDialogInstance(content: String): DeleteQRDialog {
         val args = Bundle()
         args.putString(BUNDLE_DIALOG_DELETE_QR_CODE, content)
+        args.putBoolean(BUNDLE_DIALOG_DELETE_IS_QR_DETAIL, false)
         val deleteDialog = DeleteQRDialog()
         deleteDialog.arguments = args
         return deleteDialog

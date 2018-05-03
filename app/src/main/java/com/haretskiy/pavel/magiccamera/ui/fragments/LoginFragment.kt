@@ -6,8 +6,6 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import com.google.firebase.auth.FirebaseUser
 import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.models.FirebaseLoginResponse
 import com.haretskiy.pavel.magiccamera.viewModels.LoginViewModel
@@ -29,8 +27,8 @@ class LoginFragment : Fragment(), View.OnClickListener {
         loginViewModel.userInfo.observe(this, Observer<FirebaseLoginResponse> {
             login_progress.visibility = View.GONE
             when (it?.user) {
-                null -> Toast.makeText(context, "${it?.errorMessage}", Toast.LENGTH_LONG).show()
-                else -> onSuccessAuth(it.user)
+                null -> loginViewModel.onErrorAuth(it?.errorMessage ?: EMPTY_STRING)
+                else -> loginViewModel.onSuccessAuth(it.user?.email ?: EMPTY_STRING)
             }
         })
     }
@@ -57,11 +55,6 @@ class LoginFragment : Fragment(), View.OnClickListener {
     private fun sign() {
         login_progress.visibility = View.VISIBLE
         loginViewModel.sign(email.text.toString(), password.text.toString(), if (!isSignInScreen) repeate_password.text.toString() else EMPTY_STRING)
-    }
-
-    private fun onSuccessAuth(user: FirebaseUser?) {
-        Toast.makeText(context, user?.email, Toast.LENGTH_SHORT).show()
-        loginViewModel.onSuccessAuth(user?.email ?: EMPTY_STRING)
     }
 
 }

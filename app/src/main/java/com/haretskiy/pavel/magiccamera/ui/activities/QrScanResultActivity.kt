@@ -3,6 +3,7 @@ package com.haretskiy.pavel.magiccamera.ui.activities
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.haretskiy.pavel.magiccamera.*
+import com.haretskiy.pavel.magiccamera.ui.dialogs.DeleteQRDialog
 import com.haretskiy.pavel.magiccamera.utils.Toaster
 import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 import kotlinx.android.synthetic.main.activity_qr_scan_result.*
@@ -42,5 +43,14 @@ class QrScanResultActivity : AppCompatActivity() {
                 toaster.showToast(getString(R.string.another_browser) + "${ex.message}", true)
             }
         }
+    }
+
+    private fun newDeleteDialogInstance(content: String): DeleteQRDialog {
+        val args = Bundle()
+        args.putString(BUNDLE_DIALOG_DELETE_QR_CODE, content)
+        args.putBoolean(BUNDLE_DIALOG_DELETE_IS_QR_DETAIL, true)
+        val deleteDialog = DeleteQRDialog()
+        deleteDialog.arguments = args
+        return deleteDialog
     }
 }
