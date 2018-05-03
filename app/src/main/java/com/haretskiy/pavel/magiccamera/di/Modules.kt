@@ -48,7 +48,7 @@ val appModule: Module = applicationContext {
 
     viewModel { LoginViewModel(get(), get(), get(), get()) }
     viewModel { GalleryViewModel(androidApplication(), get(), get(), get()) }
-    viewModel { SettingsViewModel(get()) }
+    viewModel { SettingsViewModel(get(), get(), get()) }
     viewModel { PhotoDetailViewModel(get(), get()) }
     viewModel { QrHistoryVewModel(get(), get(), get()) }
     viewModel { QrResultDetailViewModel(get(), get()) }
