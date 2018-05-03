@@ -4,11 +4,13 @@ import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
+import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.haretskiy.pavel.magiccamera.R
 import com.haretskiy.pavel.magiccamera.adapters.GalleryPhotoAdapter
+import com.haretskiy.pavel.magiccamera.ui.activities.HostActivity
 import com.haretskiy.pavel.magiccamera.ui.views.PhotoGallery
 import com.haretskiy.pavel.magiccamera.utils.AutoFitGridLayoutManager
 import com.haretskiy.pavel.magiccamera.utils.DiffCallBack
@@ -40,6 +42,21 @@ class GalleryFragment : Fragment(), PhotoGallery {
         rcv_gallery_list.adapter = galleryAdapter
 
         galleryViewModel.getAllUserPhotosLiveData().observe(this, Observer { galleryAdapter.submitList(it) })
+
+        rcv_gallery_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                if (dy > 0 && fab_gallery.visibility == View.VISIBLE) {
+                    fab_gallery.hide()
+                } else if (dy < 0 && fab_gallery.visibility != View.VISIBLE) {
+                    fab_gallery.show()
+                }
+            }
+        })
+
+        fab_gallery.setOnClickListener {
+            (activity as HostActivity).selectItemCamera()
+        }
     }
 
     override fun onClickPhoto(uri: String, date: Long) {

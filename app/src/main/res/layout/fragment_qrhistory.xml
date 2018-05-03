@@ -1,15 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey_lignt"
-    tools:context=".ui.fragments.QrHistoryFragment">
+    android:layout_marginBottom="@dimen/bottom_navigation_size"
+    android:background="@color/grey_light"
+    tools:context=".ui.fragments.GalleryFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_qr_history"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/bottom_navigation_size_plus" />
+        android:layout_height="match_parent" />
 
-</FrameLayout>
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_qr_history"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="8dp"
+        android:src="@drawable/ic_square_plus"
+        app:rippleColor="@android:color/holo_orange_dark" />
+</android.support.design.widget.CoordinatorLayout>

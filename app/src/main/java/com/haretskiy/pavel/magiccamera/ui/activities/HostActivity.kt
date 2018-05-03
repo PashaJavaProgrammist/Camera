@@ -65,4 +65,8 @@ class HostActivity : AppCompatActivity() {
         finishAffinity()
     }
 
+    fun selectItemCamera() {
+        navigation.selectedItemId = R.id.navigation_camera
+    }
+
 }
