@@ -5,4 +5,6 @@
     <dimen name="card_width">110dp</dimen>
     <dimen name="bottom_navigation_size_plus">65dp</dimen>
     <dimen name="bottom_navigation_size">55dp</dimen>
+    <dimen name="bottom_navigation_minus">45dp</dimen>
+
 </resources>
