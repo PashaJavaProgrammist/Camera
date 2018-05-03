@@ -32,16 +32,15 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="@dimen/bottom_navigation_size"
         android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:contentDescription="@string/app_name"
         android:scaleX="1"
         android:scaleY="1"
         android:src="@drawable/ic_circle"
         app:layout_constraintBottom_toBottomOf="@+id/preview"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/bt_take_a_picture"
@@ -77,13 +76,16 @@
         android:id="@+id/last_photo"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_marginBottom="@dimen/bottom_navigation_size"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:contentDescription="@string/last"
-        app:layout_constraintBottom_toBottomOf="@+id/bt_take_a_picture"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/bt_take_a_picture"
-        app:layout_constraintVertical_bias="0.692" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/imageView"
+        app:layout_constraintStart_toStartOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/bt_take_a_picture" />
 
 </android.support.constraint.ConstraintLayout>
