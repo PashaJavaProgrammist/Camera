@@ -22,7 +22,7 @@ import java.io.File
 
 class RouterImpl(private val context: Context) : Router {
 
-    override fun startCameraActivity() {
+    override fun startHostActivity() {
         val intent = Intent(context, HostActivity::class.java)
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK)

@@ -46,7 +46,7 @@ val appModule: Module = applicationContext {
 
     factory { DiffCallBack() }
 
-    viewModel { LoginViewModel(get()) }
+    viewModel { LoginViewModel(get(), get(), get()) }
     viewModel { GalleryViewModel(androidApplication(), get(), get(), get()) }
     viewModel { SettingsViewModel(get()) }
     viewModel { PhotoDetailViewModel(get(), get()) }

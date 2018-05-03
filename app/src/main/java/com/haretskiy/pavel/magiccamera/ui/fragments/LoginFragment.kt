@@ -10,8 +10,6 @@ import android.widget.Toast
 import com.google.firebase.auth.FirebaseUser
 import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.models.FirebaseLoginResponse
-import com.haretskiy.pavel.magiccamera.utils.Prefs
-import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 import com.haretskiy.pavel.magiccamera.viewModels.LoginViewModel
 import kotlinx.android.synthetic.main.fragment_sign.*
 import kotlinx.android.synthetic.main.fragment_sign.view.*
@@ -20,8 +18,6 @@ import org.koin.android.ext.android.inject
 class LoginFragment : Fragment(), View.OnClickListener {
 
     private val loginViewModel: LoginViewModel by inject()
-    private val router: Router by inject()
-    private val prefs: Prefs by inject()
 
     //this flag shows SignIn or SignUp screen
     private var isSignInScreen = false
@@ -65,9 +61,7 @@ class LoginFragment : Fragment(), View.OnClickListener {
 
     private fun onSuccessAuth(user: FirebaseUser?) {
         Toast.makeText(context, user?.email, Toast.LENGTH_SHORT).show()
-        prefs.setUserStateLogIn()
-        prefs.saveEmail(user?.email)
-        router.startCameraActivity()
+        loginViewModel.onSuccessAuth(user?.email ?: EMPTY_STRING)
     }
 
 }

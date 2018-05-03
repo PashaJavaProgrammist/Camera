@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentManager
 
 interface Router {
 
-    fun startCameraActivity()
+    fun startHostActivity()
 
     fun startLoginActivity()
 
