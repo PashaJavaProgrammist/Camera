@@ -10,7 +10,7 @@ import com.haretskiy.pavel.magiccamera.ui.fragments.GoogleVisionFragment
 import com.haretskiy.pavel.magiccamera.ui.fragments.QrHistoryFragment
 import com.haretskiy.pavel.magiccamera.ui.fragments.SettingsFragment
 import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
-import kotlinx.android.synthetic.main.activity_camera.*
+import kotlinx.android.synthetic.main.activity_host.*
 import org.koin.android.ext.android.inject
 
 class HostActivity : AppCompatActivity() {
@@ -47,7 +47,7 @@ class HostActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_camera)
+        setContentView(R.layout.activity_host)
 
         navFragId = savedInstanceState?.getInt(BUNDLE_KEY_FRAGMENT_ID, R.id.navigation_camera) ?: R.id.navigation_camera
 
