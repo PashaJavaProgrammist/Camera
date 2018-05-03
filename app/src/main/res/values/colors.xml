@@ -4,9 +4,13 @@
     <color name="colorPrimaryDark">@color/yellow_dark</color>
     <color name="colorAccent">@color/green_dark</color>
 
-    <color name="violet">#ad2ef7</color>
-    <color name="violet_dark">#6e048e</color>
-    <color name="violet_light">#c250e5</color>
+    <color name="violet">#9c27b0</color>
+    <color name="violet_dark">#6a0080</color>
+    <color name="violet_light">#d05ce3</color>
+
+    <color name="miat">#69f0ae</color>
+    <color name="miat_dark">#2bbd7e</color>
+    <color name="miat_light">#9fffe0</color>
 
     <color name="purpur">#a3139c</color>
     <color name="purpur_dark">#7c0076</color>
