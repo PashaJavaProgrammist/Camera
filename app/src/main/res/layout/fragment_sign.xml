@@ -43,7 +43,7 @@
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="#fff"
+                    android:textColor="@color/black"
                     android:textColorHint="#fff" />
 
             </android.support.design.widget.TextInputLayout>
@@ -63,7 +63,7 @@
                     android:inputType="textPassword"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="#fff"
+                    android:textColor="@color/black"
                     android:textColorHint="#fff" />
 
             </android.support.design.widget.TextInputLayout>
@@ -83,7 +83,7 @@
                     android:inputType="textPassword"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:textColor="#fff"
+                    android:textColor="@color/black"
                     android:textColorHint="#fff" />
 
             </android.support.design.widget.TextInputLayout>
