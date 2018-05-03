@@ -1,8 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#9842f4</color>
-    <color name="colorPrimaryDark">#7422cc</color>
-    <color name="colorAccent">#ffd400</color>
+    <color name="colorPrimary">@color/violet</color>
+    <color name="colorPrimaryDark">@color/violet_dark</color>
+    <color name="colorAccent">@color/yellow</color>
+
+    <color name="violet">#ad2ef7</color>
+    <color name="violet_dark">#6e048e</color>
+    <color name="violet_light">#c250e5</color>
+
+    <color name="purpur">#a3139c</color>
+    <color name="purpur_dark">#7c0076</color>
+    <color name="purpur_light">#d600ae</color>
+
+    <color name="red">#ff1d00</color>
+    <color name="red_dark">#b20505</color>
+    <color name="red_light">#f7362c</color>
+
+    <color name="yellow">#d89000</color>
+    <color name="yellow_dark">#b76d0c</color>
+    <color name="yellow_light">#edb10b</color>
 
     <color name="black_overlay">#66000000</color>
+    <color name="black">#000000</color>
+    <color name="white">#ffffff</color>
+
 </resources>

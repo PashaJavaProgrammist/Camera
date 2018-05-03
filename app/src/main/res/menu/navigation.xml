@@ -16,7 +16,7 @@
         android:title="@string/qr_history" />
     <item
         android:id="@+id/navigation_settings"
-        android:icon="@drawable/ic_settings2"
+        android:icon="@drawable/ic_settings"
         android:title="@string/settings" />
 
 </menu>
