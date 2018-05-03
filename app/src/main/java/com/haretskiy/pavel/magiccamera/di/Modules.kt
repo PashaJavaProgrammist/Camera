@@ -50,7 +50,7 @@ val appModule: Module = applicationContext {
     viewModel { GalleryViewModel(androidApplication(), get(), get(), get()) }
     viewModel { SettingsViewModel(get()) }
     viewModel { PhotoDetailViewModel(get(), get()) }
-    viewModel { QrHistoryVewModel(get(), get()) }
+    viewModel { QrHistoryVewModel(get(), get(), get()) }
 }
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)

@@ -10,9 +10,6 @@ import com.haretskiy.pavel.magiccamera.R
 import com.haretskiy.pavel.magiccamera.storage.BarCodeStore
 import org.koin.android.ext.android.inject
 
-/**
- * Shows OK/Cancel confirmation dialog about camera permission.
- */
 class DeleteQRDialog : DialogFragment() {
 
     private val barCodeStore: BarCodeStore by inject()

@@ -11,9 +11,7 @@ import com.haretskiy.pavel.magiccamera.R
 import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageSaver
 import org.koin.android.ext.android.inject
 
-/**
- * Shows OK/Cancel confirmation dialog about camera permission.
- */
+
 class DeletePhotoDialog : DialogFragment() {
 
     private val imageSaver: ImageSaver by inject()

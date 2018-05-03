@@ -10,9 +10,12 @@ import com.haretskiy.pavel.magiccamera.models.BarCode
 import com.haretskiy.pavel.magiccamera.storage.BarCodeStore
 import com.haretskiy.pavel.magiccamera.ui.dialogs.DeleteQRDialog
 import com.haretskiy.pavel.magiccamera.utils.Prefs
+import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
+
 
 class QrHistoryVewModel(private val barCodeStore: BarCodeStore,
-                        private val prefs: Prefs) : ViewModel() {
+                        private val prefs: Prefs,
+                        private val router: Router) : ViewModel() {
 
     val storageBarCodesLiveData: LiveData<List<BarCode>> by lazy {
         barCodeStore.getAllUserCodes(prefs.getUserEmail())
@@ -20,6 +23,10 @@ class QrHistoryVewModel(private val barCodeStore: BarCodeStore,
 
     fun deleteQrCodeFromDB(fragmentManager: FragmentManager, content: String) {
         newDeleteDialogInstance(content).show(fragmentManager, DELETE_QR_DIALOG)
+    }
+
+    fun startBarcodeActivity(content: String) {
+        router.startBarcodeActivity(content)
     }
 
     private fun newDeleteDialogInstance(content: String): DeleteQRDialog {
