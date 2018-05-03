@@ -12,7 +12,7 @@
         android:title="@string/title_camera" />
     <item
         android:id="@+id/navigation_qr_history"
-        android:icon="@drawable/ic_qr"
+        android:icon="@drawable/ic_qr_green"
         android:title="@string/qr_history" />
     <item
         android:id="@+id/navigation_settings"
