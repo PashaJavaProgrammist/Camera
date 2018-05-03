@@ -37,8 +37,6 @@
     <string name="content">Content</string>
     <string name="open_inapp">Open in\n Chrome custom tabs</string>
     <string name="share">SHARE</string>
-    <string name="url_do_not_found">Url doesn\'t found</string>
-    <string name="another_browser">Can\'t open this in Chrome custom tabs. Press the link to try to open it in another browser</string>
     <string name="unable_save_res_scan">Unable to save result of scanning</string>
     <string name="qr_history">QR History</string>
 

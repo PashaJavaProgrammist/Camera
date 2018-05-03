@@ -105,3 +105,5 @@ const val URL_REGEX1 = "^((https?|ftp)://|(www|ftp)\\.)?[a-z0-9-]+(\\.[a-z0-9-]+
 const val URL_REGEX2 = "(?:^|[\\W])((ht|f)tp(s?):\\/\\/|www\\.)" +
         "(([\\w\\-]+\\.){1,}?([\\w\\-.~]+\\/?)*" +
         "[\\p{Alnum}.,%_=?&#\\-+()\\[\\]\\*$~@!:/{};']*)"
+const val URL_DO_NOT_FOUND = "Url doesn't found"
+const val OPEN_CHROME_TABS = "Can't open this in Chrome custom tabs. Press the link to try to open it in another browser"

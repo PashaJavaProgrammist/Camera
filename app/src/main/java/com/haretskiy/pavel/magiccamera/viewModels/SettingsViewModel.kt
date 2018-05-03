@@ -12,8 +12,8 @@ class SettingsViewModel(private val mAuth: FirebaseAuth) : ViewModel() {
     fun logOut() {
         mAuth.currentUser
         mAuth.addAuthStateListener(object : FirebaseAuth.AuthStateListener {
-            override fun onAuthStateChanged(p0: FirebaseAuth) {
-                if (p0.currentUser == null) {
+            override fun onAuthStateChanged(firebaseAuth: FirebaseAuth) {
+                if (firebaseAuth.currentUser == null) {
                     userInfo.postValue(SIGN_OUT_CODE)
                 }
             }

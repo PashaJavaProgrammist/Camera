@@ -51,6 +51,7 @@ val appModule: Module = applicationContext {
     viewModel { SettingsViewModel(get()) }
     viewModel { PhotoDetailViewModel(get(), get()) }
     viewModel { QrHistoryVewModel(get(), get(), get()) }
+    viewModel { QrResultDetailViewModel(get(), get()) }
 }
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
