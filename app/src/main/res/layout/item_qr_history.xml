@@ -7,7 +7,7 @@
     android:layout_marginEnd="8dp"
     android:layout_marginStart="8dp"
     android:layout_marginTop="4dp"
-    android:background="@android:color/white"
+    app:cardBackgroundColor="@color/colorPrimary"
     android:orientation="vertical"
     android:padding="4dp"
     app:cardCornerRadius="2dp">
@@ -15,8 +15,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:layout_margin="2dp"
-        android:background="@color/colorPrimary"
         android:orientation="vertical">
 
         <com.haretskiy.pavel.magiccamera.ui.views.BorderTextView
@@ -30,11 +30,11 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:gravity="center"
-            android:textColor="@android:color/white"
+            android:textColor="@color/black"
             android:textSize="16sp"
-            android:textStyle="bold"
+            app:strokeColor="@color/black"
             app:outerShadowRadius="10dp"
-            app:strokeColor="@android:color/black"
+            app:strokeWidth="1dp"
             app:strokeJoinStyle="round" />
 
         <com.haretskiy.pavel.magiccamera.ui.views.BorderTextView
@@ -49,7 +49,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:gravity="end"
-            android:textColor="@android:color/white"
+            android:textColor="@android:color/black"
             android:textSize="12sp"
             app:outerShadowRadius="10dp"
             app:strokeColor="@android:color/black"

@@ -6,14 +6,14 @@
     android:layout_width="@dimen/card_width"
     android:layout_height="@dimen/card_width"
     android:layout_margin="4dp"
-    android:padding="4dp"
+    app:cardBackgroundColor="@color/colorPrimary"
     card_view:cardCornerRadius="2dp">
 
     <ProgressBar
         android:id="@+id/pb_gallery"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="8dp" />
+        android:layout_margin="8dp" />
 
     <ImageView
         android:layout_margin="2dp"

@@ -92,6 +92,7 @@
 
         <Button
             android:id="@+id/dummy_button"
+            android:textColor="@color/colorPrimary"
             style="?metaButtonBarButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

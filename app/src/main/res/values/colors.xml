@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">@color/violet</color>
-    <color name="colorPrimaryDark">@color/violet_dark</color>
-    <color name="colorAccent">@color/yellow</color>
+    <color name="colorPrimary">@color/yellow</color>
+    <color name="colorPrimaryDark">@color/yellow_dark</color>
+    <color name="colorAccent">@color/green_dark</color>
 
     <color name="violet">#ad2ef7</color>
     <color name="violet_dark">#6e048e</color>
@@ -16,12 +16,20 @@
     <color name="red_dark">#b20505</color>
     <color name="red_light">#f7362c</color>
 
-    <color name="yellow">#d89000</color>
-    <color name="yellow_dark">#b76d0c</color>
-    <color name="yellow_light">#edb10b</color>
+    <color name="yellow">#ff8f00</color>
+    <color name="yellow_dark">#c56000</color>
+    <color name="yellow_light">#ffc046</color>
+
+    <color name="green">#64dd17</color>
+    <color name="green_dark">#1faa00</color>
+    <color name="green_light">#9cff57</color>
 
     <color name="black_overlay">#66000000</color>
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
+
+    <color name="grey_lignt">#eae8e8</color>
+    <color name="grey_very_lignt">#f9f7f7</color>
+
 
 </resources>
