@@ -44,7 +44,7 @@ class ClearDbDialog : DialogFragment() {
                             TYPE_PHOTO -> {
                                 imageSaver.deleteAllUserPhotos(prefs.getUserEmail(), object : ImageSaverImpl.DeletingListener {
                                     override fun onSuccess() {
-                                        toaster.showToast(SUCCESSFUL_ALL_DELETING, false)
+                                        toaster.showToast(getString(R.string.all_photos_are_deleted), false)
                                     }
 
                                     override fun onError(errorMessage: String) {

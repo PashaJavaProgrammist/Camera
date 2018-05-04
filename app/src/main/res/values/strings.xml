@@ -52,5 +52,6 @@
     <string name="delete_all_photos">Do you want to delete all photos?</string>
     <string name="all_codes_delete">All scanning codes are deleted</string>
     <string name="all_phot_dele">All photos are deleted</string>
+    <string name="all_photos_are_deleted">All photos are deleted</string>
 
 </resources>

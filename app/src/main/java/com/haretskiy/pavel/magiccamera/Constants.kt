@@ -49,7 +49,6 @@ const val TAG = "Camera2BasicFragment"
 const val PACKAGE_SETTINGS = "package:"
 const val SUCCESSFUL_SAVING = "Photo saved:\n"
 const val SUCCESSFUL_DELETING = "Photo is deleted"
-const val SUCCESSFUL_ALL_DELETING = "All photos are deleted"
 
 const val SIZE_FILE = "\nSize: "
 const val ERROR_SAVING = "Error of saving..\n"
