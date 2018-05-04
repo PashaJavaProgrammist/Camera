@@ -16,7 +16,7 @@ import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.vision.CameraSource
 import com.haretskiy.pavel.magiccamera.*
-import com.haretskiy.pavel.magiccamera.googleVisionApi.googleVisionUtlis.CameraSourceManager
+import com.haretskiy.pavel.magiccamera.googleVisionApi.googleVisionUtils.CameraSourceManager
 import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
 import com.haretskiy.pavel.magiccamera.utils.Prefs
 import com.haretskiy.pavel.magiccamera.utils.Toaster

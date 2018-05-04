@@ -13,7 +13,7 @@ import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_SIGN
 import com.haretskiy.pavel.magiccamera.DB_NAME
 import com.haretskiy.pavel.magiccamera.camera2Api.Camera2Helper
 import com.haretskiy.pavel.magiccamera.cameraApi.CameraHolderCallback
-import com.haretskiy.pavel.magiccamera.googleVisionApi.googleVisionUtlis.CameraSourceManager
+import com.haretskiy.pavel.magiccamera.googleVisionApi.googleVisionUtils.CameraSourceManager
 import com.haretskiy.pavel.magiccamera.storage.*
 import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
 import com.haretskiy.pavel.magiccamera.ui.fragments.*

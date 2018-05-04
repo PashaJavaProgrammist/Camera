@@ -1,4 +1,4 @@
-package com.haretskiy.pavel.magiccamera.googleVisionApi.googleVisionUtlis
+package com.haretskiy.pavel.magiccamera.googleVisionApi.googleVisionUtils
 
 import android.arch.lifecycle.MutableLiveData
 import android.content.Context
