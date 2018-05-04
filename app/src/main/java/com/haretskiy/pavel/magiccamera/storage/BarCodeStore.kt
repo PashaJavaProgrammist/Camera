@@ -16,4 +16,6 @@ interface BarCodeStore {
     fun deleteBarCode(code: BarCode)
 
     fun deleteAll()
+
+    fun deleteAllUserCodes(userMail: String)
 }

@@ -30,11 +30,20 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         settings_progress_bar.visibility = View.GONE
-        bt_settings.setOnClickListener({ settingsViewModel.startGoToSettings() })
-        bt_log_out.setOnClickListener({
+        bt_settings.setOnClickListener { settingsViewModel.startGoToSettings() }
+
+        bt_log_out.setOnClickListener {
             settings_progress_bar.visibility = View.VISIBLE
             settingsViewModel.logOut()
-        })
+        }
+
+        bt_delete_photos.setOnClickListener {
+            settingsViewModel.clearPhotosDB(childFragmentManager)
+        }
+
+        bt_delete_qrs.setOnClickListener {
+            settingsViewModel.clearQrDB(childFragmentManager)
+        }
     }
 
     private fun signOut() {

@@ -15,4 +15,6 @@ class BarCodeStoreImpl(private val barCodeDao: BarCodeStoreDao) : BarCodeStore {
     override fun deleteBarCode(code: BarCode): Unit = Thread({ barCodeDao.deleteBarCode(code) }).start()
 
     override fun deleteAll(): Unit = Thread({ barCodeDao.deleteAll() }).start()
+
+    override fun deleteAllUserCodes(userMail: String): Unit = Thread({ barCodeDao.deleteAllUserCodes(userMail) }).start()
 }

@@ -46,5 +46,11 @@
     <string name="date">date</string>
     <string name="qr_on">QR scanner turned on</string>
     <string name="qr_off">QR scanner turned off</string>
+    <string name="clear_photos_db">Clear photos DB</string>
+    <string name="clear_codes_db">Clear codes DB</string>
+    <string name="delete_all_sc_codes">Do you want to delete all scanning codes?</string>
+    <string name="delete_all_photos">Do you want to delete all photos?</string>
+    <string name="all_codes_delete">All scanning codes are deleted</string>
+    <string name="all_phot_dele">All photos are deleted</string>
 
 </resources>

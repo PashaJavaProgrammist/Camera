@@ -19,6 +19,9 @@ interface BarCodeStoreDao {
     @Query("DELETE FROM barcodes WHERE code = :code")
     fun deleteByCode(code: String)
 
+    @Query("DELETE FROM barcodes WHERE userEmail = :email")
+    fun deleteAllUserCodes(email: String)
+
     @Delete
     fun deleteBarCode(code: BarCode)
 

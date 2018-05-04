@@ -31,6 +31,7 @@ const val BUNDLE_KEY_BARCODE_RESULT = "BUNDLE_KEY_BARCODE_RESULT"
 const val BUNDLE_DIALOG_DELETE_QR_CODE = "BUNDLE_DIALOG_DELETE_QR_CODE"
 const val BUNDLE_DIALOG_DELETE_IS_QR_DETAIL = "BUNDLE_DIALOG_DELETE_IS_QR_DETAIL"
 const val BUNDLE_KEY_QR_DETECTOR_STATE = "BUNDLE_KEY_QR_DETECTOR_STATE"
+const val BUNDLE_KEY_TYPE_CLEAR_DB = "BUNDLE_KEY_TYPE_CLEAR_DB"
 
 //Camera2 constants
 const val CODE_REQUEST_CAMERA_PERMISSION = 1
@@ -39,6 +40,10 @@ const val PIC_FILE_NAME = "photo.jpg"
 const val FRAGMENT_DIALOG_COMP = "Compl_dialog"
 const val FRAGMENT_DIALOG_DELETE = "DELEte_dialog"
 const val DELETE_QR_DIALOG = "DELETE_QR_DIALOG"
+const val CLEAR_DB_DIALOG = "CLEAR_DB_DIALOG"
+
+const val TYPE_QR = "TYPE_QR"
+const val TYPE_PHOTO = "TYPE_PHOTO"
 
 const val TAG = "Camera2BasicFragment"
 const val PACKAGE_SETTINGS = "package:"
@@ -97,7 +102,7 @@ const val PAGE_SIZE = 15
 const val PAGE_SIZE_HINT = 30
 const val PREFETCH_DISTANCE = 6
 
-const val BARCODE_SCAN_DELAY = 5000
+const val BARCODE_SCAN_DELAY = 2000
 const val SHARE_TYPE_TEXT = "text/plain"
 const val SHARE_TYPE_IMAGE = "image/*"
 const val FILE_PROVIDER_AUTHORITY = "com.haretskiy.pavel.magiccamera.providers.fileprovider"

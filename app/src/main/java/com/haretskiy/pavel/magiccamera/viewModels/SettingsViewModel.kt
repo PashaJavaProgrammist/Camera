@@ -2,8 +2,11 @@ package com.haretskiy.pavel.magiccamera.viewModels
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import android.os.Bundle
+import android.support.v4.app.FragmentManager
 import com.google.firebase.auth.FirebaseAuth
-import com.haretskiy.pavel.magiccamera.SIGN_OUT_CODE
+import com.haretskiy.pavel.magiccamera.*
+import com.haretskiy.pavel.magiccamera.ui.dialogs.ClearDbDialog
 import com.haretskiy.pavel.magiccamera.utils.Prefs
 import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 
@@ -30,6 +33,22 @@ class SettingsViewModel(private val mAuth: FirebaseAuth,
 
     fun startGoToSettings() {
         router.startSettingsActivity()
+    }
+
+    fun clearPhotosDB(fm: FragmentManager) {
+        newClearDbDialog(TYPE_PHOTO).show(fm, CLEAR_DB_DIALOG)
+    }
+
+    fun clearQrDB(fm: FragmentManager) {
+        newClearDbDialog(TYPE_QR).show(fm, CLEAR_DB_DIALOG)
+    }
+
+    private fun newClearDbDialog(type: String): ClearDbDialog {
+        val args = Bundle()
+        args.putString(BUNDLE_KEY_TYPE_CLEAR_DB, type)
+        val clearDbDialog = ClearDbDialog()
+        clearDbDialog.arguments = args
+        return clearDbDialog
     }
 
 }
