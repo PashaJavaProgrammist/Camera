@@ -52,8 +52,8 @@ class ClearDbDialog : DialogFragment() {
                                     }
                                 })
                             }
-
                         }
+                        dismiss()
                     }
                     .setNegativeButton(getString(R.string.no)) { _, _ ->
                         dismiss()
