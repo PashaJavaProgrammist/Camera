@@ -6,16 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.haretskiy.pavel.magiccamera.*
-import com.haretskiy.pavel.magiccamera.ui.dialogs.DeletePhotoDialog
 import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageLoader
-import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
+import com.haretskiy.pavel.magiccamera.viewModels.PhotoDetailViewModel
 import kotlinx.android.synthetic.main.fragment_photo_detail.*
 import org.koin.android.ext.android.inject
 
 class PhotoDetailFragment : Fragment() {
 
+    private val photoDetailViewModel: PhotoDetailViewModel by inject()
+
     private val imageLoader: ImageLoader by inject()
-    private val router: Router by inject()
 
     var uri = EMPTY_STRING
     var date = 0L
@@ -35,11 +35,15 @@ class PhotoDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         iv_delete.setOnClickListener {
-            newDeleteDialogInstance(uri).show(childFragmentManager, FRAGMENT_DIALOG_DELETE)
+            photoDetailViewModel.newDeleteDialogInstance(uri).show(childFragmentManager, FRAGMENT_DIALOG_DELETE)
         }
 
         iv_share_photo.setOnClickListener {
-            router.shareImage(uri)
+            photoDetailViewModel.shareImage(uri)
+        }
+
+        iv_print_photo.setOnClickListener {
+            activity?.let { activity -> photoDetailViewModel.doPhotoPrint(activity, uri) }
         }
     }
 
@@ -49,12 +53,4 @@ class PhotoDetailFragment : Fragment() {
         if (date != 0L) tv_date_detail.text = date.convertToDate()
     }
 
-    private fun newDeleteDialogInstance(uri: String): DeletePhotoDialog {
-        val args = Bundle()
-        args.putString(BUNDLE_DIALOG_DELETE_URI, uri)
-        args.putBoolean(BUNDLE_DIALOG_DELETE_IS_PHOTO_DETAIL, true)
-        val deleteDialog = DeletePhotoDialog()
-        deleteDialog.arguments = args
-        return deleteDialog
-    }
 }

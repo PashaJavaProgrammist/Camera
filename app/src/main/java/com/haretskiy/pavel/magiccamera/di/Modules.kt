@@ -20,6 +20,7 @@ import com.haretskiy.pavel.magiccamera.ui.fragments.*
 import com.haretskiy.pavel.magiccamera.utils.*
 import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageLoader
 import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageSaver
+import com.haretskiy.pavel.magiccamera.utils.interfaces.Printer
 import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 import com.haretskiy.pavel.magiccamera.viewModels.*
 import org.koin.android.architecture.ext.viewModel
@@ -49,7 +50,7 @@ val appModule: Module = applicationContext {
     viewModel { LoginViewModel(get(), get(), get(), get()) }
     viewModel { GalleryViewModel(androidApplication(), get(), get(), get()) }
     viewModel { SettingsViewModel(get(), get(), get()) }
-    viewModel { PhotoDetailViewModel(get(), get()) }
+    viewModel { PhotoDetailViewModel(get(), get(), get(), get()) }
     viewModel { QrHistoryVewModel(get(), get(), get()) }
     viewModel { QrResultDetailViewModel(get(), get()) }
 }
@@ -84,6 +85,7 @@ val utilsModule: Module = applicationContext {
     factory { Toaster(androidApplication()) }
     factory { ImageSaverImpl(androidApplication(), get(), get(), get()) as ImageSaver }
     factory { GlideImageLoaderImpl(androidApplication()) as ImageLoader }
+    factory { PrinterImpl(androidApplication(), get()) as Printer }
 }
 
 val modules = listOf(appModule, camera2Module, cameraModule, googleVisionModule, utilsModule)

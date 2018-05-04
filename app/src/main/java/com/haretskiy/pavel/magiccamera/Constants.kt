@@ -48,7 +48,7 @@ const val SIZE_FILE = "\nSize: "
 const val ERROR_SAVING = "Error of saving..\n"
 
 const val KILOBYTES = " kilobytes"
-
+const val PRINT = "Print photo"
 //camera state: Showing camera preview.
 const val STATE_PREVIEW = 0
 //Camera state: Waiting for the focus to be locked.
