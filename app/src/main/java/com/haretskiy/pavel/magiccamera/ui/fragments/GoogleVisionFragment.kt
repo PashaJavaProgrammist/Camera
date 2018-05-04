@@ -213,7 +213,7 @@ class GoogleVisionFragment : Fragment() {
 
     private fun setQrViewsVisibility() {
         if (cameraSourceManager.getQrDetectorState()) {
-            qr_scanner_switch.setImageDrawable(context?.let { ContextCompat.getDrawable(it, R.drawable.ic_qr_green) })
+            qr_scanner_switch.setImageDrawable(context?.let { ContextCompat.getDrawable(it, R.drawable.ic_qr_orange) })
             frame_qr.visibility = View.VISIBLE
         } else {
             qr_scanner_switch.setImageDrawable(context?.let { ContextCompat.getDrawable(it, R.drawable.ic_qr_white) })
