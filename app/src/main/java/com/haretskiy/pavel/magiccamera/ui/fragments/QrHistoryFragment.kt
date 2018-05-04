@@ -54,6 +54,7 @@ class QrHistoryFragment : Fragment(), QRHistory {
         })
 
         fab_qr_history.setOnClickListener {
+            qrHistoryVewModel.turnOnQRDetector()
             (activity as HostActivity).selectItemCamera()
         }
     }

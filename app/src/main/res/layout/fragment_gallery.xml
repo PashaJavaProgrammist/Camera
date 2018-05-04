@@ -19,6 +19,6 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom|end"
         android:layout_margin="8dp"
-        android:src="@drawable/ic_square_plus"
+        android:src="@drawable/ic_camera_orange"
         app:rippleColor="@android:color/holo_orange_dark" />
 </android.support.design.widget.CoordinatorLayout>

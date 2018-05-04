@@ -39,4 +39,8 @@ class QrHistoryVewModel(private val barCodeStore: BarCodeStore,
         return deleteDialog
     }
 
+    fun turnOnQRDetector() {
+        prefs.turnOnQRDetector(true)
+    }
+
 }

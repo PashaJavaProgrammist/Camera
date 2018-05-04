@@ -44,4 +44,8 @@ class GalleryViewModel(app: Application,
         router.startPhotoDetailActivity(uri, date)
     }
 
+    fun turnOffQrDetector() {
+        prefs.turnOnQRDetector(false)
+    }
+
 }

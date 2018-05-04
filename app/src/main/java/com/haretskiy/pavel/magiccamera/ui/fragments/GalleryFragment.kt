@@ -56,6 +56,7 @@ class GalleryFragment : Fragment(), PhotoGallery {
         })
 
         fab_gallery.setOnClickListener {
+            galleryViewModel.turnOffQrDetector()
             (activity as HostActivity).selectItemCamera()
         }
     }
