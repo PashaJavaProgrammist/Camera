@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.storage.BarCodeStore
+import com.haretskiy.pavel.magiccamera.utils.ImageSaverImpl
 import com.haretskiy.pavel.magiccamera.utils.Prefs
 import com.haretskiy.pavel.magiccamera.utils.Toaster
 import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageSaver
@@ -41,7 +42,15 @@ class ClearDbDialog : DialogFragment() {
                                 toaster.showToast(getString(R.string.all_codes_delete), false)
                             }
                             TYPE_PHOTO -> {
-                                imageSaver.deleteAllUserPhotos(prefs.getUserEmail())
+                                imageSaver.deleteAllUserPhotos(prefs.getUserEmail(), object : ImageSaverImpl.DeletingListener {
+                                    override fun onSuccess() {
+                                        toaster.showToast(SUCCESSFUL_ALL_DELETING, false)
+                                    }
+
+                                    override fun onError(errorMessage: String) {
+                                        toaster.showToast(errorMessage, true)
+                                    }
+                                })
                             }
 
                         }

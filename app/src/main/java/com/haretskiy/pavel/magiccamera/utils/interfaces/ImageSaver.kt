@@ -1,6 +1,7 @@
 package com.haretskiy.pavel.magiccamera.utils.interfaces
 
 import android.media.Image
+import com.haretskiy.pavel.magiccamera.utils.ImageSaverImpl
 import java.io.File
 
 interface ImageSaver {
@@ -9,5 +10,5 @@ interface ImageSaver {
     fun saveImage(data: ByteArray)
     fun saveImage(image: Image, file: File)
     fun deleteFile(uri: String)
-    fun deleteAllUserPhotos(email: String)
+    fun deleteAllUserPhotos(email: String, listener: ImageSaverImpl.DeletingListener)
 }

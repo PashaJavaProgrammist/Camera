@@ -84,20 +84,24 @@ class ImageSaverImpl(private val context: Context,
         }
     }
 
-    override fun deleteAllUserPhotos(email: String) {
-        Handler().post {
+    override fun deleteAllUserPhotos(email: String, listener: DeletingListener) {
+        Thread {
             try {
                 val list = photoStore.getAllUserPhotosList(email).map { it.uri }
                 for (uriFile in list) {
                     File(uriFile).delete()
                     photoStore.deletePhotoSync(uriFile)
                 }
-                toaster.showToast(SUCCESSFUL_ALL_DELETING, false)
+                prefs.saveLastPhotoUri(prefs.getUserEmail(), EMPTY_STRING)
+                listener.onSuccess()
             } catch (ex: Exception) {
-                toaster.showToast("${ex.message}", true)
+                listener.onError(ex.message.toString())
             }
-        }
+        }.start()
     }
 
-
+    interface DeletingListener {
+        fun onSuccess()
+        fun onError(errorMessage: String)
+    }
 }
