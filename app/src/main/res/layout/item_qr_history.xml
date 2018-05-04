@@ -30,7 +30,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:gravity="center"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/black"
             android:textSize="16sp" />
 
         <TextView
@@ -45,7 +45,7 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:gravity="end"
-            android:textColor="@color/colorAccent"
+            android:textColor="@color/black"
             android:textSize="12sp" />
 
     </LinearLayout>
