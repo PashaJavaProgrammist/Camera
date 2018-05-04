@@ -6,16 +6,16 @@ import android.os.Bundle
 import android.support.v4.app.DialogFragment
 import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.storage.BarCodeStore
-import com.haretskiy.pavel.magiccamera.storage.PhotoStore
 import com.haretskiy.pavel.magiccamera.utils.Prefs
 import com.haretskiy.pavel.magiccamera.utils.Toaster
+import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageSaver
 import org.koin.android.ext.android.inject
 
 
 class ClearDbDialog : DialogFragment() {
 
     private val barCodeStore: BarCodeStore by inject()
-    private val photoStore: PhotoStore by inject()
+    private val imageSaver: ImageSaver by inject()
     private val prefs: Prefs by inject()
     private val toaster: Toaster by inject()
 
@@ -41,8 +41,7 @@ class ClearDbDialog : DialogFragment() {
                                 toaster.showToast(getString(R.string.all_codes_delete), false)
                             }
                             TYPE_PHOTO -> {
-                                photoStore.deleteAllUserPhoto(prefs.getUserEmail())
-                                toaster.showToast(getString(R.string.all_phot_dele), false)
+                                imageSaver.deleteAllUserPhotos(prefs.getUserEmail())
                             }
 
                         }

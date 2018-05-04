@@ -10,9 +10,10 @@ interface PhotoStore {
     fun getAllPhotosDataSourceFactory(): DataSource.Factory<Int, Photo>
     fun getAllUserPhotosDataSourceFactory(userEmail: String): DataSource.Factory<Int, Photo>
     fun getAllUserPhotosLiveData(userEmail: String): LiveData<List<Photo>>
+    fun getAllUserPhotosList(userEmail: String): List<Photo>
     fun getPhotoById(id: Long): LiveData<Photo>
     fun deletePhoto(uri: String)
     fun deleteAll()
     fun deleteAllUserPhoto(userEmail: String)
-
+    fun deletePhotoSync(uri: String)
 }

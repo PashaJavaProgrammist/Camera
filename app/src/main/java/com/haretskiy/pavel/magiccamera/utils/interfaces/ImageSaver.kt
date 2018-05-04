@@ -9,4 +9,5 @@ interface ImageSaver {
     fun saveImage(data: ByteArray)
     fun saveImage(image: Image, file: File)
     fun deleteFile(uri: String)
+    fun deleteAllUserPhotos(email: String)
 }
