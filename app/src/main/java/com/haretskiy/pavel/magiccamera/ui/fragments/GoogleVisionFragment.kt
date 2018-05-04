@@ -205,8 +205,8 @@ class GoogleVisionFragment : Fragment() {
 
     private fun changeQrDetectorState() {
         cameraSourceManager.changeQrDetectorState()
-        if (cameraSourceManager.getQrDetectorState()) qr_scanner_switch.setImageDrawable(resources.getDrawable(R.drawable.ic_qr_green))
-        else qr_scanner_switch.setImageDrawable(resources.getDrawable(R.drawable.ic_qr_white))
+        if (cameraSourceManager.getQrDetectorState()) qr_scanner_switch.setImageDrawable(context?.let { ContextCompat.getDrawable(it, R.drawable.ic_qr_green) })
+        else qr_scanner_switch.setImageDrawable(context?.let { ContextCompat.getDrawable(it, R.drawable.ic_qr_white) })
         cameraSourceManager.qrDetectorNotify()
     }
 
