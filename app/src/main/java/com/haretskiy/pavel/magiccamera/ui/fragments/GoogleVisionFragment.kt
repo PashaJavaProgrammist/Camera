@@ -64,10 +64,15 @@ class GoogleVisionFragment : Fragment() {
         bt_change_camera_type.setOnClickListener({ changeCamera() })
         bt_take_a_picture.setOnClickListener({ takePicture() })
         imageLoader.loadRoundImageIntoView(last_photo, prefs.getLastPhotoUri(prefs.getUserEmail()))
-        last_photo.setOnClickListener({
+        last_photo.setOnClickListener {
             val uri = prefs.getLastPhotoUri(prefs.getUserEmail())
             if (uri.isNotEmpty()) router.startPhotoDetailActivity(uri, 0)
-        })
+        }
+
+        qr_scanner_switch.setOnClickListener {
+            changeQrDetectorState()
+            getCameraSourceWithNewDetectorsStates()
+        }
     }
 
     /**
@@ -187,6 +192,22 @@ class GoogleVisionFragment : Fragment() {
         choseCamera()
         preview.stop()
         getCameraSource()
+    }
+
+    private fun getCameraSourceWithNewDetectorsStates() {
+        if (mCameraSource != null) {
+            mCameraSource?.release()
+            mCameraSource = null
+        }
+        preview.stop()
+        getCameraSource()
+    }
+
+    private fun changeQrDetectorState() {
+        cameraSourceManager.changeQrDetectorState()
+        if (cameraSourceManager.getQrDetectorState()) qr_scanner_switch.setImageDrawable(resources.getDrawable(R.drawable.ic_qr_green))
+        else qr_scanner_switch.setImageDrawable(resources.getDrawable(R.drawable.ic_qr_white))
+        cameraSourceManager.qrDetectorNotify()
     }
 
     private fun takePicture() {

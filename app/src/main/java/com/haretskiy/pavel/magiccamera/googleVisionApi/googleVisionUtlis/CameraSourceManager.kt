@@ -34,6 +34,11 @@ class CameraSourceManager(
 
     fun createCameraSource(faceOverlay: GraphicOverlay, cameraType: Int, cameras: Int) {
         Handler().post({
+
+            val multiDetectorBuilder = MultiDetector.Builder()
+
+            val qrDetectorState = prefs.getQRDetectorState()
+
             val faceDetector = FaceDetector.Builder(context)
                     .setClassificationType(FaceDetector.ALL_CLASSIFICATIONS)
                     .setTrackingEnabled(true)
@@ -41,29 +46,31 @@ class CameraSourceManager(
             val faceFactory = FaceTrackerFactory(faceOverlay)
             faceDetector.setProcessor(MultiProcessor.Builder<Face>(faceFactory).build())
 
-            val barcodeDetector = BarcodeDetector.Builder(context).build()
-            val barcodeFactory = BarcodeTrackerFactory(faceOverlay)
-            barcodeFactory.barcodeGraphic.addBarcodeScannerListener(object : BarcodeGraphic.BarcodeScannerListener {
-                override fun onCodeFounded(resultScanning: String) {
-                    val time = System.currentTimeMillis()
-                    if (time - timeOfLastResult > BARCODE_SCAN_DELAY) {
-                        router.startBarcodeActivity(resultScanning)
-                        timeOfLastResult = time
-                        try {
-                            barCodeStore.insert(BarCode(resultScanning, prefs.getUserEmail(), System.currentTimeMillis()))
-                        } catch (ex: Exception) {
-                            toaster.showToast(context.getString(R.string.unable_save_res_scan) + "${ex.message}", false)
+            multiDetectorBuilder.add(faceDetector)
+
+            if (qrDetectorState) {
+                val barcodeDetector = BarcodeDetector.Builder(context).build()
+                val barcodeFactory = BarcodeTrackerFactory(faceOverlay)
+                barcodeFactory.barcodeGraphic.addBarcodeScannerListener(object : BarcodeGraphic.BarcodeScannerListener {
+                    override fun onCodeFounded(resultScanning: String) {
+                        val time = System.currentTimeMillis()
+                        if (time - timeOfLastResult > BARCODE_SCAN_DELAY) {
+                            router.startBarcodeActivity(resultScanning)
+                            timeOfLastResult = time
+                            try {
+                                barCodeStore.insert(BarCode(resultScanning, prefs.getUserEmail(), System.currentTimeMillis()))
+                            } catch (ex: Exception) {
+                                toaster.showToast(context.getString(R.string.unable_save_res_scan) + "${ex.message}", false)
+                            }
                         }
                     }
-                }
-            })
-            barcodeDetector.setProcessor(
-                    MultiProcessor.Builder<Barcode>(barcodeFactory).build())
+                })
+                barcodeDetector.setProcessor(MultiProcessor.Builder<Barcode>(barcodeFactory).build())
 
-            val multiDetector = MultiDetector.Builder()
-                    .add(faceDetector)
-                    .add(barcodeDetector)
-                    .build()
+                multiDetectorBuilder.add(barcodeDetector)
+            }
+
+            val multiDetector = multiDetectorBuilder.build()
 
             if (!multiDetector.isOperational) {
                 /** Note: The first time that an app using the barcode or face API is installed on a
@@ -97,4 +104,14 @@ class CameraSourceManager(
         })
     }
 
+    fun changeQrDetectorState() {
+        prefs.turnOnQRDetector(!prefs.getQRDetectorState())
+    }
+
+    fun getQrDetectorState() = prefs.getQRDetectorState()
+
+    fun qrDetectorNotify() {
+        if (prefs.getQRDetectorState()) toaster.showToast(context.getString(R.string.qr_on), false)
+        else toaster.showToast(context.getString(R.string.qr_off), false)
+    }
 }

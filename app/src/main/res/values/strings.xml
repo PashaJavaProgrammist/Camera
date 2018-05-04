@@ -44,5 +44,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="delete_code">Delete this item?</string>
     <string name="date">date</string>
+    <string name="qr_on">QR scanner turned on</string>
+    <string name="qr_off">QR scanner turned off</string>
 
 </resources>

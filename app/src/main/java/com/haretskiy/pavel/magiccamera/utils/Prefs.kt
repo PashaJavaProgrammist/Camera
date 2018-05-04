@@ -11,8 +11,12 @@ class Prefs(context: Context) {
     private val preferences: SharedPreferences = PreferenceManager.getDefaultSharedPreferences(context)
     private val editor: SharedPreferences.Editor = preferences.edit()
 
+    fun turnOnQRDetector(turnOn: Boolean) {
+        save(BUNDLE_KEY_QR_DETECTOR_STATE, turnOn)
+    }
 
-    fun saveUserCredentials() {}
+    fun getQRDetectorState() = getBoolean(BUNDLE_KEY_QR_DETECTOR_STATE, false)
+
 
     fun setUserStateLogIn() {
         save(BUNDLE_KEY_IS_LOG_IN, true)
@@ -98,4 +102,5 @@ class Prefs(context: Context) {
     private fun remove(key: String) {
         editor.remove(key).apply()
     }
+
 }

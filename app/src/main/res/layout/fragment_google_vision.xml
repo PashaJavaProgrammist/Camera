@@ -84,19 +84,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
-        android:id="@+id/face_scanner_switch"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_margin="4dp"
-        android:layout_marginLeft="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:contentDescription="@string/app_name"
-        android:src="@drawable/ic_face_white"
-        app:layout_constraintStart_toEndOf="@+id/qr_scanner_switch"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ImageView
         android:id="@+id/last_photo"
         android:layout_width="50dp"
         android:layout_height="50dp"
