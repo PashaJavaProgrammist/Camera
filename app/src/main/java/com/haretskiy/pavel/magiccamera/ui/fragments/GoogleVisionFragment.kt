@@ -24,6 +24,7 @@ import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageLoader
 import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageSaver
 import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 import kotlinx.android.synthetic.main.fragment_google_vision.*
+import kotlinx.android.synthetic.main.item_frame.*
 import org.koin.android.ext.android.inject
 import java.io.IOException
 
@@ -73,6 +74,7 @@ class GoogleVisionFragment : Fragment() {
             changeQrDetectorState()
             getCameraSourceWithNewDetectorsStates()
         }
+        setQrViewsVisibility()
     }
 
     /**
@@ -205,9 +207,18 @@ class GoogleVisionFragment : Fragment() {
 
     private fun changeQrDetectorState() {
         cameraSourceManager.changeQrDetectorState()
-        if (cameraSourceManager.getQrDetectorState()) qr_scanner_switch.setImageDrawable(context?.let { ContextCompat.getDrawable(it, R.drawable.ic_qr_green) })
-        else qr_scanner_switch.setImageDrawable(context?.let { ContextCompat.getDrawable(it, R.drawable.ic_qr_white) })
+        setQrViewsVisibility()
         cameraSourceManager.qrDetectorNotify()
+    }
+
+    private fun setQrViewsVisibility() {
+        if (cameraSourceManager.getQrDetectorState()) {
+            qr_scanner_switch.setImageDrawable(context?.let { ContextCompat.getDrawable(it, R.drawable.ic_qr_green) })
+            frame_qr.visibility = View.VISIBLE
+        } else {
+            qr_scanner_switch.setImageDrawable(context?.let { ContextCompat.getDrawable(it, R.drawable.ic_qr_white) })
+            frame_qr.visibility = View.GONE
+        }
     }
 
     private fun takePicture() {
