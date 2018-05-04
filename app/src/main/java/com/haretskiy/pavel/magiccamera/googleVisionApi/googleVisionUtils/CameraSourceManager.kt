@@ -39,15 +39,6 @@ class CameraSourceManager(
 
             val qrDetectorState = prefs.getQRDetectorState()
 
-            val faceDetector = FaceDetector.Builder(context)
-                    .setClassificationType(FaceDetector.ALL_CLASSIFICATIONS)
-                    .setTrackingEnabled(true)
-                    .build()
-            val faceFactory = FaceTrackerFactory(faceOverlay)
-            faceDetector.setProcessor(MultiProcessor.Builder<Face>(faceFactory).build())
-
-            multiDetectorBuilder.add(faceDetector)
-
             if (qrDetectorState) {
                 val barcodeDetector = BarcodeDetector.Builder(context).build()
                 val barcodeFactory = BarcodeTrackerFactory(faceOverlay)
@@ -68,6 +59,15 @@ class CameraSourceManager(
                 barcodeDetector.setProcessor(MultiProcessor.Builder<Barcode>(barcodeFactory).build())
 
                 multiDetectorBuilder.add(barcodeDetector)
+            } else {
+                val faceDetector = FaceDetector.Builder(context)
+                        .setClassificationType(FaceDetector.ALL_CLASSIFICATIONS)
+                        .setTrackingEnabled(true)
+                        .build()
+                val faceFactory = FaceTrackerFactory(faceOverlay)
+                faceDetector.setProcessor(MultiProcessor.Builder<Face>(faceFactory).build())
+
+                multiDetectorBuilder.add(faceDetector)
             }
 
             val multiDetector = multiDetectorBuilder.build()
