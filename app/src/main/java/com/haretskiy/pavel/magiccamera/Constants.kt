@@ -114,3 +114,6 @@ const val URL_REGEX2 = "(?:^|[\\W])((ht|f)tp(s?):\\/\\/|www\\.)" +
         "[\\p{Alnum}.,%_=?&#\\-+()\\[\\]\\*$~@!:/{};']*)"
 const val URL_DO_NOT_FOUND = "Url doesn't found"
 const val OPEN_CHROME_TABS = "Can't open this in Chrome custom tabs. Press the link to try to open it in another browser"
+
+const val PATTERN_EMAIL1 = "^[A-Za-z0-9][A-Za-z0-9.\\-_]*[A-Za-z0-9]*@([A-Za-z0-9]+([A-Za-z0-9-]*[A-Za-z0-9]+)*\\.)+[A-Za-z]*$"
+const val PATTERN_EMAIL2 = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"

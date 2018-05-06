@@ -53,5 +53,12 @@
     <string name="all_codes_delete">All scanning codes are deleted</string>
     <string name="all_phot_dele">All photos are deleted</string>
     <string name="all_photos_are_deleted">All photos are deleted</string>
+    <string name="email_cant_empty">Email field mustn\'t been empty</string>
+    <string name="wrong_email_format">Wrong email format</string>
+    <string name="succes_email">Successful validation</string>
+    <string name="pass_more_six">Password must contain 6 or more characters</string>
+    <string name="pass_fits">Password fits</string>
+    <string name="pass_d_match">Passwords don\'t match</string>
+    <string name="pass_match">Passwords match</string>
 
 </resources>
