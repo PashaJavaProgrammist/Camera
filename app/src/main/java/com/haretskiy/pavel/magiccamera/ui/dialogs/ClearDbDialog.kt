@@ -24,6 +24,7 @@ class ClearDbDialog : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        isCancelable = false
         type = arguments?.getString(BUNDLE_KEY_TYPE_CLEAR_DB, EMPTY_STRING) ?: EMPTY_STRING
     }
 

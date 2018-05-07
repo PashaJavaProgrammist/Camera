@@ -26,6 +26,7 @@ class DeleteQRDialog : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        isCancelable = false
         content = arguments?.getString(BUNDLE_DIALOG_DELETE_QR_CODE, EMPTY_STRING) ?: EMPTY_STRING
         isQRDetail = arguments?.getBoolean(BUNDLE_DIALOG_DELETE_IS_QR_DETAIL, false) ?: false
     }

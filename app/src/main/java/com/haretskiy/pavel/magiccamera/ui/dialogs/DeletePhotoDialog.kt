@@ -27,6 +27,7 @@ class DeletePhotoDialog : DialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        isCancelable = false
         uri = arguments?.getString(BUNDLE_DIALOG_DELETE_URI, EMPTY_STRING) ?: EMPTY_STRING
         isPhotoDetail = arguments?.getBoolean(BUNDLE_DIALOG_DELETE_IS_PHOTO_DETAIL, false) ?: false
     }

@@ -17,6 +17,11 @@ class PermissionDialog : DialogFragment() {
 
     private val router: Router by inject()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        isCancelable = false
+    }
+
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
             AlertDialog.Builder(activity)
                     .setMessage(R.string.request_permission)
