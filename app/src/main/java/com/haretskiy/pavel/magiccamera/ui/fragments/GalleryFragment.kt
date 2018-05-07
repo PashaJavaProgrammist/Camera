@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,8 +13,10 @@ import com.haretskiy.pavel.magiccamera.R
 import com.haretskiy.pavel.magiccamera.adapters.GalleryPhotoAdapter
 import com.haretskiy.pavel.magiccamera.ui.activities.HostActivity
 import com.haretskiy.pavel.magiccamera.ui.views.PhotoGallery
+import com.haretskiy.pavel.magiccamera.ui.views.PhotoHolder
 import com.haretskiy.pavel.magiccamera.utils.AutoFitGridLayoutManager
 import com.haretskiy.pavel.magiccamera.utils.DiffCallBack
+import com.haretskiy.pavel.magiccamera.utils.interfaces.DeleteListener
 import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageLoader
 import com.haretskiy.pavel.magiccamera.viewModels.GalleryViewModel
 import kotlinx.android.synthetic.main.fragment_gallery.*
@@ -58,6 +61,29 @@ class GalleryFragment : Fragment(), PhotoGallery {
         fab_gallery.setOnClickListener {
             galleryViewModel.turnOffQrDetector()
             (activity as HostActivity).selectItemCamera()
+        }
+
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+
+            override fun onMove(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder?, target: RecyclerView.ViewHolder?) = false
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                if (direction == ItemTouchHelper.LEFT) {
+                    galleryViewModel.deletePhoto(
+                            childFragmentManager,
+                            (viewHolder as PhotoHolder).uri,
+                            object : DeleteListener {
+                                override fun onConfirm() {}
+
+                                override fun onDismiss() {
+                                    galleryAdapter.notifyDataSetChanged()
+                                }
+                            })
+                }
+            }
+
+        }).apply {
+            attachToRecyclerView(rcv_gallery_list)
         }
     }
 

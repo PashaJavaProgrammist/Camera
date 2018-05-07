@@ -10,6 +10,7 @@ import com.haretskiy.pavel.magiccamera.BUNDLE_DIALOG_DELETE_QR_CODE
 import com.haretskiy.pavel.magiccamera.EMPTY_STRING
 import com.haretskiy.pavel.magiccamera.R
 import com.haretskiy.pavel.magiccamera.storage.BarCodeStore
+import com.haretskiy.pavel.magiccamera.utils.interfaces.DeleteListener
 import org.koin.android.ext.android.inject
 
 class DeleteQRDialog : DialogFragment() {
@@ -51,10 +52,5 @@ class DeleteQRDialog : DialogFragment() {
     fun show(manager: FragmentManager?, tag: String?, listener: DeleteListener) {
         this.listener = listener
         show(manager, tag)
-    }
-
-    interface DeleteListener {
-        fun onConfirm()
-        fun onDismiss()
     }
 }

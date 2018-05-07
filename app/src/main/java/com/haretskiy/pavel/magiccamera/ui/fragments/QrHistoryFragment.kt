@@ -12,9 +12,9 @@ import android.view.ViewGroup
 import com.haretskiy.pavel.magiccamera.R
 import com.haretskiy.pavel.magiccamera.adapters.QrHistoryAdapter
 import com.haretskiy.pavel.magiccamera.ui.activities.HostActivity
-import com.haretskiy.pavel.magiccamera.ui.dialogs.DeleteQRDialog
 import com.haretskiy.pavel.magiccamera.ui.views.QRHistory
 import com.haretskiy.pavel.magiccamera.ui.views.QrHistoryHolder
+import com.haretskiy.pavel.magiccamera.utils.interfaces.DeleteListener
 import com.haretskiy.pavel.magiccamera.viewModels.QrHistoryVewModel
 import kotlinx.android.synthetic.main.fragment_qrhistory.*
 import org.koin.android.ext.android.inject
@@ -70,7 +70,7 @@ class QrHistoryFragment : Fragment(), QRHistory {
                     qrHistoryVewModel.deleteQrCodeFromDB(
                             childFragmentManager,
                             (viewHolder as QrHistoryHolder).barCodeContent,
-                            object : DeleteQRDialog.DeleteListener {
+                            object : DeleteListener {
                                 override fun onConfirm() {}
 
                                 override fun onDismiss() {

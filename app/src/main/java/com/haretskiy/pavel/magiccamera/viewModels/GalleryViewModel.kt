@@ -10,6 +10,7 @@ import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.storage.PhotoStore
 import com.haretskiy.pavel.magiccamera.ui.dialogs.DeletePhotoDialog
 import com.haretskiy.pavel.magiccamera.utils.Prefs
+import com.haretskiy.pavel.magiccamera.utils.interfaces.DeleteListener
 import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 
 class GalleryViewModel(app: Application,
@@ -29,6 +30,10 @@ class GalleryViewModel(app: Application,
 
     fun deletePhoto(fm: FragmentManager, uri: String) {
         newDeleteDialogInstance(uri).show(fm, FRAGMENT_DIALOG_DELETE)
+    }
+
+    fun deletePhoto(fm: FragmentManager, uri: String, listener: DeleteListener) {
+        newDeleteDialogInstance(uri).show(fm, FRAGMENT_DIALOG_DELETE, listener)
     }
 
     private fun newDeleteDialogInstance(uri: String): DeletePhotoDialog {
