@@ -109,7 +109,7 @@
         tools:ignore="UselessParent">
 
         <com.haretskiy.pavel.magiccamera.ui.views.BorderTextView
-            android:id="@+id/dummy_button"
+            android:id="@+id/bt_scan"
             style="?metaButtonBarButtonStyle"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
