@@ -61,5 +61,8 @@
     <string name="pass_d_match">Passwords don\'t match</string>
     <string name="pass_match">Passwords match</string>
     <string name="face_count">Faces count:\u0020</string>
+    <string name="system">System</string>
+    <string name="account">Account</string>
+    <string name="database">Database</string>
 
 </resources>
