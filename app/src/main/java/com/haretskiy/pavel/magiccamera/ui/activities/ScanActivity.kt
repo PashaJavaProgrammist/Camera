@@ -3,7 +3,6 @@ package com.haretskiy.pavel.magiccamera.ui.activities
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.widget.Toast
 import com.google.android.gms.vision.Frame
 import com.google.android.gms.vision.face.FaceDetector
 import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_URI_TO_ACTIVITY_SCAN
@@ -34,8 +33,8 @@ class ScanActivity : AppCompatActivity() {
         val faces = safeDetector.detect(frame)
 
         faceView.setContent(bitmap, faces)
-
-        Toast.makeText(this, "${faces.size()} faces", Toast.LENGTH_SHORT).show()
+        val info = getString(R.string.face_count) + faces.size()
+        tv_faces.text = info
         safeDetector.release()
     }
 }

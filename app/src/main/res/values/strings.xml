@@ -60,5 +60,6 @@
     <string name="pass_fits">Password fits</string>
     <string name="pass_d_match">Passwords don\'t match</string>
     <string name="pass_match">Passwords match</string>
+    <string name="face_count">Faces count:\u0020</string>
 
 </resources>

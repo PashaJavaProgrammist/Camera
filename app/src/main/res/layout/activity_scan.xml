@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="match_parent">
 
     <com.haretskiy.pavel.magiccamera.googleVisionApi.views.FaceView
@@ -9,4 +10,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-</LinearLayout>
+    <com.haretskiy.pavel.magiccamera.ui.views.BorderTextView
+        android:id="@+id/tv_faces"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="4dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:outerShadowRadius="10dp"
+        app:strokeColor="@android:color/black"
+        app:strokeJoinStyle="round"
+        app:strokeWidth="1dp" />
+
+</FrameLayout>
