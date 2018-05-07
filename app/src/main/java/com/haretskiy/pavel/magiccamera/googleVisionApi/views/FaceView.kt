@@ -29,6 +29,7 @@ import com.google.android.gms.vision.face.Face
 class FaceView(context: Context, attrs: AttributeSet) : View(context, attrs) {
     private var mBitmap: Bitmap? = null
     private var mFaces: SparseArray<Face> = SparseArray()
+    private val paint = Paint()
 
     /**
      * Sets the bitmap background and the associated face detections.
@@ -80,13 +81,21 @@ class FaceView(context: Context, attrs: AttributeSet) : View(context, attrs) {
      * pupil position.
      */
     private fun drawFaceAnnotations(canvas: Canvas, scale: Double) {
-        val paint = Paint()
         paint.color = Color.GREEN
         paint.style = Paint.Style.STROKE
         paint.strokeWidth = 5f
 
         for (i in 0 until mFaces.size()) {
             val face = mFaces.valueAt(i)
+
+            val rect = RectF(
+                    (face.position.x * scale).toFloat(),
+                    (face.position.y * scale).toFloat(),
+                    (face.position.x + face.width) * scale.toFloat(),
+                    (face.position.y + face.height) * scale.toFloat())
+            canvas.drawRect(rect, paint)
+
+            paint.strokeWidth = 2f
             for (landmark in face.landmarks) {
                 val cx = (landmark.position.x * scale).toInt()
                 val cy = (landmark.position.y * scale).toInt()
