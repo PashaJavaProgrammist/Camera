@@ -12,10 +12,7 @@ import android.support.v4.app.FragmentTransaction
 import android.support.v4.content.ContextCompat.getColor
 import android.support.v4.content.FileProvider
 import com.haretskiy.pavel.magiccamera.*
-import com.haretskiy.pavel.magiccamera.ui.activities.HostActivity
-import com.haretskiy.pavel.magiccamera.ui.activities.LoginActivity
-import com.haretskiy.pavel.magiccamera.ui.activities.PhotoDetailActivity
-import com.haretskiy.pavel.magiccamera.ui.activities.QrScanResultActivity
+import com.haretskiy.pavel.magiccamera.ui.activities.*
 import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 import java.io.File
 
@@ -110,5 +107,14 @@ class RouterImpl(private val context: Context) : Router {
         val customTabsIntent = builder.build()
         customTabsIntent.intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         customTabsIntent.launchUrl(context, Uri.parse(uri))
+    }
+
+    override fun startScanningActivity(uri: String) {
+        val intent = Intent(context, ScanActivity::class.java)
+        intent.putExtra(BUNDLE_KEY_URI_TO_ACTIVITY_SCAN, uri)
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        context.startActivity(intent)
     }
 }

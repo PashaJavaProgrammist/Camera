@@ -1,16 +1,11 @@
 package com.haretskiy.pavel.magiccamera.ui.fragments
 
-import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
-import com.google.android.gms.vision.Frame
-import com.google.android.gms.vision.face.FaceDetector
 import com.haretskiy.pavel.magiccamera.*
-import com.haretskiy.pavel.magiccamera.googleVisionApi.faceDetector.SafeFaceDetector
 import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageLoader
 import com.haretskiy.pavel.magiccamera.viewModels.PhotoDetailViewModel
 import kotlinx.android.synthetic.main.fragment_photo_detail.*
@@ -52,21 +47,8 @@ class PhotoDetailFragment : Fragment() {
         }
 
         bt_scan.setOnClickListener {
-            scanPhoto(uri)
+            photoDetailViewModel.scanPhoto(uri)
         }
-    }
-
-    private fun scanPhoto(uri: String) {
-        val bitmap = BitmapFactory.decodeFile(uri)
-        val detector = FaceDetector.Builder(context)
-                .setTrackingEnabled(false)
-                .setLandmarkType(FaceDetector.ALL_LANDMARKS)
-                .build()
-        val safeDetector = SafeFaceDetector(detector)
-        val frame = Frame.Builder().setBitmap(bitmap).build()
-        val faces = safeDetector.detect(frame)
-        Toast.makeText(context, "${faces.size()} faces", Toast.LENGTH_SHORT).show()
-        safeDetector.release()
     }
 
     override fun onResume() {

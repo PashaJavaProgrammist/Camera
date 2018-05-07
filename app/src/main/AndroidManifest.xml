@@ -57,6 +57,7 @@
                 android:resource="@xml/providers_path" />
         </provider>
 
+        <activity android:name=".ui.activities.ScanActivity" />
     </application>
 
 </manifest>

@@ -40,4 +40,8 @@ class PhotoDetailViewModel(private val photoStore: PhotoStore,
     fun doPhotoPrint(activity: Activity, uri: String) {
         printer.printPhoto(activity, uri)
     }
+
+    fun scanPhoto(uri: String) {
+        router.startScanningActivity(uri)
+    }
 }
