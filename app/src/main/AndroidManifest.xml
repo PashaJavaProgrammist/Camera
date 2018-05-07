@@ -57,7 +57,9 @@
                 android:resource="@xml/providers_path" />
         </provider>
 
-        <activity android:name=".ui.activities.ScanActivity" />
+        <activity
+            android:name=".ui.activities.ScanActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
