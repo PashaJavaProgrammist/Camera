@@ -1,6 +1,7 @@
 package com.haretskiy.pavel.magiccamera.ui.fragments
 
 import android.arch.lifecycle.Observer
+import android.os.Build
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
@@ -62,7 +63,11 @@ class SettingsFragment : Fragment() {
     }
 
     private fun initRadioButtons() {
-        rdg.setOnCheckedChangeListener { group, checkedId ->
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            rb_api2.visibility = View.GONE
+            settingsViewModel.setCameraCore(CAMERA_VISION_CORE)
+        }
+        rdg.setOnCheckedChangeListener { _, checkedId ->
             when (checkedId) {
                 R.id.rb_vision -> {
                     settingsViewModel.setCameraCore(CAMERA_VISION_CORE)
