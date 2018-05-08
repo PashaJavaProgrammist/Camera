@@ -59,6 +59,12 @@ class Prefs(context: Context) {
 
     fun getCameraCoreId() = getInt(BUNDLE_KEY_CAMERA_CORE, CAMERA_VISION_CORE)
 
+    fun saveCameraApi1Id(currentCameraID: Int) {
+        save(BUNDLE_KEY_CAMERA1_ID, currentCameraID)
+    }
+
+    fun getCameraApi1Id() = getInt(BUNDLE_KEY_CAMERA1_ID, -1)
+
     //Prefs methods
     private fun save(key: String, value: Boolean) {
         editor.putBoolean(key, value).apply()

@@ -34,8 +34,9 @@ class ImageSaverImpl(private val context: Context,
                 }
                 prefs.saveLastPhotoUri(prefs.getUserEmail(), file.absolutePath)
                 photoStore.savePhoto(file.absolutePath, System.currentTimeMillis(), prefs.getUserEmail())
-                toaster.showToast("$SUCCESSFUL_SAVING$file", false)
+                toaster.showToast("$SUCCESSFUL_SAVING$file$SIZE_FILE${file.length() / 1024}$KILOBYTES", false)
             } catch (e: IOException) {
+                toaster.showToast("$ERROR_SAVING${e.message}", false)
                 Log.e(TAG, e.toString())
             } finally {
                 image.close()

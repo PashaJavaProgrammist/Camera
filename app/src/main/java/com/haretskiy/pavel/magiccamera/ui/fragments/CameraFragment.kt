@@ -2,17 +2,19 @@ package com.haretskiy.pavel.magiccamera.ui.fragments
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.graphics.*
+import android.graphics.Matrix
+import android.graphics.PixelFormat
+import android.graphics.RectF
 import android.hardware.Camera
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
-import android.support.v4.content.ContextCompat.getColor
 import android.view.*
 import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.cameraApi.CameraHolderCallback
 import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
+import com.haretskiy.pavel.magiccamera.utils.Prefs
 import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageSaver
 import kotlinx.android.synthetic.main.fragment_camera.*
 import kotlinx.android.synthetic.main.fragment_camera.view.*
@@ -23,21 +25,21 @@ class CameraFragment : Fragment() {
     private val holderCallback: CameraHolderCallback by inject()
     private val imageSaverImpl: ImageSaver by inject()
     private val permissionDialog: PermissionDialog by inject()
-    private val paint = Paint()
+    private val prefs: Prefs by inject()
 
     private var cameras = 0
+    private var currentCameraID = -1
 
+    private var camera: Camera? = null
     private var holder: SurfaceHolder? = null
     private var drawHolder: SurfaceHolder? = null
-    private var camera: Camera? = null
-    private var currentCameraID = -1
     private val backgroundHndler = Handler()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         context?.packageManager?.hasSystemFeature(PackageManager.FEATURE_CAMERA)
         cameras = Camera.getNumberOfCameras()
-        setCameraId(savedInstanceState?.getInt(BUNDLE_KEY_CAMERA1_ID, 0) ?: 0)
+        setCameraId(prefs.getCameraApi1Id())
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -72,7 +74,7 @@ class CameraFragment : Fragment() {
 
     override fun onSaveInstanceState(outState: Bundle) {
         super.onSaveInstanceState(outState)
-        outState.putInt(BUNDLE_KEY_CAMERA1_ID, currentCameraID)
+        prefs.saveCameraApi1Id(currentCameraID)
     }
 
     private fun closeCamera() {
@@ -94,56 +96,9 @@ class CameraFragment : Fragment() {
             camera = Camera.open(currentCameraID)
             holderCallback.camera = camera
             setPreviewSize(FULL_SCREEN)
-            setPaintParams()
-            val surf = drawHolder?.surface
-            var canvas: Canvas? = null
-            camera?.setFaceDetectionListener { faces, _ ->
-                Handler().post({
-                    try {
-                        if (surf != null && surf.isValid) {
-                            canvas = surf.lockCanvas(null)
-                            if (faces.isNotEmpty()) {
-                                for (face in faces) {
-                                    if (face.score > 50) {
-                                        drawRect(paint, canvas, face.rect)
-                                    }
-                                }
-                            } else {
-                                canvas?.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
-                            }
-                        }
-                    } finally {
-                        if (surf != null && surf.isValid) surf.unlockCanvasAndPost(canvas)
-                    }
-                })
-            }
         }
     }
 
-    private fun drawRect(paint: Paint, canvas: Canvas?, rectF: Rect) {
-        canvas?.drawColor(Color.TRANSPARENT, PorterDuff.Mode.CLEAR)
-
-        val left = rectF.left
-        val right = rectF.right
-        val bottom = rectF.bottom
-        val top = rectF.top
-        val rect =
-                if (currentCameraID == 1) RectF(right.toFloat(), bottom.toFloat(), (right + left * -1).toFloat(), (bottom - top).toFloat()) //0 grad
-                else RectF(left.toFloat(), top.toFloat(), right.toFloat(), bottom.toFloat())
-        //todo: need to fix
-
-        canvas?.drawRoundRect(rect, 2f, 2f, paint)
-    }
-
-    private fun setPaintParams() {
-        paint.apply {
-            color = context?.let { getColor(it, R.color.colorAccent) } ?: 0
-            strokeWidth = 5f
-            style = Paint.Style.STROKE
-            isAntiAlias = true
-            isSubpixelText = true
-        }
-    }
 
     private fun initHolder() {
         holder = surfaceView.holder.apply {
