@@ -53,6 +53,11 @@ class Prefs(context: Context) {
 
     fun getCameraScreenSizePosition(cameraID: String) = getInt("${BUNDLE_KEY_PREFS_CAMERA_SIZE}_$cameraID", -1)
 
+    fun setCameraCoreId(coreID: Int) {
+        save(BUNDLE_KEY_CAMERA_CORE, coreID)
+    }
+
+    fun getCameraCoreId() = getInt(BUNDLE_KEY_CAMERA_CORE, CAMERA_VISION_CORE)
 
     //Prefs methods
     private fun save(key: String, value: Boolean) {

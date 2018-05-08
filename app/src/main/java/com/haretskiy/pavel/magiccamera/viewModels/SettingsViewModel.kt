@@ -87,4 +87,10 @@ class SettingsViewModel(private val mAuth: FirebaseAuth,
 
     fun getUser() = "$CURRENT_USER ${prefs.getUserEmail()}"
 
+    fun setCameraCore(coreID: Int) {
+        prefs.setCameraCoreId(coreID)
+    }
+
+    fun getCameraCoreId() = prefs.getCameraCoreId()
+
 }

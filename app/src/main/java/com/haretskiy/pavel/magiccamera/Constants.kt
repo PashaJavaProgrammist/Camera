@@ -33,6 +33,7 @@ const val BUNDLE_DIALOG_DELETE_IS_QR_DETAIL = "BUNDLE_DIALOG_DELETE_IS_QR_DETAIL
 const val BUNDLE_KEY_QR_DETECTOR_STATE = "BUNDLE_KEY_QR_DETECTOR_STATE"
 const val BUNDLE_KEY_TYPE_CLEAR_DB = "BUNDLE_KEY_TYPE_CLEAR_DB"
 const val BUNDLE_KEY_URI_TO_ACTIVITY_SCAN = "BUNDLE_KEY_URI_TO_ACTIVITY_SCAN"
+const val BUNDLE_KEY_CAMERA_CORE = "BUNDLE_KEY_CAMERA_CORE"
 
 //Camera2 constants
 const val CODE_REQUEST_CAMERA_PERMISSION = 1
@@ -120,3 +121,8 @@ const val OPEN_CHROME_TABS = "Can't open this in Chrome custom tabs. Press the l
 
 const val PATTERN_EMAIL1 = "^[A-Za-z0-9][A-Za-z0-9.\\-_]*[A-Za-z0-9]*@([A-Za-z0-9]+([A-Za-z0-9-]*[A-Za-z0-9]+)*\\.)+[A-Za-z]*$"
 const val PATTERN_EMAIL2 = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$"
+
+
+const val CAMERA_VISION_CORE = 0
+const val CAMERA_API1_CORE = 1
+const val CAMERA_API2_CORE = 2
