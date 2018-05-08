@@ -73,8 +73,8 @@
         android:scaleX="1.2"
         android:scaleY="1.2"
         android:src="@drawable/ic_camera_switch"
-        app:layout_constraintEnd_toEndOf="@+id/texture"
-        app:layout_constraintTop_toTopOf="@+id/texture" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Spinner
         android:id="@+id/spinner_sizes"

@@ -43,7 +43,6 @@ class Camera2Fragment : Fragment(), View.OnClickListener {
     private val router: Router by inject()
     private val imageLoader: ImageLoader by inject()
 
-
     private var isAfterResumeFlag = false
 
     /**
