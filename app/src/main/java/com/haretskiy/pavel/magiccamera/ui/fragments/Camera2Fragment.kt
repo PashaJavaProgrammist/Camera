@@ -19,7 +19,10 @@ import android.util.Size
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
-import com.haretskiy.pavel.magiccamera.*
+import com.haretskiy.pavel.magiccamera.EMPTY_STRING
+import com.haretskiy.pavel.magiccamera.FRAGMENT_DIALOG_COMP
+import com.haretskiy.pavel.magiccamera.R
+import com.haretskiy.pavel.magiccamera.TAG
 import com.haretskiy.pavel.magiccamera.camera2Api.Camera2Helper
 import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
 import com.haretskiy.pavel.magiccamera.utils.Prefs
@@ -59,7 +62,7 @@ class Camera2Fragment : Fragment(), View.OnClickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         camera2Helper.getAvailableCameras()
-        camera2Helper.currentCameraID = savedInstanceState?.getString(BUNDLE_KEY_CURRENT_CAMERA_ID, EMPTY_STRING) ?: EMPTY_STRING
+        camera2Helper.currentCameraID = prefs.getCameraId()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -91,15 +94,11 @@ class Camera2Fragment : Fragment(), View.OnClickListener {
     }
 
     override fun onPause() {
+        prefs.saveCameraId(camera2Helper.currentCameraID)
         closeCamera()
         camera2Helper.stopBackgroundThread()
         super.onPause()
         activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
-    }
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putString(BUNDLE_KEY_CURRENT_CAMERA_ID, camera2Helper.currentCameraID)
     }
 
     override fun onClick(view: View) {
