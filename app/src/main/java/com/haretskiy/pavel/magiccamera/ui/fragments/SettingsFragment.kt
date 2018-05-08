@@ -48,6 +48,8 @@ class SettingsFragment : Fragment() {
         bt_delete_account.setOnClickListener {
             activity?.let { activity -> settingsViewModel.deleteAccount(activity, childFragmentManager) }
         }
+
+        current_user.text = settingsViewModel.getUser()
     }
 
     private fun signOut() {

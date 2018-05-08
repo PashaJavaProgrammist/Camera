@@ -110,6 +110,19 @@
                 app:layout_constraintTop_toBottomOf="@id/tv_acc" />
 
             <TextView
+                android:id="@+id/current_user"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:text="@string/app_name"
+                android:textColor="@color/black"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view5" />
+
+            <TextView
                 android:id="@+id/tv_set"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -183,7 +196,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toEndOf="@+id/bt_delete_account"
-                app:layout_constraintTop_toBottomOf="@+id/view5" />
+                app:layout_constraintTop_toBottomOf="@+id/current_user" />
 
             <Button
                 android:id="@+id/bt_delete_account"
@@ -200,7 +213,7 @@
                 app:layout_constraintEnd_toStartOf="@+id/bt_log_out"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/view5" />
+                app:layout_constraintTop_toBottomOf="@+id/current_user" />
 
             <Button
                 android:id="@+id/bt_delete_photos"

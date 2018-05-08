@@ -85,4 +85,6 @@ class SettingsViewModel(private val mAuth: FirebaseAuth,
         return clearDbDialog
     }
 
+    fun getUser() = "$CURRENT_USER ${prefs.getUserEmail()}"
+
 }

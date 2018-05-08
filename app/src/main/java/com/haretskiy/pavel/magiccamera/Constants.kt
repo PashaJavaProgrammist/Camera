@@ -54,6 +54,7 @@ const val SUCCESSFUL_DELETING = "Photo is deleted"
 
 const val SIZE_FILE = "\nSize: "
 const val ERROR_SAVING = "Error of saving..\n"
+const val CURRENT_USER = "Current user:"
 
 const val KILOBYTES = " kilobytes"
 const val PRINT = "Print photo"
