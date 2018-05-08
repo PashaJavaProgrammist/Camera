@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">MagicCamera</string>
-
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in</string>
@@ -9,13 +8,11 @@
     <string name="error_invalid_password">This password is too short</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">This field is required</string>
-
     <string name="repeat_password">Repeat password</string>
     <string name="title_activity_camera">CameraActivity</string>
     <string name="title_camera">Camera</string>
     <string name="title_qr">QR</string>
     <string name="title_gallery">Gallery</string>
-
     <string name="picture">Picture</string>
     <string name="description_info">Info</string>
     <string name="request_permission">Needs camera permission, if you want to take a picture.\n\nIf you press "Don't show again" receive permission manually in settings</string>
@@ -25,7 +22,6 @@
     <string name="detector_not_avail">Detector dependencies are not yet available.</string>
     <string name="camera_not_found">Your phone doesn\'t have camera</string>
     <string name="last">last</string>
-
     <string name="title_activity_photo_detail">PhotoDetailActivity</string>
     <string name="scan_photo">Scan photo</string>
     <string name="photo">photo</string>
@@ -33,15 +29,11 @@
     <string name="delete_this_photo">Delete this photo?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
-
     <string name="content">Content</string>
     <string name="open_inapp">Open in\n Chrome custom tabs</string>
     <string name="share">SHARE</string>
     <string name="unable_save_res_scan">Unable to save result of scanning</string>
     <string name="qr_history">QR History</string>
-
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="delete_code">Delete this item?</string>
     <string name="date">date</string>
     <string name="qr_on">QR scanner turned on</string>
@@ -70,5 +62,6 @@
     <string name="camera2_api">Camera2 api</string>
     <string name="delete_account">Delete account</string>
     <string name="acc_will_deleted">Your account will be deleted? Do you want to continue?</string>
+    <string name="pilot">This core in development. Pilot mode. To make full use of the application, use google vision core.</string>
 
 </resources>

@@ -3,6 +3,7 @@ package com.haretskiy.pavel.magiccamera.ui.fragments
 import android.arch.lifecycle.Observer
 import android.os.Build
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -74,8 +75,8 @@ class SettingsFragment : Fragment() {
                 }
                 R.id.rb_api2 -> {
                     settingsViewModel.setCameraCore(CAMERA_API2_CORE)
+                    Snackbar.make(frame_settings, getString(R.string.pilot), Snackbar.LENGTH_LONG).show()
                 }
-
             }
         }
 
