@@ -44,6 +44,10 @@ class SettingsFragment : Fragment() {
         bt_delete_qrs.setOnClickListener {
             settingsViewModel.clearQrDB(childFragmentManager)
         }
+
+        bt_delete_account.setOnClickListener {
+            activity?.let { activity -> settingsViewModel.deleteAccount(activity, childFragmentManager) }
+        }
     }
 
     private fun signOut() {

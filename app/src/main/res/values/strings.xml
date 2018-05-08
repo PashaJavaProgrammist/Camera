@@ -64,5 +64,11 @@
     <string name="system">System</string>
     <string name="account">Account</string>
     <string name="database">Database</string>
+    <string name="camera_core">Camera core</string>
+    <string name="google_vision_api">Google vision api</string>
+    <string name="camera_api">Camera api</string>
+    <string name="camera2_api">Camera2 api</string>
+    <string name="delete_account">Delete account</string>
+    <string name="acc_will_deleted">Your account will be deleted? Do you want to continue?</string>
 
 </resources>
