@@ -12,6 +12,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
+import com.crashlytics.android.answers.Answers
+import com.crashlytics.android.answers.CustomEvent
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.vision.CameraSource
@@ -38,6 +40,7 @@ class GoogleVisionFragment : Fragment() {
     private val imageLoader: ImageLoader by inject()
     private val cameraSourceManager: CameraSourceManager by inject()
     private val router: Router by inject()
+    private val answers: Answers by inject()
 
     private var cameraType = CAMERA_TYPE_NOT_FOUND
     private var cameras = Camera.getNumberOfCameras()
@@ -184,6 +187,7 @@ class GoogleVisionFragment : Fragment() {
                 else -> CameraSource.CAMERA_FACING_FRONT
             }
         }
+        answers.logCustom(CustomEvent("Switch camera"))
     }
 
     private fun changeCamera() {
@@ -238,6 +242,8 @@ class GoogleVisionFragment : Fragment() {
                             imageLoader.loadRoundImageIntoView(last_photo, prefs.getLastPhotoUri(prefs.getUserEmail()))
                         }, 200)
                     })
+
+            answers.logCustom(CustomEvent("Take picture"))
         } catch (ex: Exception) {
             toaster.showToast("${ex.message}", false)
         }

@@ -63,5 +63,7 @@
     <string name="delete_account">Delete account</string>
     <string name="acc_will_deleted">Your account will be deleted? Do you want to continue?</string>
     <string name="pilot">This core in development. Pilot mode. To make full use of the application, use google vision core.</string>
+    <string name="qr_scanned">QR code is scanned</string>
+    <string name="res">result</string>
 
 </resources>

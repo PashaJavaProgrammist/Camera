@@ -7,6 +7,7 @@ import android.os.Build
 import android.os.Bundle
 import android.support.annotation.RequiresApi
 import android.view.WindowManager
+import com.crashlytics.android.answers.Answers
 import com.google.android.gms.common.GoogleApiAvailability
 import com.google.firebase.auth.FirebaseAuth
 import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_SIGN
@@ -43,10 +44,11 @@ val appModule: Module = applicationContext {
 
     bean { PhotoStoreImpl((get() as Database).photoStoreDao()) as PhotoStore }
     bean { BarCodeStoreImpl((get() as Database).barCodeDao()) as BarCodeStore }
+    bean { Answers.getInstance() }
 
     factory { DiffCallBack() }
 
-    viewModel { LoginViewModel(get(), get(), get(), get()) }
+    viewModel { LoginViewModel(get(), get(), get(), get(), get()) }
     viewModel { GalleryViewModel(androidApplication(), get(), get(), get()) }
     viewModel { SettingsViewModel(get(), get(), get(), get(), get()) }
     viewModel { PhotoDetailViewModel(get(), get(), get(), get()) }
@@ -74,7 +76,7 @@ val googleVisionModule: Module = applicationContext {
 
 val utilsModule: Module = applicationContext {
     factory { ComparatorAreas() }
-    bean { RouterImpl(androidApplication()) as Router }
+    bean { RouterImpl(androidApplication(), get()) as Router }
     bean { Prefs(androidApplication()) }
     factory { Toaster(androidApplication()) }
     factory { ImageSaverImpl(androidApplication(), get(), get(), get()) as ImageSaver }

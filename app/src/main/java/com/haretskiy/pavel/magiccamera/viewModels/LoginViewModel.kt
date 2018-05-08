@@ -2,6 +2,8 @@ package com.haretskiy.pavel.magiccamera.viewModels
 
 import android.arch.lifecycle.MutableLiveData
 import android.arch.lifecycle.ViewModel
+import com.crashlytics.android.answers.Answers
+import com.crashlytics.android.answers.LoginEvent
 import com.google.android.gms.tasks.OnCompleteListener
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
@@ -14,10 +16,12 @@ import com.haretskiy.pavel.magiccamera.utils.Prefs
 import com.haretskiy.pavel.magiccamera.utils.Toaster
 import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 
+
 class LoginViewModel(private val mAuth: FirebaseAuth,
                      private val router: Router,
                      private val prefs: Prefs,
-                     private val toaster: Toaster) : ViewModel() {
+                     private val toaster: Toaster,
+                     private val answers: Answers) : ViewModel() {
 
     val userInfo: MutableLiveData<FirebaseLoginResponse> = MutableLiveData()
 
@@ -60,6 +64,11 @@ class LoginViewModel(private val mAuth: FirebaseAuth,
     }
 
     fun onSuccessAuth(email: String) {
+        answers.logLogin(LoginEvent()
+                .putMethod("onSuccessAuth")
+                .putSuccess(true)
+                .putCustomAttribute("Email", email))
+
         toaster.showToast(email, false)
         prefs.setUserStateLogIn()
         prefs.saveEmail(email)
@@ -68,6 +77,9 @@ class LoginViewModel(private val mAuth: FirebaseAuth,
 
     fun onErrorAuth(errorMessages: String) {
         toaster.showToast(errorMessages, true)
+        answers.logLogin(LoginEvent()
+                .putMethod("onErrorAuth")
+                .putSuccess(false))
     }
 
 }

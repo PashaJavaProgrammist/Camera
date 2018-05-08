@@ -11,13 +11,17 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
 import android.support.v4.content.ContextCompat.getColor
 import android.support.v4.content.FileProvider
+import com.crashlytics.android.answers.Answers
+import com.crashlytics.android.answers.ContentViewEvent
+import com.crashlytics.android.answers.ShareEvent
 import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.ui.activities.*
 import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 import java.io.File
 
 
-class RouterImpl(private val context: Context) : Router {
+class RouterImpl(private val context: Context,
+                 private val answers: Answers) : Router {
 
     override fun startHostActivity() {
         val intent = Intent(context, HostActivity::class.java)
@@ -63,6 +67,9 @@ class RouterImpl(private val context: Context) : Router {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
+        answers.logContentView(ContentViewEvent()
+                .putContentName("photo")
+                .putContentType("image"))
         context.startActivity(intent)
     }
 
@@ -72,6 +79,9 @@ class RouterImpl(private val context: Context) : Router {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
+        answers.logContentView(ContentViewEvent()
+                .putContentName("qr")
+                .putContentType("qr_string"))
         context.startActivity(intent)
     }
 
@@ -83,6 +93,12 @@ class RouterImpl(private val context: Context) : Router {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             sendIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
+
+        answers.logShare(ShareEvent()
+                .putMethod("shareQr")
+                .putContentName("qr")
+                .putContentType("string"))
+
         context.startActivity(sendIntent)
     }
 
@@ -94,6 +110,12 @@ class RouterImpl(private val context: Context) : Router {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
+
+        answers.logShare(ShareEvent()
+                .putMethod("shareImage")
+                .putContentName("imageUri")
+                .putContentType("image"))
+
         context.startActivity(shareIntent)
     }
 
@@ -107,6 +129,10 @@ class RouterImpl(private val context: Context) : Router {
         val customTabsIntent = builder.build()
         customTabsIntent.intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         customTabsIntent.launchUrl(context, Uri.parse(uri))
+
+        answers.logContentView(ContentViewEvent()
+                .putContentName("uri")
+                .putContentType("uri"))
     }
 
     override fun startScanningActivity(uri: String) {
@@ -115,6 +141,9 @@ class RouterImpl(private val context: Context) : Router {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
+        answers.logContentView(ContentViewEvent()
+                .putContentName("photo_scan")
+                .putContentType("image"))
         context.startActivity(intent)
     }
 }

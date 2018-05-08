@@ -19,6 +19,8 @@ import android.util.Size
 import android.view.*
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import com.crashlytics.android.answers.Answers
+import com.crashlytics.android.answers.CustomEvent
 import com.haretskiy.pavel.magiccamera.EMPTY_STRING
 import com.haretskiy.pavel.magiccamera.FRAGMENT_DIALOG_COMP
 import com.haretskiy.pavel.magiccamera.R
@@ -43,6 +45,7 @@ class Camera2Fragment : Fragment(), View.OnClickListener {
     private val camera2Helper: Camera2Helper by inject()
     private val router: Router by inject()
     private val imageLoader: ImageLoader by inject()
+    private val answers: Answers by inject()
 
     private var isAfterResumeFlag = false
 
@@ -124,6 +127,7 @@ class Camera2Fragment : Fragment(), View.OnClickListener {
         when (view.id) {
             R.id.bt_take_picture -> {
                 camera2Helper.takePicture()
+                answers.logCustom(CustomEvent("Take picture"))
             }
             R.id.bt_change_camera -> changeCamera()
         }
@@ -172,6 +176,7 @@ class Camera2Fragment : Fragment(), View.OnClickListener {
                 else -> camera2Helper.cameraIdList[0]
             }
         }
+        answers.logCustom(CustomEvent("Switch camera"))
     }
 
     private fun changeCamera() {
