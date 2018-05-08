@@ -12,7 +12,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_SIGN
 import com.haretskiy.pavel.magiccamera.DB_NAME
 import com.haretskiy.pavel.magiccamera.camera2Api.Camera2Helper
-import com.haretskiy.pavel.magiccamera.cameraApi.CameraHolderCallback
 import com.haretskiy.pavel.magiccamera.googleVisionApi.googleVisionUtils.CameraSourceManager
 import com.haretskiy.pavel.magiccamera.storage.*
 import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
@@ -68,11 +67,6 @@ val camera2Module: Module = applicationContext {
 
 }
 
-val cameraModule: Module = applicationContext {
-    factory { CameraFragment() }
-    factory { CameraHolderCallback(get()) }
-}
-
 val googleVisionModule: Module = applicationContext {
     factory { GoogleApiAvailability.getInstance() }
     factory { CameraSourceManager(androidApplication(), get(), get(), get(), get()) }
@@ -88,7 +82,7 @@ val utilsModule: Module = applicationContext {
     factory { PrinterImpl(androidApplication(), get()) as Printer }
 }
 
-val modules = listOf(appModule, camera2Module, cameraModule, googleVisionModule, utilsModule)
+val modules = listOf(appModule, camera2Module, googleVisionModule, utilsModule)
 
 private fun signFragment(isSignIn: String): LoginFragment {
     val args = Bundle()

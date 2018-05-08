@@ -3,7 +3,10 @@ package com.haretskiy.pavel.magiccamera.ui.activities
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
-import com.haretskiy.pavel.magiccamera.*
+import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_FRAGMENT_ID
+import com.haretskiy.pavel.magiccamera.CAMERA_API2_CORE
+import com.haretskiy.pavel.magiccamera.CAMERA_VISION_CORE
+import com.haretskiy.pavel.magiccamera.R
 import com.haretskiy.pavel.magiccamera.ui.fragments.*
 import com.haretskiy.pavel.magiccamera.utils.Prefs
 import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
@@ -29,7 +32,6 @@ class HostActivity : AppCompatActivity() {
 
                 val fragment = when (prefs.getCameraCoreId()) {
                     CAMERA_VISION_CORE -> GoogleVisionFragment()
-                    CAMERA_API1_CORE -> CameraFragment()
                     CAMERA_API2_CORE -> Camera2Fragment()
                     else -> GoogleVisionFragment()
                 }

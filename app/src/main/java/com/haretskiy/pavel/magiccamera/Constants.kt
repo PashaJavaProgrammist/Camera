@@ -124,5 +124,4 @@ const val PATTERN_EMAIL2 = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0
 
 
 const val CAMERA_VISION_CORE = 0
-const val CAMERA_API1_CORE = 1
 const val CAMERA_API2_CORE = 2

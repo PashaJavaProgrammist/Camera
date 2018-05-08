@@ -6,7 +6,10 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.haretskiy.pavel.magiccamera.*
+import com.haretskiy.pavel.magiccamera.CAMERA_API2_CORE
+import com.haretskiy.pavel.magiccamera.CAMERA_VISION_CORE
+import com.haretskiy.pavel.magiccamera.R
+import com.haretskiy.pavel.magiccamera.SIGN_OUT_CODE
 import com.haretskiy.pavel.magiccamera.viewModels.SettingsViewModel
 import kotlinx.android.synthetic.main.fragment_settings.*
 import org.koin.android.ext.android.inject
@@ -64,9 +67,6 @@ class SettingsFragment : Fragment() {
                 R.id.rb_vision -> {
                     settingsViewModel.setCameraCore(CAMERA_VISION_CORE)
                 }
-                R.id.rb_api1 -> {
-                    settingsViewModel.setCameraCore(CAMERA_API1_CORE)
-                }
                 R.id.rb_api2 -> {
                     settingsViewModel.setCameraCore(CAMERA_API2_CORE)
                 }
@@ -76,7 +76,6 @@ class SettingsFragment : Fragment() {
 
         when (cameraCoreId) {
             CAMERA_VISION_CORE -> rb_vision.isChecked = true
-            CAMERA_API1_CORE -> rb_api1.isChecked = true
             CAMERA_API2_CORE -> rb_api2.isChecked = true
         }
     }
