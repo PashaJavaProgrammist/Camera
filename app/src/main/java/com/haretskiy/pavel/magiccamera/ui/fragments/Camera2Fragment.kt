@@ -181,7 +181,7 @@ class Camera2Fragment : Fragment(), View.OnClickListener {
             camera2Helper.configureTransform(width, height)
             try {
                 // Wait for camera to openCamera - 2.5 seconds is sufficient
-                if (!camera2Helper.cameraOpenCloseLock.tryAcquire(2500, TimeUnit.MILLISECONDS)) {
+                if (!camera2Helper.cameraOpenCloseLock.tryAcquire(5000, TimeUnit.MILLISECONDS)) {
                     throw RuntimeException("Time out waiting to lock camera opening.")
                 }
                 cameraManager.openCamera(cameraId, camera2Helper.stateCallback, camera2Helper.backgroundHandler)
