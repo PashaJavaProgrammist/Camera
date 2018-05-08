@@ -26,6 +26,8 @@ import com.haretskiy.pavel.magiccamera.TAG
 import com.haretskiy.pavel.magiccamera.camera2Api.Camera2Helper
 import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
 import com.haretskiy.pavel.magiccamera.utils.Prefs
+import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageLoader
+import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 import kotlinx.android.synthetic.main.fragment_camera2.*
 import org.koin.android.ext.android.inject
 import java.util.*
@@ -38,6 +40,9 @@ class Camera2Fragment : Fragment(), View.OnClickListener {
     private val permissionDialog: PermissionDialog by inject()
     private val prefs: Prefs by inject()
     private val camera2Helper: Camera2Helper by inject()
+    private val router: Router by inject()
+    private val imageLoader: ImageLoader by inject()
+
 
     private var isAfterResumeFlag = false
 
@@ -76,6 +81,12 @@ class Camera2Fragment : Fragment(), View.OnClickListener {
         spinner_sizes.visibility = View.GONE
         initSpinnerListener()
         initSpinnerAdapter(camera2Helper.sizesOfScreen)
+
+        imageLoader.loadRoundImageIntoView(last_photo_image, prefs.getLastPhotoUri(prefs.getUserEmail()))
+        last_photo_image.setOnClickListener {
+            val uri = prefs.getLastPhotoUri(prefs.getUserEmail())
+            if (uri.isNotEmpty()) router.startPhotoDetailActivity(uri, 0)
+        }
     }
 
     /** When the screen is turned off and turned back on, the SurfaceTexture is already
@@ -91,6 +102,7 @@ class Camera2Fragment : Fragment(), View.OnClickListener {
         choseCamera(false)
         getAvailableSizes(camera2Helper.currentCameraID)
         openCamera()
+        imageLoader.loadRoundImageIntoView(last_photo_image, prefs.getLastPhotoUri(prefs.getUserEmail()))
     }
 
     override fun onPause() {
@@ -103,7 +115,11 @@ class Camera2Fragment : Fragment(), View.OnClickListener {
 
     override fun onClick(view: View) {
         when (view.id) {
-            R.id.bt_take_picture -> camera2Helper.takePicture()
+            R.id.bt_take_picture -> {
+                camera2Helper.takePicture()
+                //todo: fix it
+                imageLoader.loadRoundImageIntoView(last_photo_image, prefs.getLastPhotoUri(prefs.getUserEmail()))
+            }
             R.id.bt_change_camera -> changeCamera()
         }
     }
@@ -181,7 +197,7 @@ class Camera2Fragment : Fragment(), View.OnClickListener {
             try {
                 // Wait for camera to openCamera - 2.5 seconds is sufficient
                 if (!camera2Helper.cameraOpenCloseLock.tryAcquire(5000, TimeUnit.MILLISECONDS)) {
-                    throw RuntimeException("Time out waiting to lock camera opening.")
+                    activity?.recreate()
                 }
                 cameraManager.openCamera(cameraId, camera2Helper.stateCallback, camera2Helper.backgroundHandler)
             } catch (e: CameraAccessException) {

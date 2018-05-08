@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/black"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/black">
 
     <com.haretskiy.pavel.magiccamera.ui.views.AutoFitTextureView
         android:id="@+id/texture"
@@ -13,25 +13,23 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
-        />
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/bottom_navigation_size"
+        android:layout_marginBottom="@dimen/bottom_navigation_size_plus"
         android:layout_marginEnd="8dp"
-        android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
-        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
         android:contentDescription="@string/app_name"
         android:scaleX="1"
         android:scaleY="1"
         android:src="@drawable/ic_circle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintTop_toTopOf="@+id/texture" />
 
     <ImageView
         android:id="@+id/bt_take_picture"
@@ -57,26 +55,26 @@
         android:id="@+id/last_photo_image"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="@dimen/bottom_navigation_size"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
         android:contentDescription="@string/last"
-        app:layout_constraintBottom_toBottomOf="@+id/bt_take_picture"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/bt_take_picture"
-        app:layout_constraintVertical_bias="0.692" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView" />
 
     <ImageView
+        android:id="@+id/bt_change_camera"
         android:layout_width="30dp"
         android:layout_height="30dp"
-        android:id="@+id/bt_change_camera"
+        android:layout_margin="4dp"
+        android:contentDescription="@string/app_name"
         android:scaleX="1.2"
         android:scaleY="1.2"
-        android:layout_margin="4dp"
         android:src="@drawable/ic_camera_switch"
         app:layout_constraintEnd_toEndOf="@+id/texture"
-        app:layout_constraintTop_toTopOf="@+id/texture"
-        android:contentDescription="@string/app_name" />
+        app:layout_constraintTop_toTopOf="@+id/texture" />
 
     <Spinner
         android:id="@+id/spinner_sizes"
