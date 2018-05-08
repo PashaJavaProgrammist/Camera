@@ -25,6 +25,7 @@ import com.haretskiy.pavel.magiccamera.R
 import com.haretskiy.pavel.magiccamera.TAG
 import com.haretskiy.pavel.magiccamera.camera2Api.Camera2Helper
 import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
+import com.haretskiy.pavel.magiccamera.utils.ImageSaverImpl
 import com.haretskiy.pavel.magiccamera.utils.Prefs
 import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageLoader
 import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
@@ -67,6 +68,13 @@ class Camera2Fragment : Fragment(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         camera2Helper.getAvailableCameras()
         camera2Helper.currentCameraID = prefs.getCameraId()
+        camera2Helper.creatingListener = object : ImageSaverImpl.CreatingListener {
+            override fun onSuccess() {
+                activity?.runOnUiThread { imageLoader.loadRoundImageIntoView(last_photo_image, prefs.getLastPhotoUri(prefs.getUserEmail())) }
+            }
+
+            override fun onError(errorMessage: String) {}
+        }
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -116,8 +124,6 @@ class Camera2Fragment : Fragment(), View.OnClickListener {
         when (view.id) {
             R.id.bt_take_picture -> {
                 camera2Helper.takePicture()
-                //todo: fix it
-                imageLoader.loadRoundImageIntoView(last_photo_image, prefs.getLastPhotoUri(prefs.getUserEmail()))
             }
             R.id.bt_change_camera -> changeCamera()
         }

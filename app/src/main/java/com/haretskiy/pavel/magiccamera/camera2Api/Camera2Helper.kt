@@ -18,6 +18,7 @@ import android.view.WindowManager
 import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.ui.views.AutoFitTextureView
 import com.haretskiy.pavel.magiccamera.utils.ComparatorAreas
+import com.haretskiy.pavel.magiccamera.utils.ImageSaverImpl
 import com.haretskiy.pavel.magiccamera.utils.Toaster
 import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageSaver
 import java.io.File
@@ -35,6 +36,11 @@ class Camera2Helper(
 
     var texture: AutoFitTextureView? = null
     var sizesOfScreen: Array<Size> = arrayOf()
+    var creatingListener = object : ImageSaverImpl.CreatingListener {
+        override fun onSuccess() {}
+
+        override fun onError(errorMessage: String) {}
+    }
 
     /**
      * ID of the current [CameraDevice].
@@ -83,7 +89,7 @@ class Camera2Helper(
      * still image is ready to be saved.
      */
     private val onImageAvailableListener = ImageReader.OnImageAvailableListener {
-        imageSaverImpl.saveImage(it.acquireNextImage(), file)
+        imageSaverImpl.saveImage(it.acquireNextImage(), file, creatingListener)
     }
 
     /**
@@ -240,7 +246,6 @@ class Camera2Helper(
                 override fun onCaptureCompleted(session: CameraCaptureSession,
                                                 request: CaptureRequest,
                                                 result: TotalCaptureResult) {
-                    toaster.showToast("Saved: $file", false)
                     Log.d(TAG, file.toString())
                     unlockFocus()
                 }

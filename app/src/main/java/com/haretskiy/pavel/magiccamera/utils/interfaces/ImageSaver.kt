@@ -8,7 +8,7 @@ interface ImageSaver {
 
     fun createFile(): File
     fun saveImage(data: ByteArray)
-    fun saveImage(image: Image, file: File)
+    fun saveImage(image: Image, file: File, listener: ImageSaverImpl.CreatingListener)
     fun deleteFile(uri: String)
     fun deleteAllUserPhotos(email: String, listener: ImageSaverImpl.DeletingListener)
 }

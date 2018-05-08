@@ -22,7 +22,7 @@ class ImageSaverImpl(private val context: Context,
     override fun createFile() = File(context.getExternalFilesDir(null), "${prefs.getUserEmail()}_${System.currentTimeMillis()}$PIC_FILE_NAME")
 
     @RequiresApi(Build.VERSION_CODES.KITKAT)
-    override fun saveImage(image: Image, file: File) {
+    override fun saveImage(image: Image, file: File, listener: CreatingListener) {
         Handler().post({
             val buffer = image.planes[0].buffer
             val bytes = ByteArray(buffer.remaining())
@@ -34,8 +34,10 @@ class ImageSaverImpl(private val context: Context,
                 }
                 prefs.saveLastPhotoUri(prefs.getUserEmail(), file.absolutePath)
                 photoStore.savePhoto(file.absolutePath, System.currentTimeMillis(), prefs.getUserEmail())
+                listener.onSuccess()
                 toaster.showToast("$SUCCESSFUL_SAVING$file$SIZE_FILE${file.length() / 1024}$KILOBYTES", false)
             } catch (e: IOException) {
+                listener.onError(e.message.toString())
                 toaster.showToast("$ERROR_SAVING${e.message}", false)
                 Log.e(TAG, e.toString())
             } finally {
@@ -102,6 +104,11 @@ class ImageSaverImpl(private val context: Context,
     }
 
     interface DeletingListener {
+        fun onSuccess()
+        fun onError(errorMessage: String)
+    }
+
+    interface CreatingListener {
         fun onSuccess()
         fun onError(errorMessage: String)
     }
