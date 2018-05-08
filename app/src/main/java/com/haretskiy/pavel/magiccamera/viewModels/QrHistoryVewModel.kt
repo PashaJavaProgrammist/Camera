@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.support.v4.app.FragmentManager
 import com.haretskiy.pavel.magiccamera.BUNDLE_DIALOG_DELETE_IS_QR_DETAIL
 import com.haretskiy.pavel.magiccamera.BUNDLE_DIALOG_DELETE_QR_CODE
+import com.haretskiy.pavel.magiccamera.CAMERA_VISION_CORE
 import com.haretskiy.pavel.magiccamera.DELETE_QR_DIALOG
 import com.haretskiy.pavel.magiccamera.models.BarCode
 import com.haretskiy.pavel.magiccamera.storage.BarCodeStore
@@ -45,6 +46,7 @@ class QrHistoryVewModel(private val barCodeStore: BarCodeStore,
     }
 
     fun turnOnQRDetector() {
+        prefs.setCameraCoreId(CAMERA_VISION_CORE)
         prefs.turnOnQRDetector(true)
     }
 
