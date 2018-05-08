@@ -95,12 +95,12 @@ class FaceView(context: Context, attrs: AttributeSet) : View(context, attrs) {
                     (face.position.y + face.height) * scale.toFloat())
             canvas.drawRect(rect, paint)
 
-            paint.strokeWidth = 2f
-            for (landmark in face.landmarks) {
-                val cx = (landmark.position.x * scale).toInt()
-                val cy = (landmark.position.y * scale).toInt()
-                canvas.drawCircle(cx.toFloat(), cy.toFloat(), 10f, paint)
-            }
+//            paint.strokeWidth = 2f
+//            for (landmark in face.landmarks) {
+//                val cx = (landmark.position.x * scale).toInt()
+//                val cy = (landmark.position.y * scale).toInt()
+//                canvas.drawCircle(cx.toFloat(), cy.toFloat(), 10f, paint)
+//            }
         }
     }
 }
