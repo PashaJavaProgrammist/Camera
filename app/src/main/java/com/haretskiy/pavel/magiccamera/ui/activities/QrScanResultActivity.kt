@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.crashlytics.android.answers.Answers
 import com.crashlytics.android.answers.CustomEvent
+import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_BARCODE_DATE
 import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_BARCODE_RESULT
 import com.haretskiy.pavel.magiccamera.EMPTY_STRING
 import com.haretskiy.pavel.magiccamera.R
@@ -14,6 +15,7 @@ import org.koin.android.ext.android.inject
 class QrScanResultActivity : AppCompatActivity() {
 
     private var scanResult = EMPTY_STRING
+    private var date = EMPTY_STRING
 
     private val qrResultDetailViewModel: QrResultDetailViewModel by inject()
     private val answers: Answers by inject()
@@ -22,10 +24,12 @@ class QrScanResultActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_qr_scan_result)
         scanResult = intent?.getStringExtra(BUNDLE_KEY_BARCODE_RESULT) ?: EMPTY_STRING
+        date = intent?.getStringExtra(BUNDLE_KEY_BARCODE_DATE) ?: EMPTY_STRING
         answers.logCustom(CustomEvent(getString(R.string.qr_scanned)).putCustomAttribute(getString(R.string.res), scanResult))
 
         if (scanResult.isNotEmpty()) {
-            tv_result_scan.text = scanResult
+            tv_content_history.text = scanResult
+            tv_date_qr_history.text = date
         }
 
         bt_share.setOnClickListener { if (scanResult.isNotEmpty()) qrResultDetailViewModel.shareUrl(scanResult) }

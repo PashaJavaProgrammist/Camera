@@ -85,8 +85,8 @@ class QrHistoryFragment : Fragment(), QRHistory {
         }
     }
 
-    override fun onClickHistoryItem(content: String) {
-        qrHistoryVewModel.startBarcodeActivity(content)
+    override fun onClickHistoryItem(content: String, date: String) {
+        qrHistoryVewModel.startBarcodeActivity(content, date)
     }
 
     override fun onLongClickHistoryItem(content: String) {

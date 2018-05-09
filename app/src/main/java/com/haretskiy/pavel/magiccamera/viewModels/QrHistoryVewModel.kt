@@ -32,8 +32,8 @@ class QrHistoryVewModel(private val barCodeStore: BarCodeStore,
         newDeleteDialogInstance(content).show(fragmentManager, DELETE_QR_DIALOG, listener)
     }
 
-    fun startBarcodeActivity(content: String) {
-        router.startBarcodeActivity(content)
+    fun startBarcodeActivity(content: String, date: String) {
+        router.startBarcodeActivity(content, date)
     }
 
     private fun newDeleteDialogInstance(content: String): DeleteQRDialog {

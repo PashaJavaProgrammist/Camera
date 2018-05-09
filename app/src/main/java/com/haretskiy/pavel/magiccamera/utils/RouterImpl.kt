@@ -1,5 +1,6 @@
 package com.haretskiy.pavel.magiccamera.utils
 
+import android.app.ActivityOptions
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -11,6 +12,8 @@ import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentTransaction
 import android.support.v4.content.ContextCompat.getColor
 import android.support.v4.content.FileProvider
+import android.support.v7.app.AppCompatActivity
+import android.view.View
 import com.crashlytics.android.answers.Answers
 import com.crashlytics.android.answers.ContentViewEvent
 import com.crashlytics.android.answers.ShareEvent
@@ -18,7 +21,7 @@ import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.ui.activities.*
 import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 import java.io.File
-
+import android.util.Pair as UtilPair
 
 class RouterImpl(private val context: Context,
                  private val answers: Answers) : Router {
@@ -73,9 +76,10 @@ class RouterImpl(private val context: Context,
         context.startActivity(intent)
     }
 
-    override fun startBarcodeActivity(resultOfScanning: String) {
+    override fun startBarcodeActivity(resultOfScanning: String, date: String) {
         val intent = Intent(context, QrScanResultActivity::class.java)
         intent.putExtra(BUNDLE_KEY_BARCODE_RESULT, resultOfScanning)
+        intent.putExtra(BUNDLE_KEY_BARCODE_DATE, date)
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
             intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
         }
@@ -83,6 +87,33 @@ class RouterImpl(private val context: Context,
                 .putContentName("qr")
                 .putContentType("qr_string"))
         context.startActivity(intent)
+    }
+
+    override fun startBarcodeActivityWithAnimation(activity: AppCompatActivity, resultOfScanning: String, date: String, dateView: View, contentView: View) {
+        val intent = Intent(context, QrScanResultActivity::class.java)
+        intent.putExtra(BUNDLE_KEY_BARCODE_RESULT, resultOfScanning)
+        intent.putExtra(BUNDLE_KEY_BARCODE_DATE, date)
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+
+        val options = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            ActivityOptions.makeSceneTransitionAnimation(activity,
+                    UtilPair.create(dateView, "dateView"),
+                    UtilPair.create(contentView, "agreedName2"))
+        } else {
+            null
+        }
+
+        answers.logContentView(ContentViewEvent()
+                .putContentName("qr")
+                .putContentType("qr_string"))
+
+        if (options == null) {
+            context.startActivity(intent)
+        } else {
+            context.startActivity(intent, options.toBundle())
+        }
     }
 
     override fun shareText(resultOfScanning: String) {

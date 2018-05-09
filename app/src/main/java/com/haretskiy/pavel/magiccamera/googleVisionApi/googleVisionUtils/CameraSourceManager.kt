@@ -46,7 +46,7 @@ class CameraSourceManager(
                     override fun onCodeFounded(resultScanning: String) {
                         val time = System.currentTimeMillis()
                         if (time - timeOfLastResult > BARCODE_SCAN_DELAY) {
-                            router.startBarcodeActivity(resultScanning)
+                            router.startBarcodeActivity(resultScanning, time.convertToDate())
                             timeOfLastResult = time
                             try {
                                 barCodeStore.insert(BarCode(resultScanning, prefs.getUserEmail(), System.currentTimeMillis()))

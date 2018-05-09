@@ -2,6 +2,8 @@ package com.haretskiy.pavel.magiccamera.utils.interfaces
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
+import android.support.v7.app.AppCompatActivity
+import android.view.View
 
 interface Router {
 
@@ -15,8 +17,6 @@ interface Router {
 
     fun startPhotoDetailActivity(uri: String, date: Long)
 
-    fun startBarcodeActivity(resultOfScanning: String)
-
     fun shareText(resultOfScanning: String)
 
     fun shareImage(imageUri: String)
@@ -24,4 +24,8 @@ interface Router {
     fun openCustomTabs(uri: String)
 
     fun startScanningActivity(uri: String)
+
+    fun startBarcodeActivity(resultOfScanning: String, date: String)
+
+    fun startBarcodeActivityWithAnimation(activity: AppCompatActivity, resultOfScanning: String, date: String, dateView: View, contentView: View)
 }
