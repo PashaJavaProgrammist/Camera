@@ -2,8 +2,6 @@ package com.haretskiy.pavel.magiccamera.utils.interfaces
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
-import android.support.v7.app.AppCompatActivity
-import android.view.View
 
 interface Router {
 
@@ -27,5 +25,4 @@ interface Router {
 
     fun startBarcodeActivity(resultOfScanning: String, date: String)
 
-    fun startBarcodeActivityWithAnimation(activity: AppCompatActivity, resultOfScanning: String, date: String, dateView: View, contentView: View)
 }
