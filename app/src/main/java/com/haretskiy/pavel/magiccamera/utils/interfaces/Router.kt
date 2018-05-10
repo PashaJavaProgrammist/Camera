@@ -1,7 +1,10 @@
 package com.haretskiy.pavel.magiccamera.utils.interfaces
 
+import android.content.Context
 import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
+import android.widget.TextView
 
 interface Router {
 
@@ -24,5 +27,7 @@ interface Router {
     fun startScanningActivity(uri: String)
 
     fun startBarcodeActivity(resultOfScanning: String, date: String)
+
+    fun startBarcodeActivityWithAnimation(context: Context, activity: FragmentActivity, content: String, date: String, contentView: TextView, dateView: TextView)
 
 }

@@ -6,11 +6,12 @@ import android.net.Uri
 import android.os.Build
 import android.provider.Settings
 import android.support.customtabs.CustomTabsIntent
-import android.support.v4.app.Fragment
-import android.support.v4.app.FragmentManager
-import android.support.v4.app.FragmentTransaction
+import android.support.v4.app.*
 import android.support.v4.content.ContextCompat.getColor
 import android.support.v4.content.FileProvider
+import android.support.v4.util.Pair
+import android.view.View
+import android.widget.TextView
 import com.crashlytics.android.answers.Answers
 import com.crashlytics.android.answers.ContentViewEvent
 import com.crashlytics.android.answers.ShareEvent
@@ -84,6 +85,24 @@ class RouterImpl(private val context: Context,
                 .putContentName("qr")
                 .putContentType("qr_string"))
         context.startActivity(intent)
+    }
+
+    override fun startBarcodeActivityWithAnimation(context: Context, activity: FragmentActivity, content: String,
+                                                   date: String, contentView: TextView, dateView: TextView) {
+        val intent = Intent(context, QrScanResultActivity::class.java)
+        intent.putExtra(BUNDLE_KEY_BARCODE_RESULT, content)
+        intent.putExtra(BUNDLE_KEY_BARCODE_DATE, date)
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        answers.logContentView(ContentViewEvent()
+                .putContentName("qr")
+                .putContentType("qr_string"))
+
+        val activityOptions = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                activity,
+                Pair<View, String>(contentView, VIEW_NAME_CONTENT),
+                Pair<View, String>(dateView, VIEW_NAME_DATE))
+
+        ActivityCompat.startActivity(context, intent, activityOptions.toBundle())
     }
 
     override fun shareText(resultOfScanning: String) {

@@ -2,8 +2,11 @@ package com.haretskiy.pavel.magiccamera.viewModels
 
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
+import android.content.Context
 import android.os.Bundle
+import android.support.v4.app.FragmentActivity
 import android.support.v4.app.FragmentManager
+import android.widget.TextView
 import com.haretskiy.pavel.magiccamera.BUNDLE_DIALOG_DELETE_IS_QR_DETAIL
 import com.haretskiy.pavel.magiccamera.BUNDLE_DIALOG_DELETE_QR_CODE
 import com.haretskiy.pavel.magiccamera.CAMERA_VISION_CORE
@@ -48,6 +51,21 @@ class QrHistoryVewModel(private val barCodeStore: BarCodeStore,
     fun turnOnQRDetector() {
         prefs.setCameraCoreId(CAMERA_VISION_CORE)
         prefs.turnOnQRDetector(true)
+    }
+
+    fun startBarcodeActivityWithAnimation(context: Context,
+                                          activity: FragmentActivity,
+                                          content: String,
+                                          date: String,
+                                          contentView: TextView,
+                                          dateView: TextView) {
+        router.startBarcodeActivityWithAnimation(
+                context,
+                activity,
+                content,
+                date,
+                contentView,
+                dateView)
     }
 
 }

@@ -9,6 +9,7 @@ import android.support.v7.widget.helper.ItemTouchHelper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
 import com.haretskiy.pavel.magiccamera.R
 import com.haretskiy.pavel.magiccamera.adapters.QrHistoryAdapter
 import com.haretskiy.pavel.magiccamera.ui.activities.HostActivity
@@ -85,8 +86,8 @@ class QrHistoryFragment : Fragment(), QRHistory {
         }
     }
 
-    override fun onClickHistoryItem(content: String, date: String) {
-        qrHistoryVewModel.startBarcodeActivity(content, date)
+    override fun onClickHistoryItem(content: String, date: String, contentView: TextView, dateView: TextView) {
+        activity?.let { activity -> context?.let { context -> qrHistoryVewModel.startBarcodeActivityWithAnimation(context, activity, content, date, contentView, dateView) } }
     }
 
     override fun onLongClickHistoryItem(content: String) {
