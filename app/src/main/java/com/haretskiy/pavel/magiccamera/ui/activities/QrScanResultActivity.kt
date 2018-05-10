@@ -1,6 +1,5 @@
 package com.haretskiy.pavel.magiccamera.ui.activities
 
-import android.os.Build
 import android.os.Bundle
 import android.support.v4.view.ViewCompat
 import android.support.v7.app.AppCompatActivity
@@ -39,6 +38,5 @@ class QrScanResultActivity : AppCompatActivity() {
         bt_open_in_app.setOnClickListener { qrResultDetailViewModel.openUrlInApp(scanResult) }
         iv_delete_qr.setOnClickListener { qrResultDetailViewModel.onClickDelete(scanResult, supportFragmentManager) }
     }
-
 
 }
