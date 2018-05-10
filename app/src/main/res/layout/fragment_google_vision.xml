@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/black"
-    android:animateLayoutChanges="true"
     tools:context=".ui.fragments.GoogleVisionFragment">
 
     <com.haretskiy.pavel.magiccamera.googleVisionApi.views.CameraSourcePreview
@@ -84,7 +83,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <include layout="@layout/item_frame" />
+    <include layout="@layout/item_frame"/>
 
     <ImageView
         android:id="@+id/last_photo"
