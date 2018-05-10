@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@android:color/black"
-    tools:context=".ui.fragments.CameraFragment">
+    android:animateLayoutChanges="true"
+    tools:context=".ui.fragments.GoogleVisionFragment">
 
     <com.haretskiy.pavel.magiccamera.googleVisionApi.views.CameraSourcePreview
         android:id="@+id/preview"
