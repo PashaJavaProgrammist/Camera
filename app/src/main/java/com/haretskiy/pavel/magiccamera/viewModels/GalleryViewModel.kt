@@ -80,6 +80,10 @@ class GalleryViewModel(app: Application,
         DeletePhotosDialog().show(fm, DELETE_PHOTOS_DIALOG, listener)
     }
 
+    fun shareImages() {
+        router.shareImages(shareContainer.getAllUris())
+    }
+
     interface OnCheckedListener {
         fun onChecked()
         fun onUnchecked()

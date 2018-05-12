@@ -79,7 +79,7 @@ class GalleryFragment : Fragment(), PhotoGallery {
         }
 
         bt_share.setOnClickListener {
-            //todo
+            galleryViewModel.shareImages()
         }
 
         bt_delete_photos.setOnClickListener {

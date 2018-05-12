@@ -139,7 +139,7 @@ class RouterImpl(private val context: Context,
         context.startActivity(shareIntent)
     }
 
-    override fun shareImages(vararg uris: String) {
+    override fun shareImages(uris: ArrayList<String>) {
         val shareIntent = Intent(Intent.ACTION_SEND_MULTIPLE)
         shareIntent.type = SHARE_TYPE_IMAGE
 

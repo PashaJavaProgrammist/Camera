@@ -22,7 +22,7 @@ interface Router {
 
     fun shareImage(imageUri: String)
 
-    fun shareImages(vararg uris: String)
+    fun shareImages(uris: ArrayList<String>)
 
     fun openCustomTabs(uri: String)
 
