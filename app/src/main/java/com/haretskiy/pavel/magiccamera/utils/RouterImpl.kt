@@ -139,6 +139,26 @@ class RouterImpl(private val context: Context,
         context.startActivity(shareIntent)
     }
 
+    override fun shareImages(vararg uris: String) {
+        val shareIntent = Intent(Intent.ACTION_SEND_MULTIPLE)
+        shareIntent.type = SHARE_TYPE_IMAGE
+
+        val imageUris = uris.map { FileProvider.getUriForFile(context, FILE_PROVIDER_AUTHORITY, File(it)) } as java.util.ArrayList
+
+        shareIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, imageUris)
+
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            shareIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+
+        answers.logShare(ShareEvent()
+                .putMethod("share ${uris.size} images")
+                .putContentName("imageUri")
+                .putContentType("image"))
+
+        context.startActivity(shareIntent)
+    }
+
     override fun openCustomTabs(uri: String) {
         val builder = CustomTabsIntent.Builder().apply {
             setToolbarColor(getColor(context, R.color.colorPrimary))

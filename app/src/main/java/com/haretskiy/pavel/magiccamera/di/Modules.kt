@@ -42,6 +42,8 @@ val appModule: Module = applicationContext {
 
     bean { Room.databaseBuilder(androidApplication(), Database::class.java, DB_NAME).build() }
 
+    bean { ShareContainerImpl() as ShareContainer }
+
     bean { PhotoStoreImpl((get() as Database).photoStoreDao()) as PhotoStore }
     bean { BarCodeStoreImpl((get() as Database).barCodeDao()) as BarCodeStore }
     bean { Answers.getInstance() }
@@ -49,8 +51,8 @@ val appModule: Module = applicationContext {
     factory { DiffCallBack() }
 
     viewModel { LoginViewModel(get(), get(), get(), get(), get()) }
-    viewModel { GalleryViewModel(androidApplication(), get(), get(), get()) }
-    viewModel { SettingsViewModel(get(), get(), get(), get(), get()) }
+    viewModel { GalleryViewModel(androidApplication(), get(), get(), get(), get()) }
+    viewModel { SettingsViewModel(get(), get(), get(), get(), get(), get()) }
     viewModel { PhotoDetailViewModel(get(), get(), get(), get()) }
     viewModel { QrHistoryVewModel(get(), get(), get()) }
     viewModel { QrResultDetailViewModel(get(), get()) }
@@ -79,7 +81,7 @@ val utilsModule: Module = applicationContext {
     bean { RouterImpl(androidApplication(), get()) as Router }
     bean { Prefs(androidApplication()) }
     factory { Toaster(androidApplication()) }
-    factory { ImageSaverImpl(androidApplication(), get(), get(), get()) as ImageSaver }
+    factory { ImageSaverImpl(androidApplication(), get(), get(), get(), get()) as ImageSaver }
     factory { GlideImageLoaderImpl(androidApplication()) as ImageLoader }
     factory { PrinterImpl(androidApplication(), get()) as Printer }
 }

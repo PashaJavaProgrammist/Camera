@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager
 import com.google.firebase.auth.FirebaseAuth
 import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.storage.BarCodeStore
+import com.haretskiy.pavel.magiccamera.storage.ShareContainer
 import com.haretskiy.pavel.magiccamera.ui.dialogs.ClearDbDialog
 import com.haretskiy.pavel.magiccamera.ui.dialogs.DeleteAccountDialog
 import com.haretskiy.pavel.magiccamera.utils.ImageSaverImpl
@@ -19,7 +20,8 @@ class SettingsViewModel(private val mAuth: FirebaseAuth,
                         private val prefs: Prefs,
                         private val router: Router,
                         private val imageSaver: ImageSaver,
-                        private val barCodeStore: BarCodeStore) : ViewModel() {
+                        private val barCodeStore: BarCodeStore,
+                        private val shareContainer: ShareContainer) : ViewModel() {
 
     val userInfo: MutableLiveData<String> = MutableLiveData()
 
@@ -61,6 +63,7 @@ class SettingsViewModel(private val mAuth: FirebaseAuth,
     }
 
     fun signOut() {
+        shareContainer.clearContainer()
         prefs.setUserStateLogOut()
         router.startLoginActivity()
     }

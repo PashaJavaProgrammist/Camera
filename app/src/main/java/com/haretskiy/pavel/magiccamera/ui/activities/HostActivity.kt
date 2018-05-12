@@ -7,6 +7,7 @@ import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_FRAGMENT_ID
 import com.haretskiy.pavel.magiccamera.CAMERA_API2_CORE
 import com.haretskiy.pavel.magiccamera.CAMERA_VISION_CORE
 import com.haretskiy.pavel.magiccamera.R
+import com.haretskiy.pavel.magiccamera.storage.ShareContainer
 import com.haretskiy.pavel.magiccamera.ui.fragments.*
 import com.haretskiy.pavel.magiccamera.utils.Prefs
 import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
@@ -16,7 +17,7 @@ import org.koin.android.ext.android.inject
 class HostActivity : AppCompatActivity() {
 
     private var navFragId = R.id.navigation_camera
-
+    private val shareContainer: ShareContainer by inject()
     private val router: Router by inject()
     private val prefs: Prefs by inject()
 
@@ -70,6 +71,7 @@ class HostActivity : AppCompatActivity() {
 
     override fun onBackPressed() {
         super.onBackPressed()
+        shareContainer.clearContainer()
         finishAffinity()
     }
 

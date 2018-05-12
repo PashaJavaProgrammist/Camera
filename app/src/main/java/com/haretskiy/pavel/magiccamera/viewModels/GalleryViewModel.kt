@@ -2,12 +2,14 @@ package com.haretskiy.pavel.magiccamera.viewModels
 
 import android.app.Application
 import android.arch.lifecycle.AndroidViewModel
+import android.arch.lifecycle.MutableLiveData
 import android.arch.paging.LivePagedListBuilder
 import android.arch.paging.PagedList
 import android.os.Bundle
 import android.support.v4.app.FragmentManager
 import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.storage.PhotoStore
+import com.haretskiy.pavel.magiccamera.storage.ShareContainer
 import com.haretskiy.pavel.magiccamera.ui.dialogs.DeletePhotoDialog
 import com.haretskiy.pavel.magiccamera.utils.Prefs
 import com.haretskiy.pavel.magiccamera.utils.interfaces.DeleteListener
@@ -16,7 +18,15 @@ import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 class GalleryViewModel(app: Application,
                        private val photoStore: PhotoStore,
                        private val prefs: Prefs,
-                       private val router: Router) : AndroidViewModel(app) {
+                       private val router: Router,
+                       private val shareContainer: ShareContainer) : AndroidViewModel(app) {
+
+    val checkedPhotosData: MutableLiveData<Int> = MutableLiveData()
+
+    override fun onCleared() {
+        super.onCleared()
+        shareContainer.clearContainer()
+    }
 
     fun getAllUserPhotosLiveData() = LivePagedListBuilder(
             photoStore.getAllUserPhotosDataSourceFactory(prefs.getUserEmail()),
@@ -27,10 +37,6 @@ class GalleryViewModel(app: Application,
                     .setEnablePlaceholders(false)
                     .build())
             .build()
-
-    fun deletePhoto(fm: FragmentManager, uri: String) {
-        newDeleteDialogInstance(uri).show(fm, FRAGMENT_DIALOG_DELETE)
-    }
 
     fun deletePhoto(fm: FragmentManager, uri: String, listener: DeleteListener) {
         newDeleteDialogInstance(uri).show(fm, FRAGMENT_DIALOG_DELETE, listener)
@@ -51,6 +57,26 @@ class GalleryViewModel(app: Application,
 
     fun turnOffQrDetector() {
         prefs.turnOnQRDetector(false)
+    }
+
+    fun fillShareContainer(uri: String, listener: OnCheckedListener) {
+        if (shareContainer.isContains(uri)) {
+            shareContainer.removeItem(uri)
+            listener.onUnchecked()
+        } else {
+            shareContainer.addItem(uri)
+            listener.onChecked()
+        }
+        checkedPhotosData.postValue(shareContainer.getCountOfItems())
+    }
+
+    fun isPhotoCheckedToShare(uri: String) = shareContainer.isContains(uri)
+
+    fun isPhotosChecked() = shareContainer.isItemChecked()
+
+    interface OnCheckedListener {
+        fun onChecked()
+        fun onUnchecked()
     }
 
 }

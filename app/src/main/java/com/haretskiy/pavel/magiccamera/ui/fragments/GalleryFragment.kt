@@ -28,11 +28,21 @@ class GalleryFragment : Fragment(), PhotoGallery {
     private val diffCallBack: DiffCallBack by inject()
     private val imageLoader: ImageLoader by inject()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        galleryViewModel.checkedPhotosData.observe(this, Observer {
+            if (it != null) {
+                showActionButtons(it)
+            }
+        })
+    }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater.inflate(R.layout.fragment_gallery, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        showActionButtons()
         val c = context
         if (c != null) {
             rcv_gallery_list.layoutManager = AutoFitGridLayoutManager(
@@ -91,9 +101,25 @@ class GalleryFragment : Fragment(), PhotoGallery {
         galleryViewModel.runDetailActivity(uri, date)
     }
 
-    override fun onLongClickPhoto(uri: String): Boolean {
-        galleryViewModel.deletePhoto(childFragmentManager, uri)
+    override fun onLongClickPhoto(uri: String, listener: GalleryViewModel.OnCheckedListener): Boolean {
+        galleryViewModel.fillShareContainer(uri, listener)
         return true
+    }
+
+    override fun isPhotoCheckedToShare(uri: String) = galleryViewModel.isPhotoCheckedToShare(uri)
+
+    private fun showActionButtons(count: Int) {
+        actions_container.visibility = when {
+            count > 0 -> View.VISIBLE
+            else -> View.GONE
+        }
+    }
+
+    private fun showActionButtons() {
+        actions_container.visibility = when {
+            galleryViewModel.isPhotosChecked() -> View.VISIBLE
+            else -> View.GONE
+        }
     }
 
 }

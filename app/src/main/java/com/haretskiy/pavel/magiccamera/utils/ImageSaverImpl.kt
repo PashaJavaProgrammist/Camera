@@ -8,6 +8,7 @@ import android.support.annotation.RequiresApi
 import android.util.Log
 import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.storage.PhotoStore
+import com.haretskiy.pavel.magiccamera.storage.ShareContainer
 import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageSaver
 import java.io.File
 import java.io.FileOutputStream
@@ -17,7 +18,8 @@ import java.io.IOException
 class ImageSaverImpl(private val context: Context,
                      private val toaster: Toaster,
                      private val prefs: Prefs,
-                     private val photoStore: PhotoStore) : ImageSaver {
+                     private val photoStore: PhotoStore,
+                     private val shareContainer: ShareContainer) : ImageSaver {
 
     override fun createFile() = File(context.getExternalFilesDir(null), "${prefs.getUserEmail()}_${System.currentTimeMillis()}$PIC_FILE_NAME")
 
@@ -76,6 +78,9 @@ class ImageSaverImpl(private val context: Context,
             try {
                 val file = File(uri)
                 file.delete()
+                if (shareContainer.isContains(uri)) {
+                    shareContainer.removeItem(uri)
+                }
                 photoStore.deletePhoto(uri)
                 if (uri == prefs.getLastPhotoUri(userEmail)) {
                     prefs.saveLastPhotoUri(userEmail, EMPTY_STRING)
@@ -93,6 +98,7 @@ class ImageSaverImpl(private val context: Context,
                 val list = photoStore.getAllUserPhotosList(email).map { it.uri }
                 for (uriFile in list) {
                     File(uriFile).delete()
+                    shareContainer.clearContainer()
                     photoStore.deletePhotoSync(uriFile)
                 }
                 prefs.saveLastPhotoUri(prefs.getUserEmail(), EMPTY_STRING)
