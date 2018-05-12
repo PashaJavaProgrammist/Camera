@@ -99,6 +99,12 @@ class GalleryFragment : Fragment(), PhotoGallery {
             })
         }
 
+        bt_unchecked_all.setOnClickListener {
+            galleryViewModel.clearCheckedItems()
+            showActionButtons()
+            galleryAdapter.notifyDataSetChanged()
+        }
+
         initTouchListener()
     }
 

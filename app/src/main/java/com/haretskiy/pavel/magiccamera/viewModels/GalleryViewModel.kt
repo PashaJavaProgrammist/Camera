@@ -84,6 +84,10 @@ class GalleryViewModel(app: Application,
         router.shareImages(shareContainer.getAllUris())
     }
 
+    fun clearCheckedItems() {
+        shareContainer.clearContainer()
+    }
+
     interface OnCheckedListener {
         fun onChecked()
         fun onUnchecked()
