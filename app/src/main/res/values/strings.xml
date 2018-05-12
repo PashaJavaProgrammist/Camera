@@ -27,6 +27,7 @@
     <string name="photo">photo</string>
     <string name="log_out">Log Out</string>
     <string name="delete_this_photo">Delete this photo?</string>
+    <string name="delete_this_photos">Delete this photos?</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="content">Content</string>
@@ -65,5 +66,6 @@
     <string name="pilot">This core in development. Pilot mode. To make full use of the application, use google vision core.</string>
     <string name="qr_scanned">QR code is scanned</string>
     <string name="res">result</string>
+    <string name="photos_ch_del">Photos are successfully deleted</string>
 
 </resources>

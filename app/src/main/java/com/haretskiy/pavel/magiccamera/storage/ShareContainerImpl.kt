@@ -21,4 +21,6 @@ class ShareContainerImpl : ShareContainer {
     override fun isItemChecked() = urisToMultiShare.size > 0
 
     override fun getCountOfItems(): Int = urisToMultiShare.size
+
+    override fun getAllUris() = urisToMultiShare
 }

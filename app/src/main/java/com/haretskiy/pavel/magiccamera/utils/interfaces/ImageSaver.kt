@@ -11,4 +11,5 @@ interface ImageSaver {
     fun saveImage(image: Image, file: File, listener: ImageSaverImpl.CreatingListener)
     fun deleteFile(uri: String)
     fun deleteAllUserPhotos(email: String, listener: ImageSaverImpl.DeletingListener)
+    fun deletePhotos(listOfUris: ArrayList<String>, listener: ImageSaverImpl.DeletingListener)
 }

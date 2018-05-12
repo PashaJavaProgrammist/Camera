@@ -16,6 +16,8 @@ import com.haretskiy.pavel.magiccamera.ui.views.PhotoGallery
 import com.haretskiy.pavel.magiccamera.ui.views.PhotoHolder
 import com.haretskiy.pavel.magiccamera.utils.AutoFitGridLayoutManager
 import com.haretskiy.pavel.magiccamera.utils.DiffCallBack
+import com.haretskiy.pavel.magiccamera.utils.ImageSaverImpl
+import com.haretskiy.pavel.magiccamera.utils.Toaster
 import com.haretskiy.pavel.magiccamera.utils.interfaces.DeleteListener
 import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageLoader
 import com.haretskiy.pavel.magiccamera.viewModels.GalleryViewModel
@@ -27,6 +29,9 @@ class GalleryFragment : Fragment(), PhotoGallery {
     private val galleryViewModel: GalleryViewModel by inject()
     private val diffCallBack: DiffCallBack by inject()
     private val imageLoader: ImageLoader by inject()
+    private val toaster: Toaster by inject()
+
+    private val galleryAdapter = GalleryPhotoAdapter(diffCallBack, imageLoader, this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +56,7 @@ class GalleryFragment : Fragment(), PhotoGallery {
                     resources.getDimension(R.dimen.card_width).toInt(),
                     GridLayoutManager.VERTICAL, false)
         }
-        val galleryAdapter = GalleryPhotoAdapter(diffCallBack, imageLoader, this)
+
         rcv_gallery_list.adapter = galleryAdapter
 
         galleryViewModel.getAllUserPhotosLiveData().observe(this, Observer { galleryAdapter.submitList(it) })
@@ -73,6 +78,42 @@ class GalleryFragment : Fragment(), PhotoGallery {
             (activity as HostActivity).selectItemCamera()
         }
 
+        bt_share.setOnClickListener {
+            //todo
+        }
+
+        bt_delete_photos.setOnClickListener {
+            galleryViewModel.deleteSelectedPhotos(childFragmentManager, object : ImageSaverImpl.DeletingListener {
+                override fun onSuccess() {
+                    activity?.runOnUiThread {
+                        toaster.showToast(getString(R.string.photos_ch_del), false)
+                        showActionButtons()
+                    }
+                }
+
+                override fun onError(errorMessage: String) {
+                    activity?.runOnUiThread {
+                        toaster.showToast(errorMessage, false)
+                    }
+                }
+            })
+        }
+
+        initTouchListener()
+    }
+
+    override fun onClickPhoto(uri: String, date: Long) {
+        galleryViewModel.runDetailActivity(uri, date)
+    }
+
+    override fun onLongClickPhoto(uri: String, listener: GalleryViewModel.OnCheckedListener): Boolean {
+        galleryViewModel.fillShareContainer(uri, listener)
+        return true
+    }
+
+    override fun isPhotoCheckedToShare(uri: String) = galleryViewModel.isPhotoCheckedToShare(uri)
+
+    private fun initTouchListener() {
         ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
 
             override fun onMove(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder?, target: RecyclerView.ViewHolder?) = false
@@ -96,17 +137,6 @@ class GalleryFragment : Fragment(), PhotoGallery {
             attachToRecyclerView(rcv_gallery_list)
         }
     }
-
-    override fun onClickPhoto(uri: String, date: Long) {
-        galleryViewModel.runDetailActivity(uri, date)
-    }
-
-    override fun onLongClickPhoto(uri: String, listener: GalleryViewModel.OnCheckedListener): Boolean {
-        galleryViewModel.fillShareContainer(uri, listener)
-        return true
-    }
-
-    override fun isPhotoCheckedToShare(uri: String) = galleryViewModel.isPhotoCheckedToShare(uri)
 
     private fun showActionButtons(count: Int) {
         actions_container.visibility = when {

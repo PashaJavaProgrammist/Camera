@@ -7,4 +7,5 @@ interface ShareContainer {
     fun clearContainer()
     fun isItemChecked(): Boolean
     fun getCountOfItems(): Int
+    fun getAllUris(): ArrayList<String>
 }

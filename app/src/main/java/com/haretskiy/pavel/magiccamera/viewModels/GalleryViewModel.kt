@@ -11,6 +11,8 @@ import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.storage.PhotoStore
 import com.haretskiy.pavel.magiccamera.storage.ShareContainer
 import com.haretskiy.pavel.magiccamera.ui.dialogs.DeletePhotoDialog
+import com.haretskiy.pavel.magiccamera.ui.dialogs.DeletePhotosDialog
+import com.haretskiy.pavel.magiccamera.utils.ImageSaverImpl
 import com.haretskiy.pavel.magiccamera.utils.Prefs
 import com.haretskiy.pavel.magiccamera.utils.interfaces.DeleteListener
 import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
@@ -73,6 +75,10 @@ class GalleryViewModel(app: Application,
     fun isPhotoCheckedToShare(uri: String) = shareContainer.isContains(uri)
 
     fun isPhotosChecked() = shareContainer.isItemChecked()
+
+    fun deleteSelectedPhotos(fm: FragmentManager, listener: ImageSaverImpl.DeletingListener) {
+        DeletePhotosDialog().show(fm, DELETE_PHOTOS_DIALOG, listener)
+    }
 
     interface OnCheckedListener {
         fun onChecked()

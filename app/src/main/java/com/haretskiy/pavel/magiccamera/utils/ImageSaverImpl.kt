@@ -92,16 +92,34 @@ class ImageSaverImpl(private val context: Context,
         }
     }
 
+    override fun deletePhotos(listOfUris: ArrayList<String>, listener: DeletingListener) {
+        Thread {
+            try {
+                val lastPhotoUri = prefs.getLastPhotoUri(prefs.getUserEmail())
+
+                for (uriFile in listOfUris) {
+                    File(uriFile).delete()
+                    photoStore.deletePhotoSync(uriFile)
+                    if (uriFile == lastPhotoUri) prefs.saveLastPhotoUri(prefs.getUserEmail(), EMPTY_STRING)
+                }
+                shareContainer.clearContainer()
+                listener.onSuccess()
+            } catch (ex: Exception) {
+                listener.onError(ex.message.toString())
+            }
+        }.start()
+    }
+
     override fun deleteAllUserPhotos(email: String, listener: DeletingListener) {
         Thread {
             try {
                 val list = photoStore.getAllUserPhotosList(email).map { it.uri }
                 for (uriFile in list) {
                     File(uriFile).delete()
-                    shareContainer.clearContainer()
                     photoStore.deletePhotoSync(uriFile)
                 }
                 prefs.saveLastPhotoUri(prefs.getUserEmail(), EMPTY_STRING)
+                shareContainer.clearContainer()
                 listener.onSuccess()
             } catch (ex: Exception) {
                 listener.onError(ex.message.toString())
