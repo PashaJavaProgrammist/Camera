@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     android:layout_marginBottom="@dimen/bottom_navigation_size"
     android:background="@color/grey_light"
+    android:animateLayoutChanges="true"
     tools:context=".ui.fragments.GalleryFragment">
 
     <android.support.v7.widget.RecyclerView

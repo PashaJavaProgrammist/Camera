@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.haretskiy.pavel.magiccamera.R
 import com.haretskiy.pavel.magiccamera.adapters.QrHistoryAdapter
+import com.haretskiy.pavel.magiccamera.convertToDate
 import com.haretskiy.pavel.magiccamera.ui.activities.HostActivity
 import com.haretskiy.pavel.magiccamera.ui.views.QRHistory
 import com.haretskiy.pavel.magiccamera.ui.views.QrHistoryHolder
@@ -70,7 +71,7 @@ class QrHistoryFragment : Fragment(), QRHistory {
                 if (direction == ItemTouchHelper.LEFT) {
                     qrHistoryVewModel.deleteQrCodeFromDB(
                             childFragmentManager,
-                            (viewHolder as QrHistoryHolder).barCodeContent,
+                            (viewHolder as QrHistoryHolder).barCode.code,
                             object : DeleteListener {
                                 override fun onConfirm() {}
 
@@ -84,6 +85,26 @@ class QrHistoryFragment : Fragment(), QRHistory {
         }).apply {
             attachToRecyclerView(rv_qr_history)
         }
+
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+
+            override fun onMove(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder?, target: RecyclerView.ViewHolder?) = false
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                val holder = viewHolder as QrHistoryHolder
+                if (direction == ItemTouchHelper.RIGHT) {
+                    qrHistoryVewModel.startBarcodeActivity(holder.barCode.code, holder.barCode.date.convertToDate())
+                }
+            }
+
+        }).apply {
+            attachToRecyclerView(rv_qr_history)
+        }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        adapter?.notifyDataSetChanged()
     }
 
     override fun onClickHistoryItem(content: String, date: String, contentView: TextView, dateView: TextView) {
