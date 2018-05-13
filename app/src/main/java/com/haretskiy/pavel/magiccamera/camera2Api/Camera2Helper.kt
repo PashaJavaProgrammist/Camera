@@ -36,7 +36,7 @@ class Camera2Helper(
 
     var texture: AutoFitTextureView? = null
     var sizesOfScreen: Array<Size> = arrayOf()
-    var creatingListener = object : ImageSaverImpl.CreatingListener {
+    var creatingListener = object : ImageSaverImpl.SavingPhotoListener {
         override fun onSuccess() {}
 
         override fun onError(errorMessage: String) {}

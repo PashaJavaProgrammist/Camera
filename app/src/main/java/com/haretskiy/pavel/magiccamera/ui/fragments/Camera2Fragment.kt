@@ -71,7 +71,7 @@ class Camera2Fragment : Fragment(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         camera2Helper.getAvailableCameras()
         camera2Helper.currentCameraID = prefs.getCameraId()
-        camera2Helper.creatingListener = object : ImageSaverImpl.CreatingListener {
+        camera2Helper.creatingListener = object : ImageSaverImpl.SavingPhotoListener {
             override fun onSuccess() {
                 activity?.runOnUiThread { imageLoader.loadRoundImageIntoView(last_photo_image, prefs.getLastPhotoUri(prefs.getUserEmail())) }
             }

@@ -46,7 +46,7 @@ class SettingsViewModel(private val mAuth: FirebaseAuth,
 
                 barCodeStore.deleteAllUserCodes(prefs.getUserEmail())
 
-                imageSaver.deleteAllUserPhotos(prefs.getUserEmail(), object : ImageSaverImpl.DeletingListener {
+                imageSaver.deleteAllUserPhotos(prefs.getUserEmail(), object : ImageSaverImpl.DeletingPhotoListener {
                     override fun onSuccess() {
                         activity.runOnUiThread {
                             userInfo.postValue(SIGN_OUT_CODE)

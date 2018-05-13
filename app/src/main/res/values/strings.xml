@@ -67,5 +67,9 @@
     <string name="qr_scanned">QR code is scanned</string>
     <string name="res">result</string>
     <string name="photos_ch_del">Photos are successfully deleted</string>
+    <string name="delete">Delete</string>
+    <string name="share_low">Share</string>
+    <string name="select_all">Select all</string>
+    <string name="unselect_all">Remove selection</string>
 
 </resources>

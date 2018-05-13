@@ -43,7 +43,7 @@ class ClearDbDialog : DialogFragment() {
                                 toaster.showToast(getString(R.string.all_codes_delete), false)
                             }
                             TYPE_PHOTO -> {
-                                imageSaver.deleteAllUserPhotos(prefs.getUserEmail(), object : ImageSaverImpl.DeletingListener {
+                                imageSaver.deleteAllUserPhotos(prefs.getUserEmail(), object : ImageSaverImpl.DeletingPhotoListener {
                                     override fun onSuccess() {
                                         activity?.runOnUiThread {
                                             toaster.showToast(getString(R.string.all_photos_are_deleted), false)

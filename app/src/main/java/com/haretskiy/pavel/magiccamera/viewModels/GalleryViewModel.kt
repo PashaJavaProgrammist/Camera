@@ -8,6 +8,7 @@ import android.arch.paging.PagedList
 import android.os.Bundle
 import android.support.v4.app.FragmentManager
 import com.haretskiy.pavel.magiccamera.*
+import com.haretskiy.pavel.magiccamera.models.Photo
 import com.haretskiy.pavel.magiccamera.storage.PhotoStore
 import com.haretskiy.pavel.magiccamera.storage.ShareContainer
 import com.haretskiy.pavel.magiccamera.ui.dialogs.DeletePhotoDialog
@@ -24,6 +25,8 @@ class GalleryViewModel(app: Application,
                        private val shareContainer: ShareContainer) : AndroidViewModel(app) {
 
     val checkedPhotosData: MutableLiveData<Int> = MutableLiveData()
+
+    var listOfPhotos = emptyList<Photo>()
 
     override fun onCleared() {
         super.onCleared()
@@ -61,7 +64,7 @@ class GalleryViewModel(app: Application,
         prefs.turnOnQRDetector(false)
     }
 
-    fun fillShareContainer(uri: String, listener: OnCheckedListener) {
+    fun fillShareContainer(uri: String, listener: OnSelectedPhotoListener) {
         if (shareContainer.isContains(uri)) {
             shareContainer.removeItem(uri)
             listener.onUnchecked()
@@ -72,11 +75,11 @@ class GalleryViewModel(app: Application,
         checkedPhotosData.postValue(shareContainer.getCountOfItems())
     }
 
-    fun isPhotoCheckedToShare(uri: String) = shareContainer.isContains(uri)
+    fun isPhotoAlreadySelected(uri: String) = shareContainer.isContains(uri)
 
-    fun isPhotosChecked() = shareContainer.isItemChecked()
+    fun isAtLeastOnePhotoSelected() = shareContainer.isAtLeastOnePhotoSelected()
 
-    fun deleteSelectedPhotos(fm: FragmentManager, listener: ImageSaverImpl.DeletingListener) {
+    fun deleteSelectedPhotos(fm: FragmentManager, listener: ImageSaverImpl.DeletingPhotoListener) {
         DeletePhotosDialog().show(fm, DELETE_PHOTOS_DIALOG, listener)
     }
 
@@ -84,11 +87,17 @@ class GalleryViewModel(app: Application,
         router.shareImages(shareContainer.getAllUris())
     }
 
-    fun clearCheckedItems() {
+    fun clearSelectedItems() {
         shareContainer.clearContainer()
     }
 
-    interface OnCheckedListener {
+    fun selectAllItems() {
+        shareContainer.selectAll(listOfPhotos)
+    }
+
+    fun allItemsSelected() = listOfPhotos.size == shareContainer.getCountOfItems()
+
+    interface OnSelectedPhotoListener {
         fun onChecked()
         fun onUnchecked()
     }

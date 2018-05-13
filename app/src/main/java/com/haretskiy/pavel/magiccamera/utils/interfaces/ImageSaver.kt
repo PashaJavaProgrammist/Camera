@@ -8,8 +8,8 @@ interface ImageSaver {
 
     fun createFile(): File
     fun saveImage(data: ByteArray)
-    fun saveImage(image: Image, file: File, listener: ImageSaverImpl.CreatingListener)
+    fun saveImage(image: Image, file: File, listener: ImageSaverImpl.SavingPhotoListener)
     fun deleteFile(uri: String)
-    fun deleteAllUserPhotos(email: String, listener: ImageSaverImpl.DeletingListener)
-    fun deletePhotos(listOfUris: ArrayList<String>, listener: ImageSaverImpl.DeletingListener)
+    fun deleteAllUserPhotos(email: String, listener: ImageSaverImpl.DeletingPhotoListener)
+    fun deletePhotos(listOfUris: ArrayList<String>, listener: ImageSaverImpl.DeletingPhotoListener)
 }

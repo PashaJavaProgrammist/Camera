@@ -22,6 +22,7 @@ import com.haretskiy.pavel.magiccamera.utils.interfaces.DeleteListener
 import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageLoader
 import com.haretskiy.pavel.magiccamera.viewModels.GalleryViewModel
 import kotlinx.android.synthetic.main.fragment_gallery.*
+import kotlinx.android.synthetic.main.item_actions.*
 import org.koin.android.ext.android.inject
 
 class GalleryFragment : Fragment(), PhotoGallery {
@@ -59,7 +60,12 @@ class GalleryFragment : Fragment(), PhotoGallery {
 
         rcv_gallery_list.adapter = galleryAdapter
 
-        galleryViewModel.getAllUserPhotosLiveData().observe(this, Observer { galleryAdapter.submitList(it) })
+        galleryViewModel.getAllUserPhotosLiveData().observe(this, Observer {
+            if (it != null) {
+                galleryAdapter.submitList(it)
+                galleryViewModel.listOfPhotos = it.toMutableList()
+            }
+        })
 
         rcv_gallery_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
@@ -83,7 +89,7 @@ class GalleryFragment : Fragment(), PhotoGallery {
         }
 
         bt_delete_photos.setOnClickListener {
-            galleryViewModel.deleteSelectedPhotos(childFragmentManager, object : ImageSaverImpl.DeletingListener {
+            galleryViewModel.deleteSelectedPhotos(childFragmentManager, object : ImageSaverImpl.DeletingPhotoListener {
                 override fun onSuccess() {
                     activity?.runOnUiThread {
                         toaster.showToast(getString(R.string.photos_ch_del), false)
@@ -100,9 +106,11 @@ class GalleryFragment : Fragment(), PhotoGallery {
         }
 
         bt_unchecked_all.setOnClickListener {
-            galleryViewModel.clearCheckedItems()
-            showActionButtons()
-            galleryAdapter.notifyDataSetChanged()
+            if (galleryViewModel.allItemsSelected()) {
+                unSelectAll()
+            } else {
+                selectAll()
+            }
         }
 
         initTouchListener()
@@ -112,12 +120,26 @@ class GalleryFragment : Fragment(), PhotoGallery {
         galleryViewModel.runDetailActivity(uri, date)
     }
 
-    override fun onLongClickPhoto(uri: String, listener: GalleryViewModel.OnCheckedListener): Boolean {
+    override fun onLongClickPhoto(uri: String, listener: GalleryViewModel.OnSelectedPhotoListener): Boolean {
         galleryViewModel.fillShareContainer(uri, listener)
         return true
     }
 
-    override fun isPhotoCheckedToShare(uri: String) = galleryViewModel.isPhotoCheckedToShare(uri)
+    override fun isPhotoCheckedToShare(uri: String) = galleryViewModel.isPhotoAlreadySelected(uri)
+
+    private fun selectAll() {
+        galleryViewModel.selectAllItems()
+        showActionButtons()
+        tv_action_select_photos.setText(R.string.unselect_all)
+        galleryAdapter.notifyDataSetChanged()
+    }
+
+    private fun unSelectAll() {
+        galleryViewModel.clearSelectedItems()
+        showActionButtons()
+        tv_action_select_photos.setText(R.string.select_all)
+        galleryAdapter.notifyDataSetChanged()
+    }
 
     private fun initTouchListener() {
         ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
@@ -153,7 +175,7 @@ class GalleryFragment : Fragment(), PhotoGallery {
 
     private fun showActionButtons() {
         actions_container.visibility = when {
-            galleryViewModel.isPhotosChecked() -> View.VISIBLE
+            galleryViewModel.isAtLeastOnePhotoSelected() -> View.VISIBLE
             else -> View.GONE
         }
     }

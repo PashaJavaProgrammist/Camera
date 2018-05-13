@@ -1,5 +1,7 @@
 package com.haretskiy.pavel.magiccamera.storage
 
+import com.haretskiy.pavel.magiccamera.models.Photo
+
 class ShareContainerImpl : ShareContainer {
 
     private var urisToMultiShare = ArrayList<String>()
@@ -18,9 +20,17 @@ class ShareContainerImpl : ShareContainer {
         urisToMultiShare.clear()
     }
 
-    override fun isItemChecked() = urisToMultiShare.size > 0
+    override fun isAtLeastOnePhotoSelected() = urisToMultiShare.size > 0
 
     override fun getCountOfItems(): Int = urisToMultiShare.size
 
     override fun getAllUris() = urisToMultiShare
+
+    override fun selectAll(listOfPhotos: List<Photo>) {
+        for (item in listOfPhotos) {
+            if (!urisToMultiShare.contains(item.uri)) {
+                urisToMultiShare.add(item.uri)
+            }
+        }
+    }
 }

@@ -16,7 +16,7 @@ class DeletePhotosDialog : DialogFragment() {
     private val shareContainer: ShareContainer by inject()
     private val imageSaver: ImageSaver by inject()
 
-    private var listener: ImageSaverImpl.DeletingListener = object : ImageSaverImpl.DeletingListener {
+    private var listener: ImageSaverImpl.DeletingPhotoListener = object : ImageSaverImpl.DeletingPhotoListener {
         override fun onSuccess() {}
         override fun onError(errorMessage: String) {}
     }
@@ -37,7 +37,7 @@ class DeletePhotosDialog : DialogFragment() {
                     }
                     .create()
 
-    fun show(manager: FragmentManager?, tag: String?, listener: ImageSaverImpl.DeletingListener) {
+    fun show(manager: FragmentManager?, tag: String?, listener: ImageSaverImpl.DeletingPhotoListener) {
         this.listener = listener
         show(manager, tag)
     }

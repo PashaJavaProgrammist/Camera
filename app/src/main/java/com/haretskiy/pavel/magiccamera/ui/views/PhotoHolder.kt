@@ -34,7 +34,7 @@ class PhotoHolder(
         })
 
         cardView.iv_photo_item.setOnLongClickListener({
-            photoGallery.onLongClickPhoto(uri, object : GalleryViewModel.OnCheckedListener {
+            photoGallery.onLongClickPhoto(uri, object : GalleryViewModel.OnSelectedPhotoListener {
                 override fun onChecked() {
                     cardView.share_check.visibility = View.VISIBLE
                 }

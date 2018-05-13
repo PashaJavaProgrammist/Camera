@@ -24,7 +24,7 @@ class ImageSaverImpl(private val context: Context,
     override fun createFile() = File(context.getExternalFilesDir(null), "${prefs.getUserEmail()}_${System.currentTimeMillis()}$PIC_FILE_NAME")
 
     @RequiresApi(Build.VERSION_CODES.KITKAT)
-    override fun saveImage(image: Image, file: File, listener: CreatingListener) {
+    override fun saveImage(image: Image, file: File, listener: SavingPhotoListener) {
         Handler().post({
             val buffer = image.planes[0].buffer
             val bytes = ByteArray(buffer.remaining())
@@ -92,7 +92,7 @@ class ImageSaverImpl(private val context: Context,
         }
     }
 
-    override fun deletePhotos(listOfUris: ArrayList<String>, listener: DeletingListener) {
+    override fun deletePhotos(listOfUris: ArrayList<String>, listener: DeletingPhotoListener) {
         Thread {
             try {
                 val lastPhotoUri = prefs.getLastPhotoUri(prefs.getUserEmail())
@@ -110,7 +110,7 @@ class ImageSaverImpl(private val context: Context,
         }.start()
     }
 
-    override fun deleteAllUserPhotos(email: String, listener: DeletingListener) {
+    override fun deleteAllUserPhotos(email: String, listener: DeletingPhotoListener) {
         Thread {
             try {
                 val list = photoStore.getAllUserPhotosList(email).map { it.uri }
@@ -127,12 +127,12 @@ class ImageSaverImpl(private val context: Context,
         }.start()
     }
 
-    interface DeletingListener {
+    interface DeletingPhotoListener {
         fun onSuccess()
         fun onError(errorMessage: String)
     }
 
-    interface CreatingListener {
+    interface SavingPhotoListener {
         fun onSuccess()
         fun onError(errorMessage: String)
     }
