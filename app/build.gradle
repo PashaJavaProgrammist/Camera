@@ -10,8 +10,8 @@ android {
         applicationId "com.haretskiy.pavel.magiccamera"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 3
-        versionName "2.5"
+        versionCode 4
+        versionName "2.6"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
