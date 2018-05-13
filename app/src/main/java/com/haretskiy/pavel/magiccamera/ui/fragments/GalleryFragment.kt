@@ -3,6 +3,7 @@ package com.haretskiy.pavel.magiccamera.ui.fragments
 import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v4.content.ContextCompat.getDrawable
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
@@ -106,7 +107,7 @@ class GalleryFragment : Fragment(), PhotoGallery {
         }
 
         bt_unchecked_all.setOnClickListener {
-            if (galleryViewModel.allItemsSelected()) {
+            if (galleryViewModel.isAllItemsSelected()) {
                 unSelectAll()
             } else {
                 selectAll()
@@ -122,6 +123,7 @@ class GalleryFragment : Fragment(), PhotoGallery {
 
     override fun onLongClickPhoto(uri: String, listener: GalleryViewModel.OnSelectedPhotoListener): Boolean {
         galleryViewModel.fillShareContainer(uri, listener)
+        setActionSelectDrawable()
         return true
     }
 
@@ -130,6 +132,7 @@ class GalleryFragment : Fragment(), PhotoGallery {
     private fun selectAll() {
         galleryViewModel.selectAllItems()
         showActionButtons()
+        bt_unchecked_all.setImageDrawable(context?.let { getDrawable(it, R.drawable.ic_unselect_all) })
         tv_action_select_photos.setText(R.string.unselect_all)
         galleryAdapter.notifyDataSetChanged()
     }
@@ -137,6 +140,7 @@ class GalleryFragment : Fragment(), PhotoGallery {
     private fun unSelectAll() {
         galleryViewModel.clearSelectedItems()
         showActionButtons()
+        bt_unchecked_all.setImageDrawable(context?.let { getDrawable(it, R.drawable.ic_select_all) })
         tv_action_select_photos.setText(R.string.select_all)
         galleryAdapter.notifyDataSetChanged()
     }
@@ -163,6 +167,16 @@ class GalleryFragment : Fragment(), PhotoGallery {
 
         }).apply {
             attachToRecyclerView(rcv_gallery_list)
+        }
+    }
+
+    private fun setActionSelectDrawable() {
+        if (galleryViewModel.isAllItemsSelected()) {
+            bt_unchecked_all.setImageDrawable(context?.let { getDrawable(it, R.drawable.ic_unselect_all) })
+            tv_action_select_photos.setText(R.string.unselect_all)
+        } else {
+            bt_unchecked_all.setImageDrawable(context?.let { getDrawable(it, R.drawable.ic_select_all) })
+            tv_action_select_photos.setText(R.string.select_all)
         }
     }
 

@@ -95,7 +95,7 @@ class GalleryViewModel(app: Application,
         shareContainer.selectAll(listOfPhotos)
     }
 
-    fun allItemsSelected() = listOfPhotos.size == shareContainer.getCountOfItems()
+    fun isAllItemsSelected() = listOfPhotos.size == shareContainer.getCountOfItems()
 
     interface OnSelectedPhotoListener {
         fun onChecked()

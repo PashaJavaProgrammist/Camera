@@ -30,7 +30,7 @@ class HostActivity : AppCompatActivity() {
             }
             R.id.navigation_camera -> {
                 navFragId = R.id.navigation_camera
-
+                shareContainer.clearContainer()
                 val fragment = when (prefs.getCameraCoreId()) {
                     CAMERA_VISION_CORE -> GoogleVisionFragment()
                     CAMERA_API2_CORE -> Camera2Fragment()
@@ -41,11 +41,13 @@ class HostActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_qr_history -> {
+                shareContainer.clearContainer()
                 navFragId = R.id.navigation_qr_history
                 router.doFragmentTransaction(QrHistoryFragment(), supportFragmentManager, R.id.frame_for_fragments)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_settings -> {
+                shareContainer.clearContainer()
                 navFragId = R.id.navigation_settings
                 router.doFragmentTransaction(SettingsFragment(), supportFragmentManager, R.id.frame_for_fragments)
                 return@OnNavigationItemSelectedListener true
