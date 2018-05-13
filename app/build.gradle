@@ -29,12 +29,14 @@ android {
     buildTypes {
 
         debug {
+            shrinkResources false
             debuggable true
             ext.enableCrashlytics = false
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         release {
+            shrinkResources true
             debuggable false
             ext.enableCrashlytics = true
             minifyEnabled true
@@ -91,6 +93,7 @@ dependencies {
     implementation "com.android.support:customtabs:$support_version"
     //Tests
     testImplementation 'junit:junit:4.12'
+    testImplementation "org.mockito:mockito-core:2.18.0"
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 }
