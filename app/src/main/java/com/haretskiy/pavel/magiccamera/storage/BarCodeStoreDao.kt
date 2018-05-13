@@ -16,6 +16,9 @@ interface BarCodeStoreDao {
     @Query("SELECT * FROM barcodes WHERE userEmail = :userMail ORDER BY date DESC")
     fun getAllUserCodes(userMail: String): LiveData<List<BarCode>>
 
+    @Query("SELECT * FROM barcodes WHERE userEmail = :userMail ORDER BY date DESC")
+    fun getAllUserCodesList(userMail: String): List<BarCode>
+
     @Query("DELETE FROM barcodes WHERE code = :code")
     fun deleteByCode(code: String)
 
