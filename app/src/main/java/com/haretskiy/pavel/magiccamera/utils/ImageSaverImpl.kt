@@ -37,7 +37,7 @@ class ImageSaverImpl(private val context: Context,
                 prefs.saveLastPhotoUri(prefs.getUserEmail(), file.absolutePath)
                 photoStore.savePhoto(file.absolutePath, System.currentTimeMillis(), prefs.getUserEmail())
                 listener.onSuccess()
-                toaster.showToast("$SUCCESSFUL_SAVING$file$SIZE_FILE${file.length() / 1024}$KILOBYTES", false)
+//                toaster.showToast("$SUCCESSFUL_SAVING$file$SIZE_FILE${file.length() / 1024}$KILOBYTES", false)
             } catch (e: IOException) {
                 listener.onError(e.message.toString())
                 toaster.showToast("$ERROR_SAVING${e.message}", false)
@@ -64,7 +64,7 @@ class ImageSaverImpl(private val context: Context,
                 fos.close()
                 prefs.saveLastPhotoUri(prefs.getUserEmail(), file.absolutePath)
                 photoStore.savePhoto(file.absolutePath, System.currentTimeMillis(), prefs.getUserEmail())
-                toaster.showToast("$SUCCESSFUL_SAVING$file$SIZE_FILE${file.length() / 1024}$KILOBYTES", false)
+//                toaster.showToast("$SUCCESSFUL_SAVING$file$SIZE_FILE${file.length() / 1024}$KILOBYTES", false)
             } catch (e: Exception) {
                 toaster.showToast("$ERROR_SAVING${e.message}", false)
                 e.printStackTrace()
