@@ -24,7 +24,7 @@ class GalleryViewModel(app: Application,
                        private val router: Router,
                        private val shareContainer: ShareContainer) : AndroidViewModel(app) {
 
-    val checkedPhotosData: MutableLiveData<Int> = MutableLiveData()
+    val selectedPhotosData: MutableLiveData<Int> = MutableLiveData()
 
     var listOfPhotos = emptyList<Photo>()
 
@@ -72,7 +72,7 @@ class GalleryViewModel(app: Application,
             shareContainer.addItem(uri)
             listener.onChecked()
         }
-        checkedPhotosData.postValue(shareContainer.getCountOfItems())
+        selectedPhotosData.postValue(shareContainer.getCountOfItems())
     }
 
     fun isPhotoAlreadySelected(uri: String) = shareContainer.isContains(uri)

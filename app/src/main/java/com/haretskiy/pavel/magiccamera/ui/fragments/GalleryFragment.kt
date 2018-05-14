@@ -37,7 +37,7 @@ class GalleryFragment : Fragment(), PhotoGallery {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        galleryViewModel.checkedPhotosData.observe(this, Observer {
+        galleryViewModel.selectedPhotosData.observe(this, Observer {
             if (it != null) {
                 showActionButtons(it)
             }
