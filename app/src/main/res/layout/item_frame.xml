@@ -2,8 +2,11 @@
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/frame_qr"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_gravity="center"
+    android:scaleX="1.6"
+    android:scaleY="1.6"
+    android:layout_width="250dp"
+    android:layout_height="330dp">
 
     <ImageView
         android:id="@+id/imageView2"

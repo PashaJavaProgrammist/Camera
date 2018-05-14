@@ -83,8 +83,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <include layout="@layout/item_frame"/>
-
     <ImageView
         android:id="@+id/last_photo"
         android:layout_width="50dp"
@@ -97,5 +95,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/bt_take_a_picture"
         app:layout_constraintVertical_bias="0.692" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/bottom_navigation_size"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <include layout="@layout/item_frame" />
+    </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
