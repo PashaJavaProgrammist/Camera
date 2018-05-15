@@ -139,3 +139,4 @@ const val CAMERA_API2_CORE = 2
 const val TURN_ON_GPS = "Pleade, turn on GPS"
 const val ZOOM_VAL = 15f
 const val TILT_VAL = 20f
+const val DONT_LOCATION = "This photo doesn't have location"

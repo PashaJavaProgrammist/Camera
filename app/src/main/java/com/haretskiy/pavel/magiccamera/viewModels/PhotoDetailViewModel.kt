@@ -6,10 +6,12 @@ import android.arch.lifecycle.ViewModel
 import android.os.Bundle
 import com.haretskiy.pavel.magiccamera.BUNDLE_DIALOG_DELETE_IS_PHOTO_DETAIL
 import com.haretskiy.pavel.magiccamera.BUNDLE_DIALOG_DELETE_URI
+import com.haretskiy.pavel.magiccamera.DONT_LOCATION
 import com.haretskiy.pavel.magiccamera.models.Photo
 import com.haretskiy.pavel.magiccamera.storage.PhotoStore
 import com.haretskiy.pavel.magiccamera.ui.dialogs.DeletePhotoDialog
 import com.haretskiy.pavel.magiccamera.utils.Prefs
+import com.haretskiy.pavel.magiccamera.utils.Toaster
 import com.haretskiy.pavel.magiccamera.utils.interfaces.Printer
 import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 
@@ -17,7 +19,8 @@ import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 class PhotoDetailViewModel(private val photoStore: PhotoStore,
                            private val prefs: Prefs,
                            private val router: Router,
-                           private val printer: Printer) : ViewModel() {
+                           private val printer: Printer,
+                           private val toaster: Toaster) : ViewModel() {
 
     val storagePhotosLiveData: LiveData<List<Photo>> by lazy {
         photoStore.getAllUserPhotosLiveData(prefs.getUserEmail())
@@ -48,7 +51,13 @@ class PhotoDetailViewModel(private val photoStore: PhotoStore,
     fun startMapsActivity(uri: String) {
         Thread {
             val photo = photoStore.getPhotoByUriSync(uri)
-            router.startMapActivity(photo.latitude, photo.longitude)
+            val lat = photo.latitude
+            val long = photo.longitude
+            if (lat != 0.0 && long != 0.0) {
+                router.startMapActivity(photo.latitude, photo.longitude)
+            } else {
+                toaster.showToast(DONT_LOCATION, false)
+            }
         }.start()
     }
 }
