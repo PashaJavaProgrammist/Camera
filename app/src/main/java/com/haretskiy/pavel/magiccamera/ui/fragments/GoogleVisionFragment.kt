@@ -93,9 +93,6 @@ class GoogleVisionFragment : Fragment() {
         setQrViewsVisibility()
     }
 
-    /**
-     * Restarts the camera.
-     */
     override fun onResume() {
         super.onResume()
         activity?.window?.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN)
@@ -108,9 +105,6 @@ class GoogleVisionFragment : Fragment() {
         imageLoader.loadRoundImageIntoView(last_photo, prefs.getLastPhotoUri(prefs.getUserEmail()))
     }
 
-    /**
-     * Stops the camera.
-     */
     override fun onPause() {
         super.onPause()
         activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN)
