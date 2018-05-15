@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">MagicCamera</string>
+    <string name="app_name">Camera Pro</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password</string>
     <string name="action_sign_in">Sign in</string>
