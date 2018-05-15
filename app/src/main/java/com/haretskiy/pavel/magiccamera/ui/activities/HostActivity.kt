@@ -20,6 +20,7 @@ import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 import kotlinx.android.synthetic.main.activity_host.*
 import org.koin.android.ext.android.inject
 
+
 class HostActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private var navFragId = R.id.navigation_camera
@@ -97,7 +98,10 @@ class HostActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-
+        mMap.mapType = GoogleMap.MAP_TYPE_NORMAL//устанавливаем тип
+        val setUI = googleMap.uiSettings
+        setUI.isCompassEnabled = true
+        setUI.isMyLocationButtonEnabled = true
         // Add a marker in Sydney and move the camera
         val sydney = LatLng(-34.0, 151.0)
         mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))

@@ -19,7 +19,9 @@ import com.google.android.gms.common.GoogleApiAvailability
 import com.google.android.gms.vision.CameraSource
 import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.googleVisionApi.googleVisionUtils.CameraSourceManager
-import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
+import com.haretskiy.pavel.magiccamera.ui.dialogs.LocationDialog
+import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionCameraDialog
+import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionLocationDialog
 import com.haretskiy.pavel.magiccamera.utils.Prefs
 import com.haretskiy.pavel.magiccamera.utils.Toaster
 import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageLoader
@@ -32,7 +34,8 @@ import java.io.IOException
 
 class GoogleVisionFragment : Fragment() {
 
-    private val permissionDialog: PermissionDialog by inject()
+    private val permissionCameraDialog: PermissionCameraDialog by inject()
+    private val permissionLocationDialog: PermissionLocationDialog by inject()
     private val toaster: Toaster by inject()
     private val googleApiAvailability: GoogleApiAvailability  by inject()
     private val imageSaver: ImageSaver by inject()
@@ -123,8 +126,16 @@ class GoogleVisionFragment : Fragment() {
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        if (permissions[0] == Manifest.permission.CAMERA && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-            getCameraSource()
+
+        var i = 0
+        while (i < permissions.size) {
+            if (permissions[i] == Manifest.permission.CAMERA && grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+                getCameraSource()
+            }
+            if (permissions[i] == Manifest.permission.ACCESS_FINE_LOCATION && grantResults[i] == PackageManager.PERMISSION_GRANTED) {
+                LocationDialog().show(childFragmentManager, LOCATION_DIALOG)
+            }
+            ++i
         }
     }
 
@@ -134,7 +145,11 @@ class GoogleVisionFragment : Fragment() {
      * sending the request.
      */
     private fun requestCameraPermission() {
-        permissionDialog.show(childFragmentManager, FRAGMENT_DIALOG_COMP)
+        permissionCameraDialog.show(childFragmentManager, FRAGMENT_DIALOG_COMP)
+    }
+
+    private fun requestLocationPermission() {
+        permissionLocationDialog.show(childFragmentManager, DIALOG_LOCATION_PERM)
     }
 
     private fun getCameraSource() {
@@ -241,6 +256,13 @@ class GoogleVisionFragment : Fragment() {
                         Handler().postDelayed({
                             imageLoader.loadRoundImageIntoView(last_photo, prefs.getLastPhotoUri(prefs.getUserEmail()))
                         }, 200)
+
+                        val permission = context?.let { ContextCompat.checkSelfPermission(it, Manifest.permission.ACCESS_FINE_LOCATION) }
+                        if (permission == PackageManager.PERMISSION_GRANTED) {
+                            LocationDialog().show(childFragmentManager, LOCATION_DIALOG)
+                        } else {
+                            requestLocationPermission()
+                        }
                     })
 
             answers.logCustom(CustomEvent("Take picture"))

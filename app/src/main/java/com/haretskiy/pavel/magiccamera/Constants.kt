@@ -40,15 +40,18 @@ const val VIEW_NAME_CONTENT="VIEW_NAME_CONTENT"
 const val VIEW_NAME_DATE="VIEW_NAME_DATE"
 
 //Camera2 constants
-const val CODE_REQUEST_CAMERA_PERMISSION = 1
+const val CODE_REQUEST_CAMERA_PERMISSION = 123
+const val CODE_REQUEST_LOCATION_PERMISSION = 321
 const val PIC_FILE_NAME = "photo.jpg"
 
 const val FRAGMENT_DIALOG_COMP = "Compl_dialog"
 const val FRAGMENT_DIALOG_DELETE = "DELEte_dialog"
 const val DELETE_QR_DIALOG = "DELETE_QR_DIALOG"
 const val CLEAR_DB_DIALOG = "CLEAR_DB_DIALOG"
+const val LOCATION_DIALOG = "LOCATION_DIALOG"
 const val DELETE_ACCOUNT_DIALOG = "DELETE_ACCOUNT_DIALOG"
 const val DELETE_PHOTOS_DIALOG = "DELETE_PHOTOS_DIALOG"
+const val DIALOG_LOCATION_PERM = "DIALOG_LOCATION_PERM"
 
 const val TYPE_QR = "TYPE_QR"
 const val TYPE_PHOTO = "TYPE_PHOTO"
@@ -130,3 +133,5 @@ const val PATTERN_EMAIL2 = "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@" + "[A-Za-z0
 
 const val CAMERA_VISION_CORE = 0
 const val CAMERA_API2_CORE = 2
+
+const val TURN_ON_GPS = "Pleade, turn on GPS"

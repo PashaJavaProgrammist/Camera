@@ -26,7 +26,7 @@ import com.haretskiy.pavel.magiccamera.FRAGMENT_DIALOG_COMP
 import com.haretskiy.pavel.magiccamera.R
 import com.haretskiy.pavel.magiccamera.TAG
 import com.haretskiy.pavel.magiccamera.camera2Api.Camera2Helper
-import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
+import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionCameraDialog
 import com.haretskiy.pavel.magiccamera.utils.ImageSaverImpl
 import com.haretskiy.pavel.magiccamera.utils.Prefs
 import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageLoader
@@ -40,7 +40,7 @@ import java.util.concurrent.TimeUnit
 class Camera2Fragment : Fragment(), View.OnClickListener {
 
     private val cameraManager: CameraManager by inject()
-    private val permissionDialog: PermissionDialog by inject()
+    private val permissionCameraDialog: PermissionCameraDialog by inject()
     private val prefs: Prefs by inject()
     private val camera2Helper: Camera2Helper by inject()
     private val router: Router by inject()
@@ -272,7 +272,7 @@ class Camera2Fragment : Fragment(), View.OnClickListener {
     }
 
     private fun requestCameraPermission() {
-        permissionDialog.show(childFragmentManager, FRAGMENT_DIALOG_COMP)
+        permissionCameraDialog.show(childFragmentManager, FRAGMENT_DIALOG_COMP)
     }
 
 }

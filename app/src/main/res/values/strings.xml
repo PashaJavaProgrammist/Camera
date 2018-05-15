@@ -15,7 +15,8 @@
     <string name="title_gallery">Gallery</string>
     <string name="picture">Picture</string>
     <string name="description_info">Info</string>
-    <string name="request_permission">Needs camera permission, if you want to take a picture.\n\nIf you press "Don't show again" receive permission manually in settings</string>
+    <string name="request_permission_camera">Needs camera permission, if you want to take a picture.\n\nIf you press "Don't show again" receive permission manually in settings</string>
+    <string name="request_permission_location">Needs location permission, if you want to fine location.\n\nIf you press "Don't show again" receive permission manually in settings</string>
     <string name="camera_error">This device doesn\'t support Camera2 API.</string>
     <string name="settings">Settings</string>
     <string name="unable_to_start_camera">Unable to start camera source.</string>
@@ -73,5 +74,6 @@
     <string name="unselect_all">Remove selection</string>
     <string name="title_activity_maps">Map</string>
     <string name="title_maps">Maps</string>
+    <string name="add_location">Add location to this photo?</string>
 
 </resources>

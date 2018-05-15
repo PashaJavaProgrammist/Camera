@@ -20,6 +20,8 @@ interface Router {
 
     fun startPhotoDetailActivity(uri: String, date: Long)
 
+    fun startLocationSettingsActivity()
+
     fun shareText(resultOfScanning: String)
 
     fun shareImage(imageUri: String)

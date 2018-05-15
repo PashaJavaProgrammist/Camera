@@ -3,6 +3,7 @@ package com.haretskiy.pavel.magiccamera.di
 import android.arch.persistence.room.Room
 import android.content.Context
 import android.hardware.camera2.CameraManager
+import android.location.LocationManager
 import android.os.Build
 import android.os.Bundle
 import android.support.annotation.RequiresApi
@@ -15,7 +16,8 @@ import com.haretskiy.pavel.magiccamera.DB_NAME
 import com.haretskiy.pavel.magiccamera.camera2Api.Camera2Helper
 import com.haretskiy.pavel.magiccamera.googleVisionApi.googleVisionUtils.CameraSourceManager
 import com.haretskiy.pavel.magiccamera.storage.*
-import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionDialog
+import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionCameraDialog
+import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionLocationDialog
 import com.haretskiy.pavel.magiccamera.ui.fragments.*
 import com.haretskiy.pavel.magiccamera.utils.*
 import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageLoader
@@ -38,7 +40,8 @@ val appModule: Module = applicationContext {
     factory { GalleryFragment() }
     factory { SettingsFragment() }
     bean { FirebaseAuth.getInstance() }
-    factory { PermissionDialog() }
+    factory { PermissionCameraDialog() }
+    factory { PermissionLocationDialog() }
 
     bean { Room.databaseBuilder(androidApplication(), Database::class.java, DB_NAME).build() }
 
@@ -84,6 +87,9 @@ val utilsModule: Module = applicationContext {
     factory { ImageSaverImpl(androidApplication(), get(), get(), get(), get()) as ImageSaver }
     factory { GlideImageLoaderImpl(androidApplication()) as ImageLoader }
     factory { PrinterImpl(androidApplication(), get()) as Printer }
+    bean { androidApplication().getSystemService(Context.LOCATION_SERVICE) as LocationManager }
+
+    factory { LocationService(get(), get(), get()) }
 }
 
 val modules = listOf(appModule, camera2Module, googleVisionModule, utilsModule)

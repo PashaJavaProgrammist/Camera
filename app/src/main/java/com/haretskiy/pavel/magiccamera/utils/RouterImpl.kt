@@ -195,4 +195,12 @@ class RouterImpl(private val context: Context,
                 .putContentType("image"))
         context.startActivity(intent)
     }
+
+    override fun startLocationSettingsActivity() {
+        val intent = Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS)
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        context.startActivity(intent)
+    }
 }
