@@ -79,6 +79,8 @@ dependencies {
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.7.1'
     implementation 'com.android.support:support-v4:27.1.1'
+    implementation 'com.google.android.gms:play-services-maps:15.0.1'
+    implementation 'com.android.support:appcompat-v7:27.1.1'
     kapt 'com.github.bumptech.glide:compiler:4.7.1'
     //ROOM DB
     implementation "android.arch.persistence.room:runtime:1.0.0"
