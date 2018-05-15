@@ -25,7 +25,6 @@ import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionLocationDialog
 import com.haretskiy.pavel.magiccamera.utils.Prefs
 import com.haretskiy.pavel.magiccamera.utils.Toaster
 import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageLoader
-import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageSaver
 import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 import com.haretskiy.pavel.magiccamera.viewModels.GoogleVisionViewModel
 import kotlinx.android.synthetic.main.fragment_google_vision.*
@@ -39,7 +38,6 @@ class GoogleVisionFragment : Fragment() {
     private val permissionLocationDialog: PermissionLocationDialog by inject()
     private val toaster: Toaster by inject()
     private val googleApiAvailability: GoogleApiAvailability  by inject()
-    private val imageSaver: ImageSaver by inject()
     private val prefs: Prefs by inject()
     private val imageLoader: ImageLoader by inject()
     private val cameraSourceManager: CameraSourceManager by inject()
@@ -297,7 +295,7 @@ class GoogleVisionFragment : Fragment() {
     }
 
     private fun saveImage(data: ByteArray) {
-        imageSaver.saveImage(data)
+        googleVisionViewModel.saveImage(data)
         Handler().postDelayed({
             imageLoader.loadRoundImageIntoView(last_photo, prefs.getLastPhotoUri(prefs.getUserEmail()))
         }, 200)

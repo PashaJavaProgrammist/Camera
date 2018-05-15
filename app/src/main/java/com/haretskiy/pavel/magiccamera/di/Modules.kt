@@ -59,7 +59,7 @@ val appModule: Module = applicationContext {
     viewModel { PhotoDetailViewModel(get(), get(), get(), get()) }
     viewModel { QrHistoryVewModel(get(), get(), get()) }
     viewModel { QrResultDetailViewModel(get(), get()) }
-    viewModel { GoogleVisionViewModel(androidApplication(), get()) }
+    viewModel { GoogleVisionViewModel(androidApplication(), get(), get(), get()) }
 }
 
 @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
