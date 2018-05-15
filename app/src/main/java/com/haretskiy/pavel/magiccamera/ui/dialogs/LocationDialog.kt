@@ -17,29 +17,42 @@ class LocationDialog : DialogFragment() {
 
     private val locationService: LocationService by inject()
 
-    private var listener: LocationResultListener = object : LocationResultListener {
+    private var listenerLocation: LocationResultListener = object : LocationResultListener {
         override fun onLocationReceived(location: Location) {}
+    }
+
+    private var answerListener: AnswerListener = object : AnswerListener {
+        override fun onConfirm() {}
+        override fun onDismiss() {}
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
             AlertDialog.Builder(activity)
                     .setMessage(getString(R.string.add_location))
                     .setPositiveButton(getString(R.string.yes)) { _, _ ->
+                        answerListener.onConfirm()
                         context?.let { requestLocation(it) }
                         dismiss()
                     }
                     .setNegativeButton(getString(R.string.no)) { _, _ ->
+                        answerListener.onDismiss()
                         dismiss()
                     }
                     .create()
 
 
     private fun requestLocation(context: Context) {
-        locationService.requestLocationUpdates(context, listener)
+        locationService.requestLocationUpdates(context, listenerLocation)
     }
 
-    fun show(manager: FragmentManager, tag: String, listener: LocationResultListener) {
-        this.listener = listener
+    fun show(manager: FragmentManager, tag: String, locationResultListener: LocationResultListener, answerListener: AnswerListener) {
+        this.listenerLocation = locationResultListener
+        this.answerListener = answerListener
         show(manager, tag)
+    }
+
+    interface AnswerListener {
+        fun onConfirm()
+        fun onDismiss()
     }
 }

@@ -26,6 +26,13 @@
 
     </com.haretskiy.pavel.magiccamera.googleVisionApi.views.CameraSourcePreview>
 
+    <ProgressBar
+        android:id="@+id/progress"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="@dimen/bottom_navigation_size"
+        android:padding="100dp" />
+
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"

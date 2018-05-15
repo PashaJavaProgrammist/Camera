@@ -69,6 +69,7 @@ class GoogleVisionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        progress.visibility = View.GONE
         setViewsVisible(false)
         bt_change_camera_type.setOnClickListener({ changeCamera() })
         bt_take_a_picture.setOnClickListener({ takePicture() })
@@ -262,12 +263,21 @@ class GoogleVisionFragment : Fragment() {
     private fun requestLocation() {
         val permission = context?.let { ContextCompat.checkSelfPermission(it, Manifest.permission.ACCESS_FINE_LOCATION) }
         if (permission == PackageManager.PERMISSION_GRANTED) {
-            LocationDialog().show(childFragmentManager, LOCATION_DIALOG, object : LocationService.LocationResultListener {
-                override fun onLocationReceived(location: Location) {
-                    answers.logCustom(CustomEvent("Location received" + "Lat: ${location.latitude}, long: ${location.longitude}"))
-                    toaster.showToast("Lat: ${location.latitude}, long: ${location.longitude}", false)
-                }
-            })
+            LocationDialog().show(childFragmentManager, LOCATION_DIALOG,
+                    object : LocationService.LocationResultListener {
+                        override fun onLocationReceived(location: Location) {
+                            progress.visibility = View.GONE
+                            answers.logCustom(CustomEvent("Location received" + "Lat: ${location.latitude}, long: ${location.longitude}"))
+                            toaster.showToast("Lat: ${location.latitude}, long: ${location.longitude}", false)
+                        }
+                    },
+                    object : LocationDialog.AnswerListener {
+                        override fun onConfirm() {
+                            progress.visibility = View.VISIBLE
+                        }
+
+                        override fun onDismiss() {}
+                    })
         } else {
             requestLocationPermission()
         }
