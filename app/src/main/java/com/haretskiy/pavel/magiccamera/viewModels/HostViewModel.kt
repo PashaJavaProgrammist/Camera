@@ -13,7 +13,7 @@ class HostViewModel(private val photoStore: PhotoStore,
                     private val prefs: Prefs,
                     private val router: Router) : ViewModel(), OnMapReadyCallback {
 
-    private fun getAllUserPhotosList() = photoStore.getAllUserPhotosList(prefs.getUserEmail())
+    private fun getAllUserPhotosList() = photoStore.getAllUserPhotosListASC(prefs.getUserEmail())
 
     lateinit var drawer: MapDrawer
 

@@ -35,6 +35,9 @@ interface PhotoStoreDao {
     @Query("SELECT * FROM images WHERE userEmail = :userMail ORDER BY id DESC")
     fun getUserPhotosList(userMail: String): List<Photo>
 
+    @Query("SELECT * FROM images WHERE userEmail = :userMail ORDER BY id ASC")
+    fun getUserPhotosListASC(userMail: String): List<Photo>
+
     @Query("DELETE FROM images WHERE userEmail = :userMail")
     fun deleteAllUserPhotos(userMail: String)
 

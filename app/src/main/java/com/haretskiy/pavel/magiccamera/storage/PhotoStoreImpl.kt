@@ -27,4 +27,6 @@ class PhotoStoreImpl(private val photoDao: PhotoStoreDao) : PhotoStore {
     override fun deleteAllUserPhoto(userEmail: String): Unit = Thread({ photoDao.deleteAllUserPhotos(userEmail) }).start()
 
     override fun getAllUserPhotosList(userEmail: String) = photoDao.getUserPhotosList(userEmail)
+
+    override fun getAllUserPhotosListASC(userEmail: String) = photoDao.getUserPhotosListASC(userEmail)
 }
