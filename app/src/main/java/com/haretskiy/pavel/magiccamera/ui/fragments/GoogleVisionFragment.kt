@@ -4,6 +4,7 @@ import android.Manifest
 import android.arch.lifecycle.Observer
 import android.content.pm.PackageManager
 import android.hardware.Camera
+import android.location.Location
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
@@ -22,6 +23,7 @@ import com.haretskiy.pavel.magiccamera.googleVisionApi.googleVisionUtils.CameraS
 import com.haretskiy.pavel.magiccamera.ui.dialogs.LocationDialog
 import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionCameraDialog
 import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionLocationDialog
+import com.haretskiy.pavel.magiccamera.utils.LocationService
 import com.haretskiy.pavel.magiccamera.utils.Prefs
 import com.haretskiy.pavel.magiccamera.utils.Toaster
 import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageLoader
@@ -244,31 +246,37 @@ class GoogleVisionFragment : Fragment() {
         try {
             mCameraSource?.takePicture(
                     {
-                        preview.visibility = View.GONE
-                        setViewsVisible(false)
-                        Handler().postDelayed({
-                            preview.visibility = View.VISIBLE
-                            setViewsVisible(true)
-                        }, 20)
+                        makePhotoEffect()
                     },
                     { data ->
-                        imageSaver.saveImage(data)
-                        Handler().postDelayed({
-                            imageLoader.loadRoundImageIntoView(last_photo, prefs.getLastPhotoUri(prefs.getUserEmail()))
-                        }, 200)
-
-                        val permission = context?.let { ContextCompat.checkSelfPermission(it, Manifest.permission.ACCESS_FINE_LOCATION) }
-                        if (permission == PackageManager.PERMISSION_GRANTED) {
-                            LocationDialog().show(childFragmentManager, LOCATION_DIALOG)
-                        } else {
-                            requestLocationPermission()
-                        }
+                        saveImage(data)
+                        requestLocation()
                     })
 
             answers.logCustom(CustomEvent("Take picture"))
         } catch (ex: Exception) {
             toaster.showToast("${ex.message}", false)
         }
+    }
+
+    private fun requestLocation() {
+        val permission = context?.let { ContextCompat.checkSelfPermission(it, Manifest.permission.ACCESS_FINE_LOCATION) }
+        if (permission == PackageManager.PERMISSION_GRANTED) {
+            LocationDialog().show(childFragmentManager, LOCATION_DIALOG, object : LocationService.LocationResultListener {
+                override fun onLocationReceived(location: Location) {
+                    toaster.showToast("Lat: ${location.latitude}, long: ${location.longitude}", false)
+                }
+            })
+        } else {
+            requestLocationPermission()
+        }
+    }
+
+    private fun saveImage(data: ByteArray) {
+        imageSaver.saveImage(data)
+        Handler().postDelayed({
+            imageLoader.loadRoundImageIntoView(last_photo, prefs.getLastPhotoUri(prefs.getUserEmail()))
+        }, 200)
     }
 
     private fun setViewsVisible(doIt: Boolean) {
@@ -281,6 +289,15 @@ class GoogleVisionFragment : Fragment() {
             bt_change_camera_type.visibility = View.GONE
             bt_take_a_picture.visibility = View.GONE
         }
+    }
+
+    private fun makePhotoEffect() {
+        preview.visibility = View.GONE
+        setViewsVisible(false)
+        Handler().postDelayed({
+            preview.visibility = View.VISIBLE
+            setViewsVisible(true)
+        }, 20)
     }
 
 }

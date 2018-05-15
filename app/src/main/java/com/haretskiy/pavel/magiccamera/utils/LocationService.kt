@@ -31,7 +31,7 @@ class LocationService(private val locationManager: LocationManager,
         }
     }
 
-    fun removeUpdates() {
+    private fun removeUpdates() {
         locationManager.removeUpdates(this)
     }
 

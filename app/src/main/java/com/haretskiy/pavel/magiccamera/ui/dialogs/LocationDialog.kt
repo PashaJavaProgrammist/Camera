@@ -6,16 +6,20 @@ import android.content.Context
 import android.location.Location
 import android.os.Bundle
 import android.support.v4.app.DialogFragment
+import android.support.v4.app.FragmentManager
 import com.haretskiy.pavel.magiccamera.R
 import com.haretskiy.pavel.magiccamera.utils.LocationService
-import com.haretskiy.pavel.magiccamera.utils.Toaster
+import com.haretskiy.pavel.magiccamera.utils.LocationService.LocationResultListener
 import org.koin.android.ext.android.inject
 
 
 class LocationDialog : DialogFragment() {
 
     private val locationService: LocationService by inject()
-    private val toaster: Toaster by inject()
+
+    private var listener: LocationResultListener = object : LocationResultListener {
+        override fun onLocationReceived(location: Location) {}
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog =
             AlertDialog.Builder(activity)
@@ -31,10 +35,11 @@ class LocationDialog : DialogFragment() {
 
 
     private fun requestLocation(context: Context) {
-        locationService.requestLocationUpdates(context, object : LocationService.LocationResultListener {
-            override fun onLocationReceived(location: Location) {
-                toaster.showToast("Lat: ${location.latitude}, long: ${location.longitude}", false)
-            }
-        })
+        locationService.requestLocationUpdates(context, listener)
+    }
+
+    fun show(manager: FragmentManager, tag: String, listener: LocationResultListener) {
+        this.listener = listener
+        show(manager, tag)
     }
 }
