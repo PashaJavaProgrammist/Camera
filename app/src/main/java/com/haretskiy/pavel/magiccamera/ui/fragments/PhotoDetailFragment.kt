@@ -1,6 +1,7 @@
 package com.haretskiy.pavel.magiccamera.ui.fragments
 
 import android.os.Bundle
+import android.os.Handler
 import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -51,7 +52,7 @@ class PhotoDetailFragment : Fragment() {
         }
 
         iv_map.setOnClickListener {
-            activity?.let { activity -> photoDetailViewModel.startMapsActivity(activity, uri) }
+            photoDetailViewModel.startMapsActivity(Handler(), uri)
         }
     }
 
