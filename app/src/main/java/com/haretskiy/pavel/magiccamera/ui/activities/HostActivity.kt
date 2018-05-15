@@ -75,6 +75,10 @@ class HostActivity : AppCompatActivity() {
 
         navFragId = savedInstanceState?.getInt(BUNDLE_KEY_FRAGMENT_ID, R.id.navigation_camera) ?: R.id.navigation_camera
 
+    }
+
+    override fun onResume() {
+        super.onResume()
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
         navigation.selectedItemId = navFragId
     }
