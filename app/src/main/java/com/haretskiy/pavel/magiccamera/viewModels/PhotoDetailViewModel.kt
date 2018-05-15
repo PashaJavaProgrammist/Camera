@@ -44,4 +44,11 @@ class PhotoDetailViewModel(private val photoStore: PhotoStore,
     fun scanPhoto(uri: String) {
         router.startScanningActivity(uri)
     }
+
+    fun startMapsActivity(uri: String) {
+        Thread {
+            val photo = photoStore.getPhotoByUriSync(uri)
+            router.startMapActivity(photo.latitude, photo.longitude)
+        }.start()
+    }
 }

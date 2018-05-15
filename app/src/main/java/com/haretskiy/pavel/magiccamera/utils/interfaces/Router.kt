@@ -34,6 +34,8 @@ interface Router {
 
     fun startBarcodeActivity(resultOfScanning: String, date: String)
 
+    fun startMapActivity(latitude: Double, longitude: Double)
+
     fun startBarcodeActivityWithAnimation(context: Context, activity: FragmentActivity, content: String, date: String, contentView: TextView, dateView: TextView)
 
 }

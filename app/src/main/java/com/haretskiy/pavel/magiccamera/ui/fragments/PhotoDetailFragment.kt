@@ -49,6 +49,10 @@ class PhotoDetailFragment : Fragment() {
         bt_scan.setOnClickListener {
             photoDetailViewModel.scanPhoto(uri)
         }
+
+        iv_map.setOnClickListener {
+            photoDetailViewModel.startMapsActivity(uri)
+        }
     }
 
     override fun onResume() {

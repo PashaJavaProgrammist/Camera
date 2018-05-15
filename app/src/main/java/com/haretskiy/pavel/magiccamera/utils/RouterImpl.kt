@@ -203,4 +203,14 @@ class RouterImpl(private val context: Context,
         }
         context.startActivity(intent)
     }
+
+    override fun startMapActivity(latitude: Double, longitude: Double) {
+        val intent = Intent(context, MapsActivity::class.java)
+        intent.putExtra(BUNDLE_KEY_LATITUDE, latitude)
+        intent.putExtra(BUNDLE_KEY_LONGITUDE, longitude)
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.N) {
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+        }
+        context.startActivity(intent)
+    }
 }
