@@ -69,7 +69,7 @@ class GoogleVisionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        progress.visibility = View.GONE
+        setProgressVisible(false)
         setViewsVisible(false)
         bt_change_camera_type.setOnClickListener({ changeCamera() })
         bt_take_a_picture.setOnClickListener({ takePicture() })
@@ -266,20 +266,30 @@ class GoogleVisionFragment : Fragment() {
             LocationDialog().show(childFragmentManager, LOCATION_DIALOG,
                     object : LocationService.LocationResultListener {
                         override fun onLocationReceived(location: Location) {
-                            progress.visibility = View.GONE
+                            setProgressVisible(false)
                             answers.logCustom(CustomEvent("Location received" + "Lat: ${location.latitude}, long: ${location.longitude}"))
                             toaster.showToast("Lat: ${location.latitude}, long: ${location.longitude}", false)
                         }
                     },
                     object : LocationDialog.AnswerListener {
                         override fun onConfirm() {
-                            progress.visibility = View.VISIBLE
+                            setProgressVisible(true)
                         }
 
                         override fun onDismiss() {}
                     })
         } else {
             requestLocationPermission()
+        }
+    }
+
+    private fun setProgressVisible(visible: Boolean) {
+        if (visible) {
+            progress.visibility = View.VISIBLE
+            tv_wait.visibility = View.VISIBLE
+        } else {
+            progress.visibility = View.GONE
+            tv_wait.visibility = View.GONE
         }
     }
 

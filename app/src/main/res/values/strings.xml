@@ -75,5 +75,6 @@
     <string name="title_activity_maps">Map</string>
     <string name="title_maps">Maps</string>
     <string name="add_location">Add location to this photo?</string>
+    <string name="wait">Please. Wait...</string>
 
 </resources>
