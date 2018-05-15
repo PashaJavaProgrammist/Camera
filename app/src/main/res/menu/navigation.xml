@@ -7,6 +7,10 @@
         android:icon="@drawable/ic_gallery"
         android:title="@string/title_gallery" />
     <item
+        android:id="@+id/navigation_maps"
+        android:icon="@drawable/ic_maps"
+        android:title="@string/title_maps" />
+    <item
         android:id="@+id/navigation_camera"
         android:icon="@drawable/ic_camera"
         android:title="@string/title_camera" />

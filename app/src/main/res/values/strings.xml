@@ -72,5 +72,6 @@
     <string name="select_all">Select all</string>
     <string name="unselect_all">Remove selection</string>
     <string name="title_activity_maps">Map</string>
+    <string name="title_maps">Maps</string>
 
 </resources>
