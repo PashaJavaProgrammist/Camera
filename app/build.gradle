@@ -10,8 +10,8 @@ android {
         applicationId "com.haretskiy.pavel.magiccamera"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 7
-        versionName "3.0.2"
+        versionCode 8
+        versionName "3.0.3"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -83,12 +83,12 @@ dependencies {
     implementation 'com.android.support:appcompat-v7:27.1.1'
     kapt 'com.github.bumptech.glide:compiler:4.7.1'
     //ROOM DB
-    implementation "android.arch.persistence.room:runtime:1.0.0"
-    kapt "android.arch.persistence.room:compiler:1.0.0"
+    implementation "android.arch.persistence.room:runtime:1.1.0"
+    kapt "android.arch.persistence.room:compiler:1.1.0"
     // Paging
-    implementation "android.arch.paging:runtime:1.0.0-rc1"
+    implementation "android.arch.paging:runtime:1.0.0"
     //Google vision
-    implementation 'com.google.android.gms:play-services-vision:15.0.1'
+    implementation 'com.google.android.gms:play-services-vision:15.0.2'
     //Constraint layout
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
     //Browser
