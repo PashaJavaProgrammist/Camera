@@ -264,6 +264,7 @@ class GoogleVisionFragment : Fragment() {
         if (permission == PackageManager.PERMISSION_GRANTED) {
             LocationDialog().show(childFragmentManager, LOCATION_DIALOG, object : LocationService.LocationResultListener {
                 override fun onLocationReceived(location: Location) {
+                    answers.logCustom(CustomEvent("Location received" + "Lat: ${location.latitude}, long: ${location.longitude}"))
                     toaster.showToast("Lat: ${location.latitude}, long: ${location.longitude}", false)
                 }
             })
