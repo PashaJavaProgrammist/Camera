@@ -3,6 +3,12 @@ package com.haretskiy.pavel.magiccamera.ui.activities
 import android.os.Bundle
 import android.support.design.widget.BottomNavigationView
 import android.support.v7.app.AppCompatActivity
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.MapFragment
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
 import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_FRAGMENT_ID
 import com.haretskiy.pavel.magiccamera.CAMERA_API2_CORE
 import com.haretskiy.pavel.magiccamera.CAMERA_VISION_CORE
@@ -14,18 +20,26 @@ import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 import kotlinx.android.synthetic.main.activity_host.*
 import org.koin.android.ext.android.inject
 
-class HostActivity : AppCompatActivity() {
+class HostActivity : AppCompatActivity(), OnMapReadyCallback {
 
     private var navFragId = R.id.navigation_camera
     private val shareContainer: ShareContainer by inject()
     private val router: Router by inject()
     private val prefs: Prefs by inject()
 
+    private lateinit var mMap: GoogleMap
+
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_gallery -> {
                 navFragId = R.id.navigation_gallery
                 router.doFragmentTransaction(GalleryFragment(), supportFragmentManager, R.id.frame_for_fragments)
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_maps -> {
+                val mapFragment = MapFragment()
+                mapFragment.getMapAsync(this)
+                router.doFragmentTransaction(mapFragment, fragmentManager, R.id.frame_for_fragments)
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_camera -> {
@@ -81,4 +95,12 @@ class HostActivity : AppCompatActivity() {
         navigation.selectedItemId = R.id.navigation_camera
     }
 
+    override fun onMapReady(googleMap: GoogleMap) {
+        mMap = googleMap
+
+        // Add a marker in Sydney and move the camera
+        val sydney = LatLng(-34.0, 151.0)
+        mMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+    }
 }

@@ -61,6 +61,15 @@ class RouterImpl(private val context: Context,
         ft.commit()
     }
 
+    override fun doFragmentTransaction(fragment: android.app.Fragment, fragmentManager: android.app.FragmentManager?, containerId: Int) {
+        if (fragmentManager != null) {
+            val ft = fragmentManager.beginTransaction().apply {
+                replace(containerId, fragment)
+            }
+            ft.commit()
+        }
+    }
+
     override fun startPhotoDetailActivity(uri: String, date: Long) {
         val intent = Intent(context, PhotoDetailActivity::class.java)
         intent.putExtra(BUNDLE_KEY_URI_TO_ACTIVITY_DETAIL, uri)

@@ -16,6 +16,8 @@ interface Router {
 
     fun doFragmentTransaction(fragment: Fragment, fragmentManager: FragmentManager, containerId: Int)
 
+    fun doFragmentTransaction(fragment: android.app.Fragment, fragmentManager: android.app.FragmentManager?, containerId: Int)
+
     fun startPhotoDetailActivity(uri: String, date: Long)
 
     fun shareText(resultOfScanning: String)
