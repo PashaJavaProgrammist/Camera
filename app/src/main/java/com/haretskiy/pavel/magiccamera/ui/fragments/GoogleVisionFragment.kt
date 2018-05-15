@@ -4,7 +4,6 @@ import android.Manifest
 import android.arch.lifecycle.Observer
 import android.content.pm.PackageManager
 import android.hardware.Camera
-import android.location.Location
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
@@ -23,12 +22,12 @@ import com.haretskiy.pavel.magiccamera.googleVisionApi.googleVisionUtils.CameraS
 import com.haretskiy.pavel.magiccamera.ui.dialogs.LocationDialog
 import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionCameraDialog
 import com.haretskiy.pavel.magiccamera.ui.dialogs.PermissionLocationDialog
-import com.haretskiy.pavel.magiccamera.utils.LocationService
 import com.haretskiy.pavel.magiccamera.utils.Prefs
 import com.haretskiy.pavel.magiccamera.utils.Toaster
 import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageLoader
 import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageSaver
 import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
+import com.haretskiy.pavel.magiccamera.viewModels.GoogleVisionViewModel
 import kotlinx.android.synthetic.main.fragment_google_vision.*
 import kotlinx.android.synthetic.main.item_frame.*
 import org.koin.android.ext.android.inject
@@ -47,6 +46,8 @@ class GoogleVisionFragment : Fragment() {
     private val router: Router by inject()
     private val answers: Answers by inject()
 
+    private val googleVisionViewModel: GoogleVisionViewModel by inject()
+
     private var cameraType = CAMERA_TYPE_NOT_FOUND
     private var cameras = Camera.getNumberOfCameras()
     private var mCameraSource: CameraSource? = null
@@ -62,6 +63,14 @@ class GoogleVisionFragment : Fragment() {
             mCameraSource = it
             startCameraSource()
         })
+
+        googleVisionViewModel.locationData.observe(this, Observer {
+            setProgressVisible(false)
+            if (it != null) {
+                answers.logCustom(CustomEvent("Location received" + "Lat: ${it.latitude}, long: ${it.longitude}"))
+                toaster.showToast("Lat: ${it.latitude}, long: ${it.longitude}", false)
+            }
+        })
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
@@ -69,7 +78,7 @@ class GoogleVisionFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setProgressVisible(false)
+        setProgressVisible(googleVisionViewModel.progressFlag)
         setViewsVisible(false)
         bt_change_camera_type.setOnClickListener({ changeCamera() })
         bt_take_a_picture.setOnClickListener({ takePicture() })
@@ -264,16 +273,10 @@ class GoogleVisionFragment : Fragment() {
         val permission = context?.let { ContextCompat.checkSelfPermission(it, Manifest.permission.ACCESS_FINE_LOCATION) }
         if (permission == PackageManager.PERMISSION_GRANTED) {
             LocationDialog().show(childFragmentManager, LOCATION_DIALOG,
-                    object : LocationService.LocationResultListener {
-                        override fun onLocationReceived(location: Location) {
-                            setProgressVisible(false)
-                            answers.logCustom(CustomEvent("Location received" + "Lat: ${location.latitude}, long: ${location.longitude}"))
-                            toaster.showToast("Lat: ${location.latitude}, long: ${location.longitude}", false)
-                        }
-                    },
                     object : LocationDialog.AnswerListener {
                         override fun onConfirm() {
                             setProgressVisible(true)
+                            googleVisionViewModel.requestLocation()
                         }
 
                         override fun onDismiss() {}
