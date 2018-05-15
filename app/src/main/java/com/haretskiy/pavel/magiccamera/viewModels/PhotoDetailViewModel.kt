@@ -4,6 +4,7 @@ import android.app.Activity
 import android.arch.lifecycle.LiveData
 import android.arch.lifecycle.ViewModel
 import android.os.Bundle
+import android.support.v4.app.FragmentActivity
 import com.haretskiy.pavel.magiccamera.BUNDLE_DIALOG_DELETE_IS_PHOTO_DETAIL
 import com.haretskiy.pavel.magiccamera.BUNDLE_DIALOG_DELETE_URI
 import com.haretskiy.pavel.magiccamera.DONT_LOCATION
@@ -48,7 +49,7 @@ class PhotoDetailViewModel(private val photoStore: PhotoStore,
         router.startScanningActivity(uri)
     }
 
-    fun startMapsActivity(uri: String) {
+    fun startMapsActivity(activity: FragmentActivity, uri: String) {
         Thread {
             val photo = photoStore.getPhotoByUriSync(uri)
             val lat = photo.latitude
@@ -56,8 +57,9 @@ class PhotoDetailViewModel(private val photoStore: PhotoStore,
             if (lat != 0.0 && long != 0.0) {
                 router.startMapActivity(photo.latitude, photo.longitude)
             } else {
-                toaster.showToast(DONT_LOCATION, false)
+                activity.runOnUiThread { toaster.showToast(DONT_LOCATION, false) }
             }
         }.start()
     }
+
 }

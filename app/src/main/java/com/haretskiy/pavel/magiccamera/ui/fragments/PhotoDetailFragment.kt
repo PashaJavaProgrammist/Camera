@@ -51,7 +51,7 @@ class PhotoDetailFragment : Fragment() {
         }
 
         iv_map.setOnClickListener {
-            photoDetailViewModel.startMapsActivity(uri)
+            activity?.let { activity -> photoDetailViewModel.startMapsActivity(activity, uri) }
         }
     }
 
