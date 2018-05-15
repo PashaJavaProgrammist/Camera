@@ -7,11 +7,13 @@ import com.haretskiy.pavel.magiccamera.models.Photo
 interface PhotoStore {
 
     fun savePhoto(uri: String, date: Long, email: String)
+    fun update(photo: Photo)
     fun getAllPhotosDataSourceFactory(): DataSource.Factory<Int, Photo>
     fun getAllUserPhotosDataSourceFactory(userEmail: String): DataSource.Factory<Int, Photo>
     fun getAllUserPhotosLiveData(userEmail: String): LiveData<List<Photo>>
     fun getAllUserPhotosList(userEmail: String): List<Photo>
     fun getPhotoById(id: Long): LiveData<Photo>
+    fun getPhotoByUriSync(uri: String): Photo
     fun deletePhoto(uri: String)
     fun deleteAll()
     fun deleteAllUserPhoto(userEmail: String)

@@ -2,10 +2,7 @@ package com.haretskiy.pavel.magiccamera.storage
 
 import android.arch.lifecycle.LiveData
 import android.arch.paging.DataSource
-import android.arch.persistence.room.Dao
-import android.arch.persistence.room.Delete
-import android.arch.persistence.room.Insert
-import android.arch.persistence.room.Query
+import android.arch.persistence.room.*
 import com.haretskiy.pavel.magiccamera.models.Photo
 
 @Dao
@@ -17,11 +14,17 @@ interface PhotoStoreDao {
     @Insert
     fun insert(photo: Photo)
 
+    @Update
+    fun update(photo: Photo)
+
     @Query("SELECT * FROM images WHERE id = :id")
     fun getPhotoById(id: Long): LiveData<Photo>
 
     @Query("SELECT * FROM images WHERE uri = :uri")
     fun getPhotoByUri(uri: String): LiveData<Photo>
+
+    @Query("SELECT * FROM images WHERE uri = :uri")
+    fun getPhotoByUriSync(uri: String): Photo
 
     @Query("SELECT * FROM images WHERE userEmail = :userMail ORDER BY id DESC")
     fun getUserPhotosDataSourceFactory(userMail: String): DataSource.Factory<Int, Photo>

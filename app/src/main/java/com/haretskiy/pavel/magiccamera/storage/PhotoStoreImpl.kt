@@ -6,6 +6,8 @@ class PhotoStoreImpl(private val photoDao: PhotoStoreDao) : PhotoStore {
 
     override fun savePhoto(uri: String, date: Long, email: String): Unit = Thread({ photoDao.insert(Photo(date, uri, email)) }).start()
 
+    override fun update(photo: Photo): Unit = photoDao.update(photo)
+
     override fun getAllUserPhotosDataSourceFactory(userEmail: String) = photoDao.getUserPhotosDataSourceFactory(userEmail)
 
     override fun getAllUserPhotosLiveData(userEmail: String) = photoDao.getUserPhotosLiveDataList(userEmail)
@@ -13,6 +15,8 @@ class PhotoStoreImpl(private val photoDao: PhotoStoreDao) : PhotoStore {
     override fun getAllPhotosDataSourceFactory() = photoDao.all
 
     override fun getPhotoById(id: Long) = photoDao.getPhotoById(id)
+
+    override fun getPhotoByUriSync(uri: String) = photoDao.getPhotoByUriSync(uri)
 
     override fun deletePhoto(uri: String): Unit = Thread({ photoDao.deleteByUri(uri) }).start()
 

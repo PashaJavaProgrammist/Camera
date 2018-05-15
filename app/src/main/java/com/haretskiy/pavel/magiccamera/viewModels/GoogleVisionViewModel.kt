@@ -5,6 +5,7 @@ import android.arch.lifecycle.AndroidViewModel
 import android.arch.lifecycle.MutableLiveData
 import android.location.Location
 import com.haretskiy.pavel.magiccamera.EMPTY_STRING
+import com.haretskiy.pavel.magiccamera.storage.PhotoStore
 import com.haretskiy.pavel.magiccamera.utils.LocationService
 import com.haretskiy.pavel.magiccamera.utils.Prefs
 import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageSaver
@@ -12,7 +13,8 @@ import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageSaver
 class GoogleVisionViewModel(app: Application,
                             private val locationService: LocationService,
                             private val imageSaver: ImageSaver,
-                            private val prefs: Prefs) : AndroidViewModel(app) {
+                            private val prefs: Prefs,
+                            private val photoStore: PhotoStore) : AndroidViewModel(app) {
 
     var progressFlag = false
     val locationData: MutableLiveData<Location> = MutableLiveData()
@@ -26,7 +28,7 @@ class GoogleVisionViewModel(app: Application,
                 locationData.postValue(location)
                 progressFlag = false
                 uri = prefs.getLastPhotoUri(prefs.getUserEmail())
-                addCoordinatesToPhoto(uri)
+                addCoordinatesToPhoto(uri, location.latitude, location.longitude)
             }
         })
     }
@@ -35,8 +37,13 @@ class GoogleVisionViewModel(app: Application,
         imageSaver.saveImage(data)
     }
 
-    private fun addCoordinatesToPhoto(uri: String) {
-
+    private fun addCoordinatesToPhoto(uri: String, latitude: Double, longitude: Double) {
+        Thread {
+            val photo = photoStore.getPhotoByUriSync(uri)
+            photo.latitude = latitude
+            photo.longitude = longitude
+            photoStore.update(photo)
+        }.start()
     }
 
 }
