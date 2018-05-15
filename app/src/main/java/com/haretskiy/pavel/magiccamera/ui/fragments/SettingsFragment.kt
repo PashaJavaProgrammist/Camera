@@ -8,10 +8,7 @@ import android.support.v4.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.haretskiy.pavel.magiccamera.CAMERA_API2_CORE
-import com.haretskiy.pavel.magiccamera.CAMERA_VISION_CORE
-import com.haretskiy.pavel.magiccamera.R
-import com.haretskiy.pavel.magiccamera.SIGN_OUT_CODE
+import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.viewModels.SettingsViewModel
 import kotlinx.android.synthetic.main.fragment_settings.*
 import org.koin.android.ext.android.inject
@@ -56,7 +53,8 @@ class SettingsFragment : Fragment() {
         }
 
         current_user.text = settingsViewModel.getUser()
-
+        val ver = "${getString(R.string.app_name)} ver. ${BuildConfig.VERSION_NAME}"
+        version_info.text = ver
 
         cameraCoreId = settingsViewModel.getCameraCoreId()
 
