@@ -96,7 +96,7 @@ class HostActivity : AppCompatActivity() {
 
     private fun setMapDrawer() {
         hostViewModel.drawer = object : HostViewModel.MapDrawer {
-            override fun drawMarker(latLen: LatLng) {
+            override fun drawMarker(latLen: LatLng, uri: String, date: Long) {
                 runOnUiThread {
                     val cameraPosition = CameraPosition.Builder()
                             .target(latLen)
@@ -104,7 +104,7 @@ class HostActivity : AppCompatActivity() {
                             .tilt(TILT_VAL)
                             .build()
                     val camUpdate = CameraUpdateFactory.newCameraPosition(cameraPosition)
-                    hostViewModel.mMap.addMarker(MarkerOptions().position(latLen))
+                    hostViewModel.mMap.addMarker(MarkerOptions().position(latLen).title(uri).snippet(date.convertToDate()))
                     hostViewModel.mMap.moveCamera(camUpdate)
                 }
             }

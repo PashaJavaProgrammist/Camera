@@ -4,11 +4,14 @@ import android.arch.lifecycle.ViewModel
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
+import com.haretskiy.pavel.magiccamera.convertToLong
 import com.haretskiy.pavel.magiccamera.storage.PhotoStore
 import com.haretskiy.pavel.magiccamera.utils.Prefs
+import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 
 class HostViewModel(private val photoStore: PhotoStore,
-                    private val prefs: Prefs) : ViewModel(), OnMapReadyCallback {
+                    private val prefs: Prefs,
+                    private val router: Router) : ViewModel(), OnMapReadyCallback {
 
     private fun getAllUserPhotosList() = photoStore.getAllUserPhotosList(prefs.getUserEmail())
 
@@ -31,13 +34,18 @@ class HostViewModel(private val photoStore: PhotoStore,
                 val lon = photo.longitude
                 if (lat != 0.0 && lon != 0.0) {
                     val latLen = LatLng(photo.latitude, photo.longitude)
-                    drawer.drawMarker(latLen)
+                    drawer.drawMarker(latLen, photo.uri, photo.date)
                 }
             }
         }.start()
+
+        mMap.setOnMarkerClickListener {
+            router.startPhotoDetailActivity(it.title, it.snippet.convertToLong())
+            true
+        }
     }
 
     interface MapDrawer {
-        fun drawMarker(latLen: LatLng)
+        fun drawMarker(latLen: LatLng, uri: String, date: Long)
     }
 }
