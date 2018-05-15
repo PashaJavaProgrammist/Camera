@@ -91,6 +91,7 @@ class GoogleVisionFragment : Fragment() {
             getCameraSourceWithNewDetectorsStates()
         }
         setQrViewsVisibility()
+        setBtTakePictureVisibility()
     }
 
     override fun onResume() {
@@ -231,6 +232,7 @@ class GoogleVisionFragment : Fragment() {
     private fun changeQrDetectorState() {
         cameraSourceManager.changeQrDetectorState()
         setQrViewsVisibility()
+        setBtTakePictureVisibility()
         cameraSourceManager.qrDetectorNotify()
     }
 
@@ -309,6 +311,12 @@ class GoogleVisionFragment : Fragment() {
             bt_change_camera_type.visibility = View.GONE
             bt_take_a_picture.visibility = View.GONE
         }
+        setBtTakePictureVisibility()
+    }
+
+    private fun setBtTakePictureVisibility() {
+        if (!prefs.getQRDetectorState()) bt_take_a_picture.visibility = View.VISIBLE
+        else bt_take_a_picture.visibility = View.GONE
     }
 
     private fun makePhotoEffect() {
