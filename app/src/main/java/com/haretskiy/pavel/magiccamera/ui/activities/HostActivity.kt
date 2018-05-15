@@ -50,7 +50,6 @@ class HostActivity : AppCompatActivity() {
                     CAMERA_API2_CORE -> Camera2Fragment()
                     else -> GoogleVisionFragment()
                 }
-
                 router.doFragmentTransaction(fragment, supportFragmentManager, R.id.frame_for_fragments)
                 return@OnNavigationItemSelectedListener true
             }
