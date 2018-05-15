@@ -35,6 +35,7 @@ class HostActivity : AppCompatActivity() {
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_maps -> {
+                navFragId = R.id.navigation_maps
                 val mapFragment = MapFragment()
                 setMapDrawer()
                 mapFragment.getMapAsync(hostViewModel)
