@@ -27,6 +27,7 @@ class PhotoDetailViewModel(private val photoStore: PhotoStore,
         photoStore.getAllUserPhotosLiveData(prefs.getUserEmail())
     }
 
+    fun getPhotoByUriLiveData(uri: String) = photoStore.getPhotoByUri(uri)
 
     fun newDeleteDialogInstance(uri: String): DeletePhotoDialog {
         val args = Bundle()

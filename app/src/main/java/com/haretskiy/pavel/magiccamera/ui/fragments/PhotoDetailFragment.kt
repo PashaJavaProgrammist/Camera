@@ -1,5 +1,6 @@
 package com.haretskiy.pavel.magiccamera.ui.fragments
 
+import android.arch.lifecycle.Observer
 import android.os.Bundle
 import android.os.Handler
 import android.support.v4.app.Fragment
@@ -58,7 +59,16 @@ class PhotoDetailFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        if (uri.isNotEmpty()) imageLoader.loadFullScreenImageIntoViewCenterInside(iv_fullscreen_photo, progress_photo, uri)
+        if (uri.isNotEmpty()) {
+            imageLoader.loadFullScreenImageIntoViewCenterInside(iv_fullscreen_photo, progress_photo, uri)
+            photoDetailViewModel.getPhotoByUriLiveData(uri).observe(this, Observer {
+                if (it?.latitude != 0.0 && it?.longitude != 0.0) {
+                    iv_map.visibility = View.VISIBLE
+                } else {
+                    iv_map.visibility = View.GONE
+                }
+            })
+        }
         if (date != 0L) tv_date_detail.text = date.convertToDate()
     }
 

@@ -15,6 +15,7 @@ interface PhotoStore {
     fun getAllUserPhotosListASC(userEmail: String): List<Photo>
     fun getPhotoById(id: Long): LiveData<Photo>
     fun getPhotoByUriSync(uri: String): Photo
+    fun getPhotoByUri(uri: String): LiveData<Photo>
     fun deletePhoto(uri: String)
     fun deleteAll()
     fun deleteAllUserPhoto(userEmail: String)
