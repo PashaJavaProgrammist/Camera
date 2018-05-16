@@ -138,7 +138,7 @@ class GoogleVisionFragment : Fragment() {
                 getCameraSource()
             }
             if (permissions[i] == Manifest.permission.ACCESS_FINE_LOCATION && grantResults[i] == PackageManager.PERMISSION_GRANTED) {
-                showLocationDialog()
+                requestLocation()
             }
             ++i
         }
@@ -263,21 +263,18 @@ class GoogleVisionFragment : Fragment() {
         }
     }
 
-    private fun requestLocation() {
-        val permission = context?.let { ContextCompat.checkSelfPermission(it, Manifest.permission.ACCESS_FINE_LOCATION) }
-        if (permission == PackageManager.PERMISSION_GRANTED) {
-            showLocationDialog()
-        } else {
-            requestLocationPermission()
-        }
-    }
 
-    private fun showLocationDialog() {
+    private fun requestLocation() {
         LocationDialog().show(childFragmentManager, LOCATION_DIALOG,
                 object : LocationDialog.AnswerListener {
                     override fun onConfirm() {
-                        setProgressVisible(true)
-                        googleVisionViewModel.requestLocation()
+                        val permission = context?.let { ContextCompat.checkSelfPermission(it, Manifest.permission.ACCESS_FINE_LOCATION) }
+                        if (permission == PackageManager.PERMISSION_GRANTED) {
+                            setProgressVisible(true)
+                            googleVisionViewModel.requestLocation()
+                        } else {
+                            requestLocationPermission()
+                        }
                     }
 
                     override fun onDismiss() {}
