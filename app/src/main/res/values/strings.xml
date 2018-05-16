@@ -77,4 +77,23 @@
     <string name="add_location">Add location to this photo? It\'s may take few time</string>
     <string name="wait">Please. Wait...</string>
 
+    <string name="next">NEXT</string>
+    <string name="skip">SKIP</string>
+    <string name="start">GOT IT</string>
+
+    <string name="slide_1_title">Hello. This is Camera Pro!</string>
+    <string name="slide_1_desc">The easiest way to take and store your photos!</string>
+
+    <string name="slide_2_title">Take Pictures</string>
+    <string name="slide_2_desc">Take photos, recognize faces, see photos in the gallery!</string>
+
+    <string name="slide_3_title">Scan qr codes</string>
+    <string name="slide_3_desc">Scan the codes, save the result, view the content!</string>
+
+    <string name="slide_4_title">Set a geo-tag</string>
+    <string name="slide_4_desc">Put a geo-tag on the photo, see your photos on the map!</string>
+
+    <string name="play_again_desc">To see the welcome slider again, goto Settings -> apps -> welcome slider -> clear data</string>
+    <string name="play_again">Play Again</string>
+    <string name="dot_code"><![CDATA[&#8226;]]></string>
 </resources>
