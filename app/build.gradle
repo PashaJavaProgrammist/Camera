@@ -10,8 +10,8 @@ android {
         applicationId "com.haretskiy.pavel.magiccamera"
         minSdkVersion 16
         targetSdkVersion 27
-        versionCode 11
-        versionName "3.0.6"
+        versionCode 12
+        versionName "3.0.7"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -19,6 +19,12 @@ android {
         experimental = true
     }
     signingConfigs {
+        debug {
+            keyAlias 'PublicKey'
+            keyPassword '12344321'
+            storeFile file('../keyStorePublic.jks')
+            storePassword '12344321'
+        }
         release {
             keyAlias 'PublicKey'
             keyPassword '12344321'
