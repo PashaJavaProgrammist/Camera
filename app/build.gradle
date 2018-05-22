@@ -22,7 +22,7 @@ android {
         release {
             keyAlias 'PublicKey'
             keyPassword '12344321'
-            storeFile file('C:/Users/Taqtile/StudioProjects/keyStorePublic.jks')
+            storeFile file('../keyStorePublic.jks')
             storePassword '12344321'
         }
     }
