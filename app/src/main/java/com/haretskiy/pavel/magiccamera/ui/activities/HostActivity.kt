@@ -74,14 +74,18 @@ class HostActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_host)
 
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
+
         navFragId = savedInstanceState?.getInt(BUNDLE_KEY_FRAGMENT_ID, R.id.navigation_camera) ?: R.id.navigation_camera
 
     }
 
-    override fun onResume() {
-        super.onResume()
-        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
-        navigation.selectedItemId = navFragId
+    override fun onStart() {
+        super.onStart()
+        if (navFragId == R.id.navigation_maps || hostViewModel.isFirstActivityStart) {
+            navigation.selectedItemId = navFragId
+            hostViewModel.isFirstActivityStart = false
+        }
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
