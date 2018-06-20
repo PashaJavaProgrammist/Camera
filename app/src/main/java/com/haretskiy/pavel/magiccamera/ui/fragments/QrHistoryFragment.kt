@@ -35,6 +35,8 @@ class QrHistoryFragment : Fragment(), QRHistory {
         context?.let { QrHistoryAdapter(it, this, emptyList()) }
     }
 
+    private val p = Paint()
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater.inflate(R.layout.fragment_qrhistory, container, false)
 
@@ -111,7 +113,6 @@ class QrHistoryFragment : Fragment(), QRHistory {
                 if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
                     val itemView = viewHolder.itemView
 
-                    val p = Paint()
                     val icon: Bitmap
 
                     if (dX > 0) {
