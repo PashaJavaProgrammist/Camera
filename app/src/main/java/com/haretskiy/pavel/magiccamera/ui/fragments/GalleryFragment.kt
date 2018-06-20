@@ -51,15 +51,13 @@ class GalleryFragment : Fragment(), PhotoGallery {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         showActionButtons()
-        val c = context
-        if (c != null) {
+        context?.let {
             rcv_gallery_list.layoutManager = AutoFitGridLayoutManager(
-                    c,
+                    it,
                     3,
                     resources.getDimension(R.dimen.card_width).toInt(),
                     GridLayoutManager.VERTICAL, false)
         }
-
         rcv_gallery_list.adapter = galleryAdapter
 
         galleryViewModel.getAllUserPhotosLiveData().observe(this, Observer {
