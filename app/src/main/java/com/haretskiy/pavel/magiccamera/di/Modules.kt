@@ -61,7 +61,7 @@ val appModule: Module = applicationContext {
     viewModel { QrHistoryVewModel(get(), get(), get()) }
     viewModel { QrResultDetailViewModel(get(), get()) }
     viewModel { GoogleVisionViewModel(androidApplication(), get(), get(), get(), get()) }
-    viewModel { HostViewModel(get(), get(), get()) }
+    viewModel { HostViewModel(androidApplication(), get(), get(), get()) }
 
 }
 

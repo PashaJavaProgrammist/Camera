@@ -1,6 +1,10 @@
 package com.haretskiy.pavel.magiccamera.viewModels
 
-import android.arch.lifecycle.ViewModel
+import android.Manifest
+import android.app.Application
+import android.arch.lifecycle.AndroidViewModel
+import android.content.pm.PackageManager
+import android.support.v4.content.ContextCompat
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
 import com.google.android.gms.maps.model.LatLng
@@ -9,9 +13,10 @@ import com.haretskiy.pavel.magiccamera.storage.PhotoStore
 import com.haretskiy.pavel.magiccamera.utils.Prefs
 import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 
-class HostViewModel(private val photoStore: PhotoStore,
+class HostViewModel(app: Application,
+                    private val photoStore: PhotoStore,
                     private val prefs: Prefs,
-                    private val router: Router) : ViewModel(), OnMapReadyCallback {
+                    private val router: Router) : AndroidViewModel(app), OnMapReadyCallback {
 
     var isFirstActivityStart = true
 
@@ -27,6 +32,11 @@ class HostViewModel(private val photoStore: PhotoStore,
         val setUI = googleMap.uiSettings
         setUI.isCompassEnabled = true
         setUI.isMyLocationButtonEnabled = true
+        val permission = ContextCompat.checkSelfPermission(getApplication(), Manifest.permission.ACCESS_FINE_LOCATION)
+        if (permission == PackageManager.PERMISSION_GRANTED) {
+            googleMap.isMyLocationEnabled = true
+            googleMap.isBuildingsEnabled = true
+        }
         // Add a marker in Sydney and move the camera
 
         Thread {
