@@ -15,6 +15,7 @@ import com.haretskiy.pavel.magiccamera.utils.Prefs
 import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 import com.haretskiy.pavel.magiccamera.viewModels.HostViewModel
 import kotlinx.android.synthetic.main.activity_host.*
+import org.koin.android.architecture.ext.viewModel
 import org.koin.android.ext.android.inject
 
 
@@ -24,7 +25,7 @@ class HostActivity : AppCompatActivity() {
     private val shareContainer: ShareContainer by inject()
     private val router: Router by inject()
     private val prefs: Prefs by inject()
-    private val hostViewModel: HostViewModel by inject()
+    private val hostViewModel: HostViewModel by viewModel()
 
 
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->

@@ -24,11 +24,12 @@ import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageLoader
 import com.haretskiy.pavel.magiccamera.viewModels.GalleryViewModel
 import kotlinx.android.synthetic.main.fragment_gallery.*
 import kotlinx.android.synthetic.main.item_actions.*
+import org.koin.android.architecture.ext.viewModel
 import org.koin.android.ext.android.inject
 
 class GalleryFragment : Fragment(), PhotoGallery {
 
-    private val galleryViewModel: GalleryViewModel by inject()
+    private val galleryViewModel: GalleryViewModel by viewModel()
     private val diffCallBack: DiffCallBack by inject()
     private val imageLoader: ImageLoader by inject()
     private val toaster: Toaster by inject()

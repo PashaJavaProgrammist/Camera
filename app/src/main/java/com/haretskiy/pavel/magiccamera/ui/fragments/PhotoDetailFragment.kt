@@ -11,11 +11,12 @@ import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.utils.interfaces.ImageLoader
 import com.haretskiy.pavel.magiccamera.viewModels.PhotoDetailViewModel
 import kotlinx.android.synthetic.main.fragment_photo_detail.*
+import org.koin.android.architecture.ext.viewModel
 import org.koin.android.ext.android.inject
 
 class PhotoDetailFragment : Fragment() {
 
-    private val photoDetailViewModel: PhotoDetailViewModel by inject()
+    private val photoDetailViewModel: PhotoDetailViewModel by viewModel()
 
     private val imageLoader: ImageLoader by inject()
 

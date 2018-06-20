@@ -8,6 +8,7 @@ import com.crashlytics.android.answers.CustomEvent
 import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.viewModels.QrResultDetailViewModel
 import kotlinx.android.synthetic.main.activity_qr_scan_result.*
+import org.koin.android.architecture.ext.viewModel
 import org.koin.android.ext.android.inject
 
 class QrScanResultActivity : AppCompatActivity() {
@@ -15,7 +16,7 @@ class QrScanResultActivity : AppCompatActivity() {
     private var scanResult = EMPTY_STRING
     private var date = EMPTY_STRING
 
-    private val qrResultDetailViewModel: QrResultDetailViewModel by inject()
+    private val qrResultDetailViewModel: QrResultDetailViewModel by viewModel()
     private val answers: Answers by inject()
 
     override fun onCreate(savedInstanceState: Bundle?) {

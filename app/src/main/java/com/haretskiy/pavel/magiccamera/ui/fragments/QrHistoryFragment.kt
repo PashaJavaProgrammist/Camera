@@ -19,11 +19,11 @@ import com.haretskiy.pavel.magiccamera.ui.views.QrHistoryHolder
 import com.haretskiy.pavel.magiccamera.utils.interfaces.DeleteListener
 import com.haretskiy.pavel.magiccamera.viewModels.QrHistoryVewModel
 import kotlinx.android.synthetic.main.fragment_qrhistory.*
-import org.koin.android.ext.android.inject
+import org.koin.android.architecture.ext.viewModel
 
 class QrHistoryFragment : Fragment(), QRHistory {
 
-    private val qrHistoryVewModel: QrHistoryVewModel by inject()
+    private val qrHistoryVewModel: QrHistoryVewModel by viewModel()
 
     private val adapter by lazy {
         context?.let { QrHistoryAdapter(it, this, emptyList()) }

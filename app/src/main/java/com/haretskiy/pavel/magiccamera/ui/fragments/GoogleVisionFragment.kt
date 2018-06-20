@@ -29,6 +29,7 @@ import com.haretskiy.pavel.magiccamera.utils.interfaces.Router
 import com.haretskiy.pavel.magiccamera.viewModels.GoogleVisionViewModel
 import kotlinx.android.synthetic.main.fragment_google_vision.*
 import kotlinx.android.synthetic.main.item_frame.*
+import org.koin.android.architecture.ext.viewModel
 import org.koin.android.ext.android.inject
 import java.io.IOException
 
@@ -44,7 +45,7 @@ class GoogleVisionFragment : Fragment() {
     private val router: Router by inject()
     private val answers: Answers by inject()
 
-    private val googleVisionViewModel: GoogleVisionViewModel by inject()
+    private val googleVisionViewModel: GoogleVisionViewModel by viewModel()
 
     private var cameraType = CAMERA_TYPE_NOT_FOUND
     private var cameras = Camera.getNumberOfCameras()

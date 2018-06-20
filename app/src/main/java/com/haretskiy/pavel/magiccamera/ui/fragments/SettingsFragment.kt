@@ -11,19 +11,13 @@ import android.view.ViewGroup
 import com.haretskiy.pavel.magiccamera.*
 import com.haretskiy.pavel.magiccamera.viewModels.SettingsViewModel
 import kotlinx.android.synthetic.main.fragment_settings.*
-import org.koin.android.ext.android.inject
+import org.koin.android.architecture.ext.viewModel
 
 class SettingsFragment : Fragment() {
 
-    private val settingsViewModel: SettingsViewModel by inject()
+    private val settingsViewModel: SettingsViewModel by viewModel()
 
     private var cameraCoreId = CAMERA_VISION_CORE
-
-    val data = settingsViewModel.userInfo.observe(this, Observer {
-        if (it == SIGN_OUT_CODE) {
-            signOut()
-        }
-    })
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater.inflate(R.layout.fragment_settings, container, false)
@@ -31,6 +25,12 @@ class SettingsFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        settingsViewModel.userInfo.observe(this, Observer {
+            if (it == SIGN_OUT_CODE) {
+                signOut()
+            }
+        })
 
         settings_progress_bar.visibility = View.GONE
         bt_settings.setOnClickListener { settingsViewModel.startGoToSettings() }

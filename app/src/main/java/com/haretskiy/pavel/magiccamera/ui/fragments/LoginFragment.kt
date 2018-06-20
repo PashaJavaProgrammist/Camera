@@ -13,12 +13,12 @@ import com.haretskiy.pavel.magiccamera.models.FirebaseLoginResponse
 import com.haretskiy.pavel.magiccamera.viewModels.LoginViewModel
 import kotlinx.android.synthetic.main.fragment_sign.*
 import kotlinx.android.synthetic.main.fragment_sign.view.*
-import org.koin.android.ext.android.inject
+import org.koin.android.architecture.ext.viewModel
 import java.util.regex.Pattern
 
 class LoginFragment : Fragment(), View.OnClickListener {
 
-    private val loginViewModel: LoginViewModel by inject()
+    private val loginViewModel: LoginViewModel by viewModel()
 
     //this flag shows SignIn or SignUp screen
     private var isSignInScreen = false
@@ -40,9 +40,10 @@ class LoginFragment : Fragment(), View.OnClickListener {
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_sign, container, false)
         if (isSignInScreen) {
-            view.repeat_password.visibility = View.GONE
+            view.password_repeat_input.visibility = View.GONE
+            view.email_sign_in_button.text = SIGN_IN
         } else {
-            view.repeat_password.visibility = View.VISIBLE
+            view.password_repeat_input.visibility = View.VISIBLE
             view.email_sign_in_button.text = SIGN_UP
         }
         view.email_sign_in_button.setOnClickListener(this)
