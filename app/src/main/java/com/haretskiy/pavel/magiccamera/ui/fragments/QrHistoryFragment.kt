@@ -1,10 +1,7 @@
 package com.haretskiy.pavel.magiccamera.ui.fragments
 
 import android.arch.lifecycle.Observer
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
-import android.graphics.Canvas
-import android.graphics.Paint
+import android.graphics.*
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -15,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import com.haretskiy.pavel.magiccamera.MARGIN_RV
 import com.haretskiy.pavel.magiccamera.R
 import com.haretskiy.pavel.magiccamera.adapters.QrHistoryAdapter
 import com.haretskiy.pavel.magiccamera.convertToDate
@@ -36,6 +34,7 @@ class QrHistoryFragment : Fragment(), QRHistory {
     }
 
     private val p = Paint()
+    private val matrix = Matrix()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater.inflate(R.layout.fragment_qrhistory, container, false)
@@ -123,9 +122,11 @@ class QrHistoryFragment : Fragment(), QRHistory {
 //                        c.drawRect(itemView.left.toFloat(), itemView.top.toFloat(), dX,
 //                                itemView.bottom.toFloat(), p)
 
+                        matrix.setTranslate(itemView.left.toFloat() + convertDpToPx(MARGIN_RV),
+                                itemView.top.toFloat() + (itemView.bottom.toFloat() - itemView.top.toFloat() - icon.height.toFloat()) / 2)
+
                         c.drawBitmap(icon,
-                                itemView.left.toFloat() + convertDpToPx(16),
-                                itemView.top.toFloat() + (itemView.bottom.toFloat() - itemView.top.toFloat() - icon.height.toFloat()) / 2,
+                                matrix,
                                 p)
                     } else {
                         icon = BitmapFactory.decodeResource(
@@ -135,9 +136,11 @@ class QrHistoryFragment : Fragment(), QRHistory {
 //                        c.drawRect(itemView.right.toFloat() + dX, itemView.top.toFloat(),
 //                                itemView.right.toFloat(), itemView.bottom.toFloat(), p)
 
+                        matrix.setTranslate(itemView.right.toFloat() - convertDpToPx(MARGIN_RV) - icon.width,
+                                itemView.top.toFloat() + (itemView.bottom.toFloat() - itemView.top.toFloat() - icon.height.toFloat()) / 2)
+
                         c.drawBitmap(icon,
-                                itemView.right.toFloat() - convertDpToPx(16) - icon.width,
-                                itemView.top.toFloat() + (itemView.bottom.toFloat() - itemView.top.toFloat() - icon.height.toFloat()) / 2,
+                                matrix,
                                 p)
                     }
 
