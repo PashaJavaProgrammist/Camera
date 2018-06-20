@@ -1,11 +1,16 @@
 package com.haretskiy.pavel.magiccamera.ui.fragments
 
 import android.arch.lifecycle.Observer
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.Paint
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.support.v7.widget.helper.ItemTouchHelper
+import android.util.DisplayMetrics
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,6 +25,7 @@ import com.haretskiy.pavel.magiccamera.utils.interfaces.DeleteListener
 import com.haretskiy.pavel.magiccamera.viewModels.QrHistoryVewModel
 import kotlinx.android.synthetic.main.fragment_qrhistory.*
 import org.koin.android.architecture.ext.viewModel
+
 
 class QrHistoryFragment : Fragment(), QRHistory {
 
@@ -101,9 +107,58 @@ class QrHistoryFragment : Fragment(), QRHistory {
                     }
             }
 
+            override fun onChildDraw(c: Canvas, recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, dX: Float, dY: Float, actionState: Int, isCurrentlyActive: Boolean) {
+                if (actionState == ItemTouchHelper.ACTION_STATE_SWIPE) {
+                    val itemView = viewHolder.itemView
+
+                    val p = Paint()
+                    val icon: Bitmap
+
+                    if (dX > 0) {
+                        icon = BitmapFactory.decodeResource(
+                                context?.resources, R.drawable.ic_show2)
+
+//                        context?.let { p.color = getColor(it, R.color.green) }
+//                        c.drawRect(itemView.left.toFloat(), itemView.top.toFloat(), dX,
+//                                itemView.bottom.toFloat(), p)
+
+                        c.drawBitmap(icon,
+                                itemView.left.toFloat() + convertDpToPx(16),
+                                itemView.top.toFloat() + (itemView.bottom.toFloat() - itemView.top.toFloat() - icon.height.toFloat()) / 2,
+                                p)
+                    } else {
+                        icon = BitmapFactory.decodeResource(
+                                context?.resources, R.drawable.ic_trash2)
+
+//                        context?.let { p.color = getColor(it, R.color.red) }
+//                        c.drawRect(itemView.right.toFloat() + dX, itemView.top.toFloat(),
+//                                itemView.right.toFloat(), itemView.bottom.toFloat(), p)
+
+                        c.drawBitmap(icon,
+                                itemView.right.toFloat() - convertDpToPx(16) - icon.width,
+                                itemView.top.toFloat() + (itemView.bottom.toFloat() - itemView.top.toFloat() - icon.height.toFloat()) / 2,
+                                p)
+                    }
+
+                    viewHolder.itemView.translationX = dX
+
+                } else {
+                    super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+                }
+            }
+
         }).apply {
             attachToRecyclerView(rv_qr_history)
         }
+    }
+
+    override fun onStop() {
+        super.onStop()
+        adapter?.notifyDataSetChanged()
+    }
+
+    private fun convertDpToPx(dp: Int): Int {
+        return Math.round(dp * (resources.displayMetrics.xdpi / DisplayMetrics.DENSITY_DEFAULT))
     }
 
     override fun onClickHistoryItem(content: String, date: String, contentView: TextView, dateView: TextView) {
