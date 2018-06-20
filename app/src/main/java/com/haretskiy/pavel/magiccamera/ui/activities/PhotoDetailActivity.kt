@@ -18,6 +18,9 @@ class PhotoDetailActivity : AppCompatActivity() {
 
     private val photoDetailViewModel: PhotoDetailViewModel by viewModel()
     private val depthPageTransformer: DepthPageTransformer by inject()
+    private val adapter: PhotoDetailViewPagerAdapter by lazy {
+        PhotoDetailViewPagerAdapter(supportFragmentManager, emptyList())
+    }
 
     private var uri = EMPTY_STRING
 
@@ -28,10 +31,12 @@ class PhotoDetailActivity : AppCompatActivity() {
         uri = intent.getStringExtra(BUNDLE_KEY_URI_TO_ACTIVITY_DETAIL)
 
         view_pager_details.setPageTransformer(true, depthPageTransformer)
+        view_pager_details.adapter = adapter
 
         photoDetailViewModel.storagePhotosLiveData.observe(this, Observer {
             if (it != null) {
-                view_pager_details.adapter = PhotoDetailViewPagerAdapter(supportFragmentManager, it)
+                adapter.list = it
+                adapter.notifyDataSetChanged()
                 for ((i, item) in it.withIndex()) {
                     if (item.uri == uri) view_pager_details.setCurrentItem(i, false)
                 }
