@@ -3,9 +3,6 @@ package com.haretskiy.pavel.magiccamera.utils
 import android.support.v4.view.ViewPager
 import android.view.View
 
-/**
- * Created by RomanK on 07.05.18.
- */
 class DepthPageTransformer : ViewPager.PageTransformer {
 
     //https://developer.android.com/training/animation/screen-slide#depth-page
