@@ -62,6 +62,11 @@ class GalleryFragment : Fragment(), PhotoGallery {
         initTouchListener()
     }
 
+    override fun onResume() {
+        super.onResume()
+        rcv_gallery_list.scrollToPosition(galleryViewModel.rvPosition)
+    }
+
     override fun onClickPhoto(uri: String, date: Long) {
         galleryViewModel.runDetailActivity(uri, date)
     }
@@ -83,6 +88,7 @@ class GalleryFragment : Fragment(), PhotoGallery {
             if (it != null) {
                 galleryAdapter.submitList(it)
                 galleryViewModel.listOfPhotos = it.toMutableList()
+                rcv_gallery_list.scrollToPosition(galleryViewModel.rvPosition)
             }
         })
     }
@@ -91,6 +97,13 @@ class GalleryFragment : Fragment(), PhotoGallery {
         rcv_gallery_list.layoutManager = layoutManager
         rcv_gallery_list.adapter = galleryAdapter
         rcv_gallery_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+
+            override fun onScrollStateChanged(recyclerView: RecyclerView?, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+                if (layoutManager?.findFirstCompletelyVisibleItemPosition() != 0)
+                    galleryViewModel.rvPosition = layoutManager?.findFirstCompletelyVisibleItemPosition() ?: 0
+            }
+
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 if (fab_gallery != null)

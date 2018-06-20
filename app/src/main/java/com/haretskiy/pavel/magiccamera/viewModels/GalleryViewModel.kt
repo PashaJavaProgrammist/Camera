@@ -27,6 +27,7 @@ class GalleryViewModel(app: Application,
     val selectedPhotosData: MutableLiveData<Int> = MutableLiveData()
 
     var listOfPhotos = emptyList<Photo>()
+    var rvPosition = 0
 
     override fun onCleared() {
         super.onCleared()
