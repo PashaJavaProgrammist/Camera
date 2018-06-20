@@ -29,14 +29,6 @@ class QrHistoryFragment : Fragment(), QRHistory {
         context?.let { QrHistoryAdapter(it, this, emptyList()) }
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        qrHistoryVewModel.storageBarCodesLiveData.observe(this, Observer {
-            if (it != null) adapter?.list = it
-            adapter?.notifyDataSetChanged()
-        })
-    }
-
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater.inflate(R.layout.fragment_qrhistory, container, false)
 
@@ -44,7 +36,11 @@ class QrHistoryFragment : Fragment(), QRHistory {
         super.onViewCreated(view, savedInstanceState)
         rv_qr_history.layoutManager = LinearLayoutManager(context)
         rv_qr_history.adapter = adapter
-        adapter?.notifyDataSetChanged()
+
+        qrHistoryVewModel.storageBarCodesLiveData.observe(this, Observer {
+            if (it != null) adapter?.list = it
+            adapter?.notifyDataSetChanged()
+        })
 
         rv_qr_history.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
@@ -63,7 +59,7 @@ class QrHistoryFragment : Fragment(), QRHistory {
             (activity as HostActivity).selectItemCamera()
         }
 
-        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
 
             override fun onMove(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder?, target: RecyclerView.ViewHolder?) = false
 
@@ -79,22 +75,13 @@ class QrHistoryFragment : Fragment(), QRHistory {
                                     adapter?.notifyDataSetChanged()
                                 }
                             })
-                }
-            }
-
-        }).apply {
-            attachToRecyclerView(rv_qr_history)
-        }
-
-        ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
-
-            override fun onMove(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder?, target: RecyclerView.ViewHolder?) = false
-
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                val holder = viewHolder as QrHistoryHolder
-                if (direction == ItemTouchHelper.RIGHT) {
-                    qrHistoryVewModel.startBarcodeActivity(holder.barCode.code, holder.barCode.date.convertToDate())
-                }
+                } else
+                    if (direction == ItemTouchHelper.RIGHT) {
+                        val holder = viewHolder as QrHistoryHolder
+                        if (direction == ItemTouchHelper.RIGHT) {
+                            qrHistoryVewModel.startBarcodeActivity(holder.barCode.code, holder.barCode.date.convertToDate())
+                        }
+                    }
             }
 
         }).apply {
