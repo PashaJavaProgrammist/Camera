@@ -23,9 +23,8 @@ class QrHistoryVewModel(private val barCodeStore: BarCodeStore,
                         private val prefs: Prefs,
                         private val router: Router) : ViewModel() {
 
-    val storageBarCodesLiveData: LiveData<List<BarCode>> by lazy {
-        barCodeStore.getAllUserCodes(prefs.getUserEmail())
-    }
+    val storageBarCodesLiveData: LiveData<List<BarCode>> =
+            barCodeStore.getAllUserCodes(prefs.getUserEmail())
 
     fun deleteQrCodeFromDB(fragmentManager: FragmentManager, content: String) {
         newDeleteDialogInstance(content).show(fragmentManager, DELETE_QR_DIALOG)

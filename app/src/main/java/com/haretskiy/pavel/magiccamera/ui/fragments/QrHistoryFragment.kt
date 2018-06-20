@@ -34,6 +34,24 @@ class QrHistoryFragment : Fragment(), QRHistory {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        initFab()
+
+        initRecycler()
+
+        initRecyclerListener()
+
+        initItemTouchHelper()
+    }
+
+    private fun initFab() {
+        fab_qr_history.setOnClickListener {
+            qrHistoryVewModel.turnOnQRDetector()
+            (activity as HostActivity).selectItemCamera()
+        }
+    }
+
+    private fun initRecycler() {
         rv_qr_history.layoutManager = LinearLayoutManager(context)
         rv_qr_history.adapter = adapter
 
@@ -41,7 +59,9 @@ class QrHistoryFragment : Fragment(), QRHistory {
             if (it != null) adapter?.list = it
             adapter?.notifyDataSetChanged()
         })
+    }
 
+    private fun initRecyclerListener() {
         rv_qr_history.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -53,12 +73,9 @@ class QrHistoryFragment : Fragment(), QRHistory {
                     }
             }
         })
+    }
 
-        fab_qr_history.setOnClickListener {
-            qrHistoryVewModel.turnOnQRDetector()
-            (activity as HostActivity).selectItemCamera()
-        }
-
+    private fun initItemTouchHelper() {
         ItemTouchHelper(object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT) {
 
             override fun onMove(recyclerView: RecyclerView?, viewHolder: RecyclerView.ViewHolder?, target: RecyclerView.ViewHolder?) = false
@@ -87,11 +104,6 @@ class QrHistoryFragment : Fragment(), QRHistory {
         }).apply {
             attachToRecyclerView(rv_qr_history)
         }
-    }
-
-    override fun onStop() {
-        super.onStop()
-        adapter?.notifyDataSetChanged()
     }
 
     override fun onClickHistoryItem(content: String, date: String, contentView: TextView, dateView: TextView) {
