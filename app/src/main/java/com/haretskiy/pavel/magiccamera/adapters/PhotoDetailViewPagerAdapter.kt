@@ -11,7 +11,7 @@ import com.haretskiy.pavel.magiccamera.ui.fragments.PhotoDetailFragment
 
 class PhotoDetailViewPagerAdapter(
         supportFragmentManager: FragmentManager,
-        private val list: List<Photo>) : FragmentStatePagerAdapter(supportFragmentManager) {
+        var list: List<Photo>) : FragmentStatePagerAdapter(supportFragmentManager) {
 
     override fun getItem(position: Int): Fragment {
         val args = Bundle()
