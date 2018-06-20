@@ -91,6 +91,7 @@ class HostActivity : AppCompatActivity() {
     override fun onBackPressed() {
         super.onBackPressed()
         shareContainer.clearContainer()
+        hostViewModel.setCameraCore(CAMERA_VISION_CORE)
         finishAffinity()
     }
 

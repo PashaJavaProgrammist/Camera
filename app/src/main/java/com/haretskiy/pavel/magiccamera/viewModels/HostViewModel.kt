@@ -45,6 +45,10 @@ class HostViewModel(private val photoStore: PhotoStore,
         }
     }
 
+    fun setCameraCore(coreID: Int) {
+        prefs.setCameraCoreId(coreID)
+    }
+
     interface MapDrawer {
         fun drawMarker(latLen: LatLng, uri: String, date: Long)
     }
