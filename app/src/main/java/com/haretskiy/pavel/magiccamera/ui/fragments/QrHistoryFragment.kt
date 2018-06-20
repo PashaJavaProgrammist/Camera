@@ -1,7 +1,10 @@
 package com.haretskiy.pavel.magiccamera.ui.fragments
 
 import android.arch.lifecycle.Observer
-import android.graphics.*
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.Canvas
+import android.graphics.Paint
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
@@ -34,7 +37,7 @@ class QrHistoryFragment : Fragment(), QRHistory {
     }
 
     private val p = Paint()
-    private val matrix = Matrix()
+//    private val matrix = Matrix()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater.inflate(R.layout.fragment_qrhistory, container, false)
@@ -116,31 +119,45 @@ class QrHistoryFragment : Fragment(), QRHistory {
 
                     if (dX > 0) {
                         icon = BitmapFactory.decodeResource(
-                                context?.resources, R.drawable.ic_show2)
+                                context?.resources, android.R.drawable.ic_menu_view)
 
 //                        context?.let { p.color = getColor(it, R.color.green) }
 //                        c.drawRect(itemView.left.toFloat(), itemView.top.toFloat(), dX,
 //                                itemView.bottom.toFloat(), p)
 
-                        matrix.setTranslate(itemView.left.toFloat() + convertDpToPx(MARGIN_RV),
-                                itemView.top.toFloat() + (itemView.bottom.toFloat() - itemView.top.toFloat() - icon.height.toFloat()) / 2)
-
+//                        matrix.setTranslate(itemView.left.toFloat() + convertDpToPx(MARGIN_RV),
+//                                itemView.top.toFloat() + (itemView.bottom.toFloat() - itemView.top.toFloat() - icon.height.toFloat()) / 2)
+//                        val m = itemView.height.toFloat() / icon.height.toFloat()
+//                        val x = when {
+//                            m <= 1 -> m / 2
+//                            else -> m / (m.toInt() * 2)
+//                        }
+//                        matrix.setScale(x, x, 0f, 0f)
                         c.drawBitmap(icon,
-                                matrix,
+                                itemView.left.toFloat() + convertDpToPx(MARGIN_RV),
+                                itemView.top.toFloat() + (itemView.bottom.toFloat() - itemView.top.toFloat() - icon.height.toFloat()) / 2,
                                 p)
                     } else {
+//                        val options = BitmapFactory.Options()
+//                        options.inSampleSize = 4
                         icon = BitmapFactory.decodeResource(
-                                context?.resources, R.drawable.ic_trash2)
+                                context?.resources, android.R.drawable.ic_menu_delete/*, options*/)
 
 //                        context?.let { p.color = getColor(it, R.color.red) }
 //                        c.drawRect(itemView.right.toFloat() + dX, itemView.top.toFloat(),
 //                                itemView.right.toFloat(), itemView.bottom.toFloat(), p)
 
-                        matrix.setTranslate(itemView.right.toFloat() - convertDpToPx(MARGIN_RV) - icon.width,
-                                itemView.top.toFloat() + (itemView.bottom.toFloat() - itemView.top.toFloat() - icon.height.toFloat()) / 2)
-
+//                        matrix.setTranslate(itemView.right.toFloat() - convertDpToPx(MARGIN_RV) - icon.width,
+//                                itemView.top.toFloat() + (itemView.bottom.toFloat() - itemView.top.toFloat() - icon.height.toFloat()) / 2)
+//                        val m = itemView.height.toFloat() / icon.height.toFloat()
+//                        val x = when {
+//                            m <= 1 -> m / 2
+//                            else -> m / (m.toInt() * 2)
+//                        }
+//                        matrix.setScale(x, x, 0f, dY)
                         c.drawBitmap(icon,
-                                matrix,
+                                itemView.right.toFloat() - convertDpToPx(MARGIN_RV) - icon.width,
+                                itemView.top.toFloat() + (itemView.bottom.toFloat() - itemView.top.toFloat() - icon.height.toFloat()) / 2,
                                 p)
                     }
 
