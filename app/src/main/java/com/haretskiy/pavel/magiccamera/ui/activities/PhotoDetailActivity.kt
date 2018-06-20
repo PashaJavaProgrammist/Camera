@@ -8,13 +8,16 @@ import com.haretskiy.pavel.magiccamera.BUNDLE_KEY_URI_TO_ACTIVITY_DETAIL
 import com.haretskiy.pavel.magiccamera.EMPTY_STRING
 import com.haretskiy.pavel.magiccamera.R
 import com.haretskiy.pavel.magiccamera.adapters.PhotoDetailViewPagerAdapter
+import com.haretskiy.pavel.magiccamera.utils.DepthPageTransformer
 import com.haretskiy.pavel.magiccamera.viewModels.PhotoDetailViewModel
 import kotlinx.android.synthetic.main.activity_photo_detail.*
+import org.koin.android.architecture.ext.viewModel
 import org.koin.android.ext.android.inject
 
 class PhotoDetailActivity : AppCompatActivity() {
 
-    private val photoDetailViewModel: PhotoDetailViewModel by inject()
+    private val photoDetailViewModel: PhotoDetailViewModel by viewModel()
+    private val depthPageTransformer: DepthPageTransformer by inject()
 
     private var uri = EMPTY_STRING
 
@@ -23,6 +26,8 @@ class PhotoDetailActivity : AppCompatActivity() {
         setContentView(R.layout.activity_photo_detail)
 
         uri = intent.getStringExtra(BUNDLE_KEY_URI_TO_ACTIVITY_DETAIL)
+
+        view_pager_details.setPageTransformer(true, depthPageTransformer)
 
         photoDetailViewModel.storagePhotosLiveData.observe(this, Observer {
             if (it != null) {

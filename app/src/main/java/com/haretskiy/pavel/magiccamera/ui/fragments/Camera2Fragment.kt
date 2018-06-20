@@ -253,7 +253,7 @@ class Camera2Fragment : Fragment(), View.OnClickListener {
             val pos = prefs.getCameraScreenSizePosition(camera2Helper.currentCameraID)
             if (pos != -1) {
                 camera2Helper.currentSizeOfScreen = camera2Helper.sizesOfScreen[pos]
-                Handler().post({ spinner_sizes.setSelection(pos) })
+                Handler().post { spinner_sizes.setSelection(pos) }
             } else {
                 camera2Helper.currentSizeOfScreen = Collections.max(Arrays.asList(*camera2Helper.sizesOfScreen), camera2Helper.comparatorAreas)
             }

@@ -42,6 +42,7 @@ val appModule: Module = applicationContext {
     bean { FirebaseAuth.getInstance() }
     factory { PermissionCameraDialog() }
     factory { PermissionLocationDialog() }
+    factory { DepthPageTransformer() }
 
     bean { Room.databaseBuilder(androidApplication(), Database::class.java, DB_NAME).build() }
 
