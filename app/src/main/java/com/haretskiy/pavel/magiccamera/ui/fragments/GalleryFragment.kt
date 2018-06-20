@@ -33,32 +33,51 @@ class GalleryFragment : Fragment(), PhotoGallery {
     private val diffCallBack: DiffCallBack by inject()
     private val imageLoader: ImageLoader by inject()
     private val toaster: Toaster by inject()
+    private val layoutManager: AutoFitGridLayoutManager? by lazy {
+        context?.let {
+            AutoFitGridLayoutManager(
+                    it,
+                    3,
+                    resources.getDimension(R.dimen.card_width).toInt(),
+                    GridLayoutManager.VERTICAL, false)
+        }
+    }
 
     private val galleryAdapter = GalleryPhotoAdapter(diffCallBack, imageLoader, this)
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        galleryViewModel.selectedPhotosData.observe(this, Observer {
-            if (it != null) {
-                showActionButtons(it)
-            }
-        })
-    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? =
             inflater.inflate(R.layout.fragment_gallery, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         showActionButtons()
-        context?.let {
-            rcv_gallery_list.layoutManager = AutoFitGridLayoutManager(
-                    it,
-                    3,
-                    resources.getDimension(R.dimen.card_width).toInt(),
-                    GridLayoutManager.VERTICAL, false)
-        }
-        rcv_gallery_list.adapter = galleryAdapter
+
+        initButtons()
+
+        initRecycler()
+
+        initObservers()
+
+        initTouchListener()
+    }
+
+    override fun onClickPhoto(uri: String, date: Long) {
+        galleryViewModel.runDetailActivity(uri, date)
+    }
+
+    override fun onLongClickPhoto(uri: String, listener: GalleryViewModel.OnSelectedPhotoListener): Boolean {
+        galleryViewModel.fillShareContainer(uri, listener)
+        setActionSelectDrawable()
+        return true
+    }
+
+    override fun isPhotoCheckedToShare(uri: String) = galleryViewModel.isPhotoAlreadySelected(uri)
+
+    private fun initObservers() {
+        galleryViewModel.selectedPhotosData.observe(this, Observer {
+            showActionButtons()
+        })
 
         galleryViewModel.getAllUserPhotosLiveData().observe(this, Observer {
             if (it != null) {
@@ -66,7 +85,11 @@ class GalleryFragment : Fragment(), PhotoGallery {
                 galleryViewModel.listOfPhotos = it.toMutableList()
             }
         })
+    }
 
+    private fun initRecycler() {
+        rcv_gallery_list.layoutManager = layoutManager
+        rcv_gallery_list.adapter = galleryAdapter
         rcv_gallery_list.addOnScrollListener(object : RecyclerView.OnScrollListener() {
             override fun onScrolled(recyclerView: RecyclerView?, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
@@ -78,6 +101,9 @@ class GalleryFragment : Fragment(), PhotoGallery {
                     }
             }
         })
+    }
+
+    private fun initButtons() {
 
         fab_gallery.setOnClickListener {
             galleryViewModel.turnOffQrDetector()
@@ -112,21 +138,7 @@ class GalleryFragment : Fragment(), PhotoGallery {
                 selectAll()
             }
         }
-
-        initTouchListener()
     }
-
-    override fun onClickPhoto(uri: String, date: Long) {
-        galleryViewModel.runDetailActivity(uri, date)
-    }
-
-    override fun onLongClickPhoto(uri: String, listener: GalleryViewModel.OnSelectedPhotoListener): Boolean {
-        galleryViewModel.fillShareContainer(uri, listener)
-        setActionSelectDrawable()
-        return true
-    }
-
-    override fun isPhotoCheckedToShare(uri: String) = galleryViewModel.isPhotoAlreadySelected(uri)
 
     private fun selectAll() {
         galleryViewModel.selectAllItems()
@@ -176,13 +188,6 @@ class GalleryFragment : Fragment(), PhotoGallery {
         } else {
             bt_unchecked_all.setImageDrawable(context?.let { getDrawable(it, R.drawable.ic_select_all) })
             tv_action_select_photos.setText(R.string.select_all)
-        }
-    }
-
-    private fun showActionButtons(count: Int) {
-        actions_container.visibility = when {
-            count > 0 -> View.VISIBLE
-            else -> View.GONE
         }
     }
 
